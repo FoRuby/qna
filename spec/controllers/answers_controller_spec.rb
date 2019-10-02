@@ -32,6 +32,14 @@ RSpec.describe AnswersController, type: :controller do
         }.to change(Answer, :count).by(1)
       end
 
+      it 'check @answer.question is a assigned question' do
+        post :create, params: {
+          question_id: question,
+          answer: attributes_for(:answer)
+        }
+        expect(assigns(:answer).question).to eq(question)
+      end
+
       it 'redirect to @question' do
         post :create, params: {
           question_id: question,
