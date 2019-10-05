@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_question, on: :create
 
   def new
@@ -10,7 +11,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render :new
+      render 'questions/show'
     end
   end
 
@@ -23,4 +24,5 @@ class AnswersController < ApplicationController
   def set_question
     @question = Question.find(params[:question_id])
   end
+
 end

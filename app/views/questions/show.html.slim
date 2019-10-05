@@ -2,4 +2,4 @@ h1= @question.title
 p= @question.body
 ul
   = render @question.answers
-= render 'answers/new'
+= render template: 'answers/new'
