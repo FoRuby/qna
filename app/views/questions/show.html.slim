@@ -1,5 +1,13 @@
 h1= @question.title
 p= @question.body
-ul
-  = render @question.answers
+= link_to 'Delete question',
+            question_path(@question),
+            method: :delete,
+            data: { confirm: "Are you sure?" }
+h2= 'Answers:'
+-if @question.answers.count.zero?
+  p= 'There are no answers yet'
+-else
+  div= render @question.answers
+
 = render template: 'answers/new'

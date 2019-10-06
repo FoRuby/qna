@@ -2,6 +2,7 @@ FactoryBot.define do
 
   factory :answer do
     body { "AnswerBody" }
+    author { User.first }
   end
 
   factory :answer_with_index, parent: :answer do

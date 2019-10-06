@@ -1,13 +1,21 @@
 require 'rails_helper'
 
-feature 'User can create question', %q{
+feature 'User can look a question with answers', %q{
   In order to search for an answer
   As User
   I'd like to see a question with all the answers
 } do
 
-  given(:user) { User.create(email: 'user@example.com', password: 'foobar') }
-  given(:question) { FactoryBot.create(:question_with_index) }
+  given(:user_author) { FactoryBot.create(:user_with_index) }
+  given(:user) { FactoryBot.create(:user_with_index) }
+  given(:question) do
+    FactoryBot.create(:question_with_answers,
+      author: user_author,
+      answers_count: 3,
+      answers_author: user
+    )
+  end
+
   after do
     expect(page).to have_content question.title
     expect(page).to have_content question.body
@@ -19,7 +27,7 @@ feature 'User can create question', %q{
   end
 
   scenario 'Authenticated user tries to see a question with answers' do
-    login(user)
+    login(user_author)
     visit question_path(question)
   end
 end

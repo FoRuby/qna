@@ -6,8 +6,9 @@ feature 'User can view a list of all questions', %q{
   I'd like to see a list of all questions
 } do
 
-  given(:user) { User.create(email: 'user@example.com', password: 'foobar') }
-  given(:questions) { FactoryBot.create_list(:question_with_index, 5) }
+  given(:user) { FactoryBot.create(:user) }
+  given(:questions) { FactoryBot.create_list(:question_with_index, 3, author: user) }
+
   after do
     questions.each { |question| expect(page).to have_content question.title }
   end

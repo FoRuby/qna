@@ -6,9 +6,9 @@ feature 'User can create answer for current question', %q{
   I'd like to create answer for current question
 } do
 
-  given(:user) { User.create(email: 'user@example.com', password: 'foobar') }
-  given(:question) { FactoryBot.create(:question_with_index) }
-  given(:answer) { Answer.create(body: 'NewAnswerBody', question_id: question) }
+  given(:user) { FactoryBot.create(:user_with_index) }
+  given(:question) { FactoryBot.create(:question_with_index, author: user) }
+  given(:answer) { FactoryBot.build(:answer, body: 'NewAnswerBody') }
 
   describe 'Authenticated user' do
     background do
@@ -18,14 +18,13 @@ feature 'User can create answer for current question', %q{
 
     scenario 'tries to create answer for current question with correct params' do
       fill_in 'Body', with: answer.body
-      click_on 'Answer'
+      click_on 'Create answer'
 
       expect(page).to have_content answer.body
     end
 
     scenario 'tries to create answer for current question with incorrect params' do
-      click_on 'Answer'
-
+      click_on 'Create answer'
       expect(page).to have_content "Body can't be blank"
     end
   end
@@ -33,7 +32,7 @@ feature 'User can create answer for current question', %q{
   scenario 'Unauthenticated user tries to create answer for current question' do
     visit question_path(question)
 
-    click_on 'Answer'
+    click_on 'Create answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing'
   end
