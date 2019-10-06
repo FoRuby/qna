@@ -1,10 +1,12 @@
 FactoryBot.define do
-  sequence :email do |n|
-    "user#{n}@example.com"
+  factory :user do
+    email { "user@example.com" }
+    password { "foobar" }
+    password_confirmation { "foobar" }
   end
 
-  factory :user do
-    email
+  factory :user_with_index, parent: :user do
+    sequence(:email) { |n| "user#{n}@example.com" }
     password { "foobar" }
     password_confirmation { "foobar" }
   end
