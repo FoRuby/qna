@@ -27,6 +27,12 @@ feature 'User can sign in', %q{
     end
   end
 
+  scenario 'Authorized user tries to sign in ' do
+    login(registered_user)
+    visit new_user_session_path
+    expect(page).to have_content 'You are already signed in.'
+  end
+
   scenario 'Unregistered user tries to sign in' do
     login(unregistered_user)
     expect(page).to have_content 'Invalid Email or password.'
