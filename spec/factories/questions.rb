@@ -1,25 +1,20 @@
 FactoryBot.define do
 
   factory :question do
-    title { "QuestionTitle" }
-    body { "QuestionBody" }
-    author { User.first }
-  end
-
-  factory :question_with_index, parent: :question do
     sequence(:title){ |n| "QuestionTitle#{n}" }
     sequence(:body){ |n| "QuestionBody#{n}" }
+    user { create(:user) }
   end
 
-  factory :question_with_answers, parent: :question_with_index do
+  factory :question_with_answers, parent: :question do
     transient do
-      answers_count { 5 }
-      answers_author { User.first }
+      answers_count { 1 }
+      answers_author { create(:user) }
     end
     after(:create) do |question, evaluator|
-      create_list(:answer_with_index, evaluator.answers_count,
+      create_list(:answer, evaluator.answers_count,
         question: question,
-        author: evaluator.answers_author
+        user: evaluator.answers_author
       )
     end
   end

@@ -7,7 +7,7 @@ feature 'User can create question', %q{
 } do
 
   given(:user) { User.create(email: 'user@example.com', password: 'foobar') }
-  given(:question) { FactoryBot.create(:question) }
+  given(:question) { create(:question) }
 
   describe 'Authenticated user' do
     background do
@@ -36,6 +36,7 @@ feature 'User can create question', %q{
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
     click_on 'Ask question'
+
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

@@ -6,11 +6,12 @@ feature 'User can sign out', %q{
   I'd like to sign out
 } do
 
-  given(:user) { FactoryBot.create(:user) }
+  given(:user) { create(:user) }
 
   scenario 'User tries to sign out' do
     login(user)
     click_on 'sign_out'
+
     expect(page).to have_content 'Signed out successfully.'
   end
 end

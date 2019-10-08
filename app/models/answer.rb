@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
   belongs_to :question
-  belongs_to :author, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :user
 
-  validates :body, :author, presence: true
+  validates :body, :user, presence: true
 end

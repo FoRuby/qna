@@ -6,9 +6,9 @@ feature 'User can create answer for current question', %q{
   I'd like to create answer for current question
 } do
 
-  given(:user) { FactoryBot.create(:user_with_index) }
-  given(:question) { FactoryBot.create(:question_with_index, author: user) }
-  given(:answer) { FactoryBot.build(:answer, body: 'NewAnswerBody') }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given(:answer) { build(:answer, body: 'NewAnswerBody') }
 
   describe 'Authenticated user' do
     background do
@@ -31,7 +31,6 @@ feature 'User can create answer for current question', %q{
 
   scenario 'Unauthenticated user tries to create answer for current question' do
     visit question_path(question)
-
     click_on 'Create answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing'

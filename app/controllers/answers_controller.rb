@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.author = current_user
+    @answer.user = current_user
     if @answer.save
       redirect_to question_path(@question)
     else
@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.author == current_user
+    if current_user.author?(@answer)
       @answer.destroy
       flash[:notice] = 'Answer successfully deleted.'
     else

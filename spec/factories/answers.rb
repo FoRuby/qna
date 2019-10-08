@@ -1,12 +1,9 @@
 FactoryBot.define do
 
   factory :answer do
-    body { "AnswerBody" }
-    author { User.first }
-  end
-
-  factory :answer_with_index, parent: :answer do
     sequence(:body) { |n| "AnswerBody#{n}" }
+    question { create(:question) }
+    user { create(:user) }
   end
 
   trait :invalid_answer do

@@ -6,36 +6,36 @@ feature 'User can destroy question', %q{
   I'd like to be able to destroy question
 } do
 
-  given(:user_author) { FactoryBot.create(:user_with_index) }
-  given(:user) { FactoryBot.create(:user_with_index) }
+  given(:question_author) { create(:user) }
+  given(:answer_author) { create(:user) }
   given(:question) do
-    FactoryBot.create(:question_with_answers,
-      author: user_author,
-      answers_count: 2,
-      answers_author: user
+    create(:question_with_answers,
+      user: question_author,
+      answers_author: answer_author
     )
   end
 
   describe 'Authenticated' do
 
     scenario 'author tries delete a question' do
-      login(user_author)
+      login(question_author)
       visit question_path(question)
       click_on 'Delete question'
+
       expect(page).to have_content 'Question successfully deleted.'
     end
 
     scenario 'user tries delete foreign question' do
-      login(user)
+      login(answer_author)
       visit question_path(question)
-      click_on 'Delete question'
-      expect(page).to have_content 'You can only delete your question.'
+
+      expect(page).to_not have_content 'Delete question'
     end
   end
 
   scenario 'Unauthenticated user tries delete a question' do
     visit question_path(question)
-    click_on 'Delete question'
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+
+    expect(page).to_not have_content 'Delete question'
   end
 end

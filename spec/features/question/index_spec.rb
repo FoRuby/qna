@@ -6,20 +6,20 @@ feature 'User can view a list of all questions', %q{
   I'd like to see a list of all questions
 } do
 
-  given(:user) { FactoryBot.create(:user) }
-  given(:questions) { FactoryBot.create_list(:question_with_index, 3, author: user) }
-
-  after do
-    questions.each { |question| expect(page).to have_content question.title }
-  end
+  given(:user) { create(:user) }
+  given(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Unauthenticated user tries to see a list of all questions' do
     visit questions_path(questions)
+
+    questions.each { |question| expect(page).to have_content question.title }
   end
 
   scenario 'Authenticated user tries to see a list of all questions' do
     login(user)
     visit questions_path(questions)
+
+    questions.each { |question| expect(page).to have_content question.title }
   end
 
 end

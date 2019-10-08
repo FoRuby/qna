@@ -6,45 +6,52 @@ feature 'User can sign up', %q{
   I'd like to be able to sign up
 } do
 
-  given(:user_with_valid_params) { FactoryBot.build(:user) }
-  given(:registered_user) do
-    FactoryBot.create(:user,
-      email: 'registered_email@example.com',
-      password: 'foobar',
-      password_confirmation: 'foobar'
-    )
-  end
-  given(:user_with_invalid_password_length) do
-    FactoryBot.build(:user, password: '5char', password_confirmation: '5char')
-  end
-  given(:user_with_different_passwords) do
-    FactoryBot.build(:user, password: 'foobar', password_confirmation: 'fobar')
-  end
+  given(:user) { create(:user) }
 
   describe 'User tries to sign up' do
+    background { visit new_user_registration_path }
     scenario 'with valid params' do
-      sign_up(user_with_valid_params)
+      fill_in 'Email', with: 'testemail@example.com'
+      fill_in 'Password', with: 'foobar'
+      fill_in 'Password confirmation', with: 'foobar'
+      click_on 'Sign up'
+
       expect(page).to have_content 'Welcome! You have signed up successfully.'
     end
 
     scenario 'with invalid password length' do
-      sign_up(user_with_invalid_password_length)
+      fill_in 'Email', with: 'testemail@example.com'
+      fill_in 'Password', with: '5char'
+      fill_in 'Password confirmation', with: '5char'
+      click_on 'Sign up'
       expect(page).to have_content 'Password is too short (minimum is 6 characters)'
     end
 
     scenario 'with different values in the fields Password and Password confirmation' do
-      sign_up(user_with_different_passwords)
+      fill_in 'Email', with: 'testemail@example.com'
+      fill_in 'Password', with: 'foobar'
+      fill_in 'Password confirmation', with: 'foo'
+      click_on 'Sign up'
+
       expect(page).to have_content "Password confirmation doesn't match Password"
     end
 
     scenario 'with existing Email' do
-      sign_up(registered_user)
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: 'foobar'
+      fill_in 'Password confirmation', with: 'foobar'
+      click_on 'Sign up'
+
       expect(page).to have_content 'Email has already been taken'
     end
 
     scenario 'repeatedly' do
-      sign_up(user_with_valid_params)
+      fill_in 'Email', with: 'testemail@example.com'
+      fill_in 'Password', with: 'foobar'
+      fill_in 'Password confirmation', with: 'foobar'
+      click_on 'Sign up'
       visit new_user_registration_path
+
       expect(page).to have_content 'You are already signed in.'
     end
   end

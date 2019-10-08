@@ -6,35 +6,48 @@ feature 'User can sign in', %q{
   I'd like to be able to sign in
 } do
 
-  given(:registered_user) { FactoryBot.create(:user) }
-  given(:registered_user_with_invalid_password) do
-    FactoryBot.build(:user,
-      email: registered_user.email,
-      password: 'invalid_password'
-    )
-  end
-  given(:unregistered_user) { FactoryBot.build(:user) }
+  background { visit new_user_session_path }
 
   describe 'Registered user' do
+    given(:user){
+      create(:user,
+        email: 'testemail@example.com',
+        password: 'foobar',
+        password_confirmation: 'foobar'
+      )
+    }
+
     scenario 'tries to sign in with correct params' do
-      login(registered_user)
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: user.password
+      click_on 'Log in'
+
       expect(page).to have_content 'Signed in successfully.'
     end
 
     scenario 'tries to sign in with incorrect params' do
-      login(registered_user_with_invalid_password)
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: 'foo'
+      click_on 'Log in'
+
       expect(page).to have_content 'Invalid Email or password.'
+    end
+
+    scenario 'tries to sign in repeatedly' do
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: user.password
+      click_on 'Log in'
+      visit new_user_session_path
+
+      expect(page).to have_content 'You are already signed in.'
     end
   end
 
-  scenario 'Authorized user tries to sign in ' do
-    login(registered_user)
-    visit new_user_session_path
-    expect(page).to have_content 'You are already signed in.'
-  end
-
   scenario 'Unregistered user tries to sign in' do
-    login(unregistered_user)
+    fill_in 'Email', with: 'newuser@example.com'
+    fill_in 'Password', with: 'foobar'
+    click_on 'Log in'
+
     expect(page).to have_content 'Invalid Email or password.'
   end
 end
