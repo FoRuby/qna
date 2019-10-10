@@ -19,7 +19,6 @@ feature 'User can create answer for current question', %q{
     scenario 'tries to create answer for current question with correct params' do
       fill_in 'Body', with: answer.body
       click_on 'Create answer'
-
       expect(page).to have_content answer.body
     end
 
@@ -31,8 +30,7 @@ feature 'User can create answer for current question', %q{
 
   scenario 'Unauthenticated user tries to create answer for current question' do
     visit question_path(question)
-    click_on 'Create answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing'
+    expect(page).to_not have_content 'Create answer'
   end
 end

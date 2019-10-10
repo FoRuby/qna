@@ -1,14 +1,15 @@
 h1= @question.title
 p= @question.body
--if current_user && current_user.author?(@question)
+- if current_user&.author?(@question)
   = link_to 'Delete question',
-                 question_path(@question),
-                 method: :delete,
-                 data: { confirm: "Are you sure?" }
+             question_path(@question),
+             method: :delete,
+             data: { confirm: "Are you sure?" }
 h2= 'Answers:'
--if @question.answers.count.zero?
+- if @question.answers.empty?
   p= 'There are no answers yet'
--else
+- else
   div= render @question.answers
 
-= render template: 'answers/new'
+- if user_signed_in?
+  = render template: 'answers/new'

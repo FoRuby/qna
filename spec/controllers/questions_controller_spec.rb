@@ -12,7 +12,6 @@ RSpec.describe QuestionsController, type: :controller do
     )
   end
 
-
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }
     before { get :index }
@@ -27,6 +26,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+
     before { get :show, params: { id: question } }
 
     it 'assign the requested question to @question' do
@@ -38,10 +38,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'Authorized user' do
-    before { login(user) }
+  describe 'GET #new' do
 
-    describe 'GET #new' do
+    describe 'Authorized user' do
+      before { login(user) }
       before { get :new }
 
       it 'assign the new question to @question' do
@@ -53,7 +53,22 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    describe 'GET #edit' do
+    describe 'Unauthorized user' do
+      before { get :new }
+
+      it 'does not assign the new question to @question' do
+        expect(assigns(:question)).to be nil
+      end
+
+      it 'does not render new view' do
+        expect(response).to_not render_template :new
+      end
+    end
+  end
+
+  describe 'GET #edit' do
+    describe 'Authorized user' do
+      before { login(user) }
       before { get :edit, params: { id: question } }
 
       it 'assign the requested question to @question' do
@@ -65,7 +80,23 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    describe 'POST #create' do
+    describe 'Unauthorized user' do
+      before { get :edit, params: { id: question } }
+
+      it 'does not assign the requested question to @question' do
+        expect(assigns(:question)).to_not eq(question)
+      end
+
+      it 'does not render edit view' do
+        expect(response).to_not render_template :edit
+      end
+    end
+  end
+
+  describe 'POST #create' do
+    describe 'Authorized user' do
+      before { login(user) }
+
       context 'with valid attributes' do
         it 'saves a new question in the database' do
           expect { post :create, params: { question: attributes_for(:question) } }
@@ -104,11 +135,49 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    describe 'PATCH #update' do
-      let(:new_question_title){ 'new_title' }
-      let(:new_question_body){ 'new_body' }
+    describe 'Unauthorized user' do
+      context 'with valid attributes' do
+        it 'does not saves a new question in the database' do
+          expect { post :create, params: { question: attributes_for(:question) } }
+            .to_not change(Question, :count)
+        end
+
+        it 'does not redirect to show view' do
+          post :create, params: { question: attributes_for(:question) }
+
+          expect(response).to_not redirect_to assigns(:question)
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not save the question' do
+          expect {
+            post :create, params: {
+              question: attributes_for(:question, :invalid_question)
+            }
+          }.to_not change(Question, :count)
+        end
+
+        it 're-rerender new view' do
+          post :create, params: {
+            question: attributes_for(:question, :invalid_question)
+          }
+
+          expect(response).to_not render_template :new
+        end
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+
+    describe 'Authorized user' do
+      before { login(user) }
 
       context 'with valid attributes' do
+        let(:new_question_title){ 'new_title' }
+        let(:new_question_body){ 'new_body' }
+
         it 'assign the requested question to @question' do
           patch :update, params: {
             id: question,
@@ -161,92 +230,11 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    describe 'DELETE #destroy' do
-      let!(:question) do
-        create(:question_with_answers,
-          user: user,
-          answers_count: 3,
-          answers_author: user_answer_giver
-        )
-      end
-
-      it 'deletes question from DB' do
-        expect { delete :destroy, params: { id: question } }
-          .to change(Question, :count).by(-1)
-      end
-
-      it 'redirect to #index' do
-        delete :destroy, params: { id: question }
-
-        expect(response).to redirect_to questions_path
-      end
-    end
-  end
-
-  describe 'Unauthorized user' do
-    describe 'GET #new' do
-      before { get :new }
-
-      it 'does not assign the new question to @question' do
-        expect(assigns(:question)).to be nil
-      end
-
-      it 'does not render new view' do
-        expect(response).to_not render_template :new
-      end
-    end
-
-    describe 'GET #edit' do
-      before { get :edit, params: { id: question } }
-
-      it 'does not assign the requested question to @question' do
-        expect(assigns(:question)).to_not eq(question)
-      end
-
-      it 'does not render edit view' do
-        expect(response).to_not render_template :edit
-      end
-    end
-
-    describe 'POST #create' do
-
+    describe 'Unauthorized user' do
       context 'with valid attributes' do
-        it 'does not saves a new question in the database' do
-          expect { post :create, params: { question: attributes_for(:question) } }
-            .to_not change(Question, :count)
-        end
+        let(:new_question_title){ 'new_title' }
+        let(:new_question_body){ 'new_body' }
 
-        it 'does not redirect to show view' do
-          post :create, params: { question: attributes_for(:question) }
-
-          expect(response).to_not redirect_to assigns(:question)
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'does not save the question' do
-          expect {
-            post :create, params: {
-              question: attributes_for(:question, :invalid_question)
-            }
-          }.to_not change(Question, :count)
-        end
-
-        it 're-rerender new view' do
-          post :create, params: {
-            question: attributes_for(:question, :invalid_question)
-          }
-
-          expect(response).to_not render_template :new
-        end
-      end
-    end
-
-    describe 'PATCH #update' do
-      let(:new_question_title){ 'new_title' }
-      let(:new_question_body){ 'new_body' }
-
-      context 'with valid attributes' do
         it 'does not assign the requested question to @question' do
           patch :update, params: {
             id: question,
@@ -298,16 +286,33 @@ RSpec.describe QuestionsController, type: :controller do
         end
       end
     end
+  end
 
-    describe 'DELETE #destroy' do
-      let!(:question) do
-        create(:question_with_answers,
-          user: user,
-          answers_count: 3,
-          answers_author: user_answer_giver
-        )
+  describe 'DELETE #destroy' do
+    let!(:question) do
+      create(:question_with_answers,
+        user: user,
+        answers_count: 3,
+        answers_author: user_answer_giver
+      )
+    end
+
+    describe 'Authorized user' do
+      before { login(user) }
+
+      it 'deletes question from DB' do
+        expect { delete :destroy, params: { id: question } }
+          .to change(Question, :count).by(-1)
       end
 
+      it 'redirect to #index' do
+        delete :destroy, params: { id: question }
+
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    describe 'Unauthorized user' do
       it 'does not deletes question from DB' do
         expect { delete :destroy, params: { id: question } }
           .to_not change(Question, :count)
@@ -325,3 +330,4 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 end
+

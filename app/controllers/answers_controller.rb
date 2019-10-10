@@ -8,8 +8,8 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
+    @answer = current_user.answers.new(answer_params)
+    @answer.question = @question
     if @answer.save
       redirect_to question_path(@question)
     else

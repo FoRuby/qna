@@ -23,24 +23,18 @@ RSpec.describe User, type: :model do
       let(:answer) { create(:answer, question: question, user: author) }
       let(:item_without_author) { Class.new }
 
-      it 'author.author?(question) should be true' do
-        expect(author.author?(answer)).to be true
+      context 'author' do
+        subject { author }
+          it { is_expected.to be_an_author_of(question) }
+          it { is_expected.to be_an_author_of(answer) }
+          it { is_expected.to_not be_an_author_of(item_without_author) }
       end
 
-      it 'author.author?(answer) should be true' do
-        expect(author.author?(answer)).to be true
-      end
-
-      it 'not_author.author?(question) should be false' do
-        expect(not_author.author?(answer)).to be false
-      end
-
-      it 'not_author.author?(answer) should be false' do
-        expect(not_author.author?(answer)).to be false
-      end
-
-      it 'author.author?(item_without_author) should be false' do
-        expect(author.author?(item_without_author)).to be false
+      context 'not_author' do
+        subject { not_author }
+          it { is_expected.to_not be_an_author_of(question) }
+          it { is_expected.to_not be_an_author_of(answer) }
+          it { is_expected.to_not be_an_author_of(item_without_author) }
       end
     end
   end

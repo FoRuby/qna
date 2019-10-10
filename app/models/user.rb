@@ -15,6 +15,6 @@ class User < ApplicationRecord
   def author?(item)
     return false unless item.methods.include?(:user)
 
-    self == item.user
+    id == item.user_id
   end
 end

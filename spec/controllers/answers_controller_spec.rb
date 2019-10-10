@@ -4,10 +4,9 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
-  describe 'Authorized user' do
-    before { login(user) }
-
-    describe 'GET #new' do
+  describe 'GET #new' do
+    describe 'Authorized user' do
+      before { login(user) }
       before { get :new, params: { question_id: question } }
 
       it 'assign @answer' do
@@ -19,7 +18,23 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    describe 'POST #create' do
+    describe 'Unauthorized user' do
+      before { get :new, params: { question_id: question } }
+
+      it 'does not assign @answer' do
+        expect(assigns(:answer)).to be nil
+      end
+
+      it 'does not render new view' do
+        expect(response).to_not render_template :new
+      end
+    end
+  end
+
+  describe 'POST #create' do
+    describe 'Authorized user' do
+      before { login(user) }
+
       context 'with valid attributes' do
         it 'save new answer in DB' do
           expect {
@@ -39,7 +54,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(assigns(:answer).question).to eq(question)
         end
 
-        it 'check @answer.author is a user' do
+        it 'check @answer.user is a user' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer)
@@ -79,39 +94,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    describe 'DELETE #destroy' do
-      let!(:answer) do
-        create(:answer, question: question, user: user)
-      end
-
-      it 'deletes answer from DB' do
-        expect { delete :destroy, params: { id: answer } }
-          .to change(Answer, :count).by(-1)
-      end
-
-      it 'redirect to questions#show' do
-        delete :destroy, params: { id: answer }
-
-        expect(response).to redirect_to question_path(question)
-      end
-    end
-  end
-
-  describe 'Unauthorized user' do
-
-    describe 'GET #new' do
-      before { get :new, params: { question_id: question } }
-
-      it 'does not assign @answer' do
-        expect(assigns(:answer)).to be nil
-      end
-
-      it 'does not render new view' do
-        expect(response).to_not render_template :new
-      end
-    end
-
-    describe 'POST #create' do
+    describe 'Unauthorized user' do
       context 'with valid attributes' do
         it 'does not save new answer in DB' do
           expect {
@@ -152,12 +135,29 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
     end
+  end
 
-    describe 'DELETE #destroy' do
-      let!(:answer) do
-        create(:answer, question: question, user: user)
+  describe 'DELETE #destroy' do
+    let!(:answer) do
+      create(:answer, question: question, user: user)
+    end
+
+    describe 'Authorized user' do
+      before { login(user) }
+
+      it 'deletes answer from DB' do
+        expect { delete :destroy, params: { id: answer } }
+          .to change(Answer, :count).by(-1)
       end
 
+      it 'redirect to questions#show' do
+        delete :destroy, params: { id: answer }
+
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    describe 'Unauthorized user' do
       it 'does not deletes answer from DB' do
         expect { delete :destroy, params: { id: answer } }
           .to_not change(Answer, :count)
@@ -171,3 +171,4 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 end
+
