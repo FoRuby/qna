@@ -1,7 +1,22 @@
 FactoryBot.define do
+
   factory :question do
-    title { "MyString" }
-    body { "MyText" }
+    sequence(:title){ |n| "QuestionTitle#{n}" }
+    sequence(:body){ |n| "QuestionBody#{n}" }
+    user { create(:user) }
+  end
+
+  factory :question_with_answers, parent: :question do
+    transient do
+      answers_count { 1 }
+      answers_author { create(:user) }
+    end
+    after(:create) do |question, evaluator|
+      create_list(:answer, evaluator.answers_count,
+        question: question,
+        user: evaluator.answers_author
+      )
+    end
   end
 
   trait :invalid_question do
