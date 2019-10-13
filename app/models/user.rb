@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   def author?(item)
-    return false unless item.methods.include?(:user)
+    return false unless item.respond_to?(:user)
 
     id == item.user_id
   end

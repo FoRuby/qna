@@ -4,33 +4,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
-  describe 'GET #new' do
-    describe 'Authorized user' do
-      before { login(user) }
-      before { get :new, params: { question_id: question } }
-
-      it 'assign @answer' do
-        expect(assigns(:answer)).to be_a_new(Answer)
-      end
-
-      it 'render new view' do
-        expect(response).to render_template :new
-      end
-    end
-
-    describe 'Unauthorized user' do
-      before { get :new, params: { question_id: question } }
-
-      it 'does not assign @answer' do
-        expect(assigns(:answer)).to be nil
-      end
-
-      it 'does not render new view' do
-        expect(response).to_not render_template :new
-      end
-    end
-  end
-
   describe 'POST #create' do
     describe 'Authorized user' do
       before { login(user) }

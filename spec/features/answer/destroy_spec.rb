@@ -32,7 +32,7 @@ feature 'User can destroy answer', %q{
       login(question_author)
       visit question_path(question)
 
-      expect(page).to_not have_content 'Delete answer'
+      expect(page).to_not have_link 'Delete answer'
     end
   end
 

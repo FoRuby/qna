@@ -15,27 +15,22 @@ RSpec.describe User, type: :model do
     it { should have_db_index(:email).unique(:true) }
   end
 
-  context 'methods' do
-    context '.author?(item)' do
-      let(:author) { create(:user) }
-      let(:not_author) { create(:user) }
-      let(:question) { create(:question, user: author) }
-      let(:answer) { create(:answer, question: question, user: author) }
-      let(:item_without_author) { Class.new }
+  describe '#author?(item)' do
+    let(:author) { create(:user) }
+    let(:not_author) { create(:user) }
+    let(:question) { create(:question, user: author) }
+    let(:item_without_author) { Class.new }
 
-      context 'author' do
-        subject { author }
-          it { is_expected.to be_an_author_of(question) }
-          it { is_expected.to be_an_author_of(answer) }
-          it { is_expected.to_not be_an_author_of(item_without_author) }
-      end
+    context 'author' do
+      subject { author }
+        it { is_expected.to be_an_author_of(question) }
+        it { is_expected.to_not be_an_author_of(item_without_author) }
+    end
 
-      context 'not_author' do
-        subject { not_author }
-          it { is_expected.to_not be_an_author_of(question) }
-          it { is_expected.to_not be_an_author_of(answer) }
-          it { is_expected.to_not be_an_author_of(item_without_author) }
-      end
+    context 'not_author' do
+      subject { not_author }
+        it { is_expected.to_not be_an_author_of(question) }
+        it { is_expected.to_not be_an_author_of(item_without_author) }
     end
   end
 end

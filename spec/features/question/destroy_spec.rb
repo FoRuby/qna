@@ -22,6 +22,7 @@ feature 'User can destroy question', %q{
       visit question_path(question)
       click_on 'Delete question'
 
+      expect(page).to_not have_content question
       expect(page).to have_content 'Question successfully deleted.'
     end
 
@@ -29,7 +30,7 @@ feature 'User can destroy question', %q{
       login(answer_author)
       visit question_path(question)
 
-      expect(page).to_not have_content 'Delete question'
+      expect(page).to_not have_link 'Delete question'
     end
   end
 

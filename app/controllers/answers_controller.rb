@@ -3,10 +3,6 @@ class AnswersController < ApplicationController
   before_action :set_question, only: :create
   before_action :set_answer, only: :destroy
 
-  def new
-    @answer = Answer.new
-  end
-
   def create
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question
