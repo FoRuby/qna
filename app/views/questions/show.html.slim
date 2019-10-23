@@ -5,11 +5,14 @@ p= @question.body
              question_path(@question),
              method: :delete,
              data: { confirm: "Are you sure?" }
-h2 Answers:
-- if @question.answers.empty?
-  p There are no answers yet
-- else
-  div= render @question.answers
+.answers
+  - if @question.answers.empty?
+    p There are no answers yet
+  - else
+    = render @question.answers
+
+.answer-errors
+  = render 'shared/errors', resource: @answer
 
 - if user_signed_in?
   = render template: 'answers/new'

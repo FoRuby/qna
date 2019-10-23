@@ -13,7 +13,8 @@ RSpec.describe AnswersController, type: :controller do
           expect {
             post :create, params: {
               question_id: question,
-              answer: attributes_for(:answer)
+              answer: attributes_for(:answer),
+              format: :js
             }
           }.to change(Answer, :count).by(1)
         end
@@ -21,7 +22,8 @@ RSpec.describe AnswersController, type: :controller do
         it 'check @answer.question is a assigned question' do
           post :create, params: {
             question_id: question,
-            answer: attributes_for(:answer)
+            answer: attributes_for(:answer),
+            format: :js
           }
 
           expect(assigns(:answer).question).to eq(question)
@@ -30,19 +32,21 @@ RSpec.describe AnswersController, type: :controller do
         it 'check @answer.user is a user' do
           post :create, params: {
             question_id: question,
-            answer: attributes_for(:answer)
+            answer: attributes_for(:answer),
+            format: :js
           }
 
           expect(assigns(:answer).user).to eq(user)
         end
 
-        it 'redirect to @question' do
+        it 'rerender create' do
           post :create, params: {
             question_id: question,
-            answer: attributes_for(:answer)
+            answer: attributes_for(:answer),
+            format: :js
           }
 
-          expect(response).to redirect_to assigns(:question)
+          expect(response).to render_template :create
         end
       end
 
@@ -51,18 +55,20 @@ RSpec.describe AnswersController, type: :controller do
           expect {
             post :create, params: {
               question_id: question,
-              answer: attributes_for(:answer, :invalid_answer)
+              answer: attributes_for(:answer, :invalid_answer),
+              format: :js
             }
           }.to_not change(Answer, :count)
         end
 
-        it 're-rerender questions/show view' do
+        it 'rerender create' do
           post :create, params: {
             question_id: question,
-            answer: attributes_for(:answer, :invalid_answer)
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
           }
 
-          expect(response).to render_template 'questions/show'
+          expect(response).to render_template :create
         end
       end
     end
@@ -104,7 +110,62 @@ RSpec.describe AnswersController, type: :controller do
             answer: attributes_for(:answer, :invalid_answer)
           }
 
-          expect(response).to_not render_template 'questions/show'
+          expect(response).to_not render_template :create
+        end
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:answer) do
+      create(:answer, question: question, user: user)
+    end
+
+    describe 'Authorized user' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        it 'change answer attributes' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'edited answer'},
+            format: :js
+          }
+
+          answer.reload
+          expect(answer.body).to eq 'edited answer'
+        end
+
+        it 'rerender update view' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'edited answer'},
+            format: :js
+          }
+
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not change answer attributes' do
+          expect {
+            patch :update, params: {
+              id: answer,
+              answer: attributes_for(:answer, :invalid_answer),
+              format: :js
+            }
+          }.to_not change(answer, :body)
+        end
+
+        it 'rerender update view' do
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+
+          expect(response).to render_template :update
         end
       end
     end
