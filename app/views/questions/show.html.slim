@@ -1,18 +1,16 @@
-h1= @question.title
-p= @question.body
-- if current_user&.author?(@question)
-  = link_to 'Delete question',
-             question_path(@question),
-             method: :delete,
-             data: { confirm: "Are you sure?" }
+.question
+  h1= @question.title
+  p= @question.body
+  - if current_user&.author?(@question)
+    = link_to 'Delete question',
+               question_path(@question),
+               method: :delete,
+               data: { confirm: "Are you sure?" }
 .answers
   - if @question.answers.empty?
     p There are no answers yet
   - else
     = render @question.answers
-
-.answer-errors
-  = render 'shared/errors', resource: @answer
 
 - if user_signed_in?
   = render template: 'answers/new'

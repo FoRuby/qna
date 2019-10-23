@@ -1,0 +1,8 @@
+.edit-answer-errors
+
+.edit-answer-form = form_with model: answer,
+                              class: 'hidden',
+                              id: "edit-answer-#{answer.id}" do |f|
+  = f.label :body, 'Edit your answer'
+  = f.text_area :body
+  = f.submit 'Save'
