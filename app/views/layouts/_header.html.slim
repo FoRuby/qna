@@ -1,6 +1,10 @@
-- if user_signed_in?
-  span= link_to 'sign_out', destroy_user_session_path, method: :delete
-- else
-  span= link_to 'sign_in', new_user_session_path
-  span= ' | '
-  span= link_to 'sign_up', new_user_registration_path
+nav class='navbar navbar-expand-lg navbar-dark bg-primary'
+  = link_to "Q&A", root_path, class: 'navbar-brand'
+
+  span class="navbar-text text-light"
+    - if user_signed_in?
+      =link_to 'sign_out', destroy_user_session_path, method: :delete
+    - else
+      = link_to 'sign_in', new_user_session_path
+      = ' | '
+      = link_to 'sign_up', new_user_registration_path
