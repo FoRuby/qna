@@ -1,15 +1,25 @@
 div id=answer.id
-  span= answer.body
-  - if current_user&.author?(answer)
-    = link_to 'Edit answer',
-               '#',
-               class: 'edit-answer-link',
-               data: { answer_id: answer.id }
+  hr
 
-    = link_to 'Delete answer',
-               answer_path(answer),
-               method: :delete,
-               data: { confirm: "Are you sure?" }
+  div class='row'
+    div class='col-6'
+      .answer-body
+        p = answer.body
 
-    = render template: 'answers/edit',
-             locals: { answer: answer }
+      = render template: 'answers/edit',
+               locals: { answer: answer }
+
+  div class='row'
+    div class='col-6'
+      - if current_user&.author?(answer)
+        = link_to 'Edit answer',
+                   '#',
+                   class: 'edit-answer-link',
+                   data: { answer_id: answer.id }
+        = ' | '
+        = link_to 'Delete answer',
+                   answer_path(answer),
+                   method: :delete,
+                   data: { confirm: "Are you sure?" }
+
+

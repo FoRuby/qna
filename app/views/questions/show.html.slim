@@ -11,6 +11,6 @@
     p There are no answers yet
   - else
     = render @question.answers
-
+hr
 - if user_signed_in?
   = render template: 'answers/new'

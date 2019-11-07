@@ -3,6 +3,8 @@
 .edit-answer-form = form_with model: answer,
                               class: 'hidden',
                               id: "edit-answer-#{answer.id}" do |f|
-  = f.label :body, 'Edit your answer'
-  = f.text_area :body
-  = f.submit 'Save'
+  div class='row'
+    div class='col-6'
+      = f.label :body, 'Edit your answer:'
+      = f.text_area :body, rows: 7, cols: 60
+      = f.submit 'Save'

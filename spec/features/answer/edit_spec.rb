@@ -59,5 +59,15 @@ feature 'User can edit his answer', %q{
         expect(page).to have_selector 'textarea'
       end
     end
+
+    scenario 'tries to cancel question editing' do
+      click_on 'Edit answer'
+      click_on 'Cancel'
+
+      within '.answers' do
+        expect(page).to have_content answer.body
+        expect(page).to have_link 'Edit answer'
+      end
+    end
   end
 end
