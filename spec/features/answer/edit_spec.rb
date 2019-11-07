@@ -21,7 +21,14 @@ feature 'User can edit his answer', %q{
     expect(page).to_not have_link 'Edit answer'
   end
 
-  describe 'Authenticated user', js: true do
+  scenario "Authenticated user can not edit other user's answer" do
+    login(user)
+    visit question_path(question)
+
+    expect(page).to_not have_link 'Edit answer'
+  end
+
+  describe 'Authenticated answer author', js: true do
     background do
       login(answer_author)
       visit question_path(question)
@@ -40,13 +47,17 @@ feature 'User can edit his answer', %q{
       end
     end
 
-    # scenario 'tries to edit his answer with incorrect params' do
+    scenario 'tries to edit his answer with incorrect params' do
+      click_on 'Edit answer'
 
-    # end
+      within '.answers' do
+        fill_in 'Your answer', with: ''
+        click_on 'Save'
 
-    # scenario "tries to edit other user's answer" do
-
-    # end
+        expect(page).to have_content answer.body
+        expect(page).to have_content "Body can't be blank"
+        expect(page).to have_selector 'textarea'
+      end
+    end
   end
-
 end
