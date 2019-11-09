@@ -169,6 +169,52 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
     end
+
+    describe 'Unauthorized user' do
+      context 'with valid attributes' do
+        it 'does not change answer attributes' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'new answer'},
+            format: :js
+          }
+
+          expect(answer.body).to_not eq 'edited answer'
+        end
+
+        it 'does not re-render update view' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'edited answer'},
+            format: :js
+          }
+
+          expect(response).to_not render_template :update
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not change answer attributes' do
+          expect {
+            patch :update, params: {
+              id: answer,
+              answer: attributes_for(:answer, :invalid_answer),
+              format: :js
+            }
+          }.to_not change(answer, :body)
+        end
+
+        it 'does not re-rerender update view' do
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+
+          expect(response).to_not render_template :update
+        end
+      end
+    end
   end
 
   describe 'DELETE #destroy' do

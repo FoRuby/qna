@@ -14,9 +14,6 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def edit
-  end
-
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
@@ -28,10 +25,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    if current_user.author?(@question)
+      @question.update(question_params)
+      flash.now[:success] = 'Question successfully edited.'
     end
   end
 

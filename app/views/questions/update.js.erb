@@ -1,0 +1,8 @@
+$('.edit-question-errors')
+  .html('<%= render 'shared/errors', resource: @question %>');
+<% unless @question.errors.present? %>
+  $('.question').replaceWith(
+    '<%= j render 'questions/show_question', resource: @question %>'
+  );
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% end %>

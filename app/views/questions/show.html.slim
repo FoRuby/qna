@@ -1,11 +1,5 @@
-.question
-  h1= @question.title
-  p= @question.body
-  - if current_user&.author?(@question)
-    = link_to 'Delete question',
-               question_path(@question),
-               method: :delete,
-               data: { confirm: "Are you sure?" }
+= render 'questions/show_question', resource: @question
+
 .answers
   - if @question.answers.empty?
     p There are no answers yet

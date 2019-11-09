@@ -11,7 +11,8 @@ answerEditFormHandler = ->
       $(this).text('Cancel')
     else
       $(this).text('Edit answer')
-      $("form#edit-answer-#{answer_id} textarea").val(answer_body.text())
+      $("form#edit-answer-#{answer_id} #answer_body").val(answer_body.text())
+      $('.edit-answer-errors').empty()
 
 
     edit_form.toggleClass('hidden')
