@@ -158,7 +158,7 @@ RSpec.describe AnswersController, type: :controller do
           }.to_not change(answer, :body)
         end
 
-        it 'rerender update view' do
+        it 're-render update view' do
           patch :update, params: {
             id: answer,
             answer: attributes_for(:answer, :invalid_answer),
@@ -180,29 +180,29 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'deletes answer from DB' do
-        expect { delete :destroy, params: { id: answer } }
-          .to change(Answer, :count).by(-1)
+        expect {
+          delete :destroy, params: { id: answer, format: :js }
+        }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to questions#show' do
-        delete :destroy, params: { id: answer }
+      it 're-render destroy view' do
+        delete :destroy, params: { id: answer, format: :js }
 
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template :destroy
       end
     end
 
     describe 'Unauthorized user' do
       it 'does not deletes answer from DB' do
-        expect { delete :destroy, params: { id: answer } }
-          .to_not change(Answer, :count)
+        expect {
+          delete :destroy, params: { id: answer, format: :js }
+        }.to_not change(Answer, :count)
       end
 
-      it 'does not redirect to questions#show' do
-        delete :destroy, params: { id: answer }
-
-        expect(response).to_not redirect_to question_path(question)
+      it 'does not re-rerender destroy view' do
+        delete :destroy, params: { id: answer, format: :js }
+        expect(response).to_not render_template :destroy
       end
     end
   end
 end
-

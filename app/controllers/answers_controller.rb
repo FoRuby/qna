@@ -21,9 +21,8 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author?(@answer)
       @answer.destroy
-      flash[:success] = 'Answer successfully deleted.'
+      flash.now[:success] = 'Answer successfully deleted.'
     end
-    redirect_to question_path(@answer.question)
   end
 
   private
