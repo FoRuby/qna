@@ -20,6 +20,7 @@ feature 'User can create answer for current question', %q{
       fill_in 'Your answer', with: answer.body
       click_on 'Create answer'
       expect(page).to have_content answer.body
+      expect(page).to have_content "Answer successfully created."
     end
 
     scenario 'tries to create answer for current question with incorrect params' do

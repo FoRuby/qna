@@ -2,4 +2,5 @@ $('.answers #<%= @answer.id %> .edit-answer-errors')
   .html('<%= render 'shared/errors', resource: @answer %>');
 <% unless @answer.errors.present? %>
   $('.answers #<%= @answer.id %>').replaceWith('<%= j render @answer %>');
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
 <% end %>

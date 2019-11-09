@@ -38,13 +38,14 @@ feature 'User can edit his answer', %q{
       click_on 'Edit answer'
 
       within '.answers' do
-        fill_in 'Your answer', with: 'edited answer'
+        fill_in 'Edit your answer:', with: 'edited answer'
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'
       end
+      expect(page).to have_content 'Answer successfully edited.'
     end
 
     scenario 'tries to edit his answer with incorrect params' do

@@ -7,11 +7,15 @@ class AnswersController < ApplicationController
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question
     @answer.save
+    flash.now[:success] = 'Answer successfully created.'
   end
 
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
+    if current_user.author?(@answer)
+      @answer.update(answer_params)
+      @question = @answer.question
+      flash.now[:success] = 'Answer successfully edited.'
+    end
   end
 
   def destroy

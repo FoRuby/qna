@@ -17,5 +17,4 @@ answerEditFormHandler = ->
     edit_form.toggleClass('hidden')
     answer_body.toggleClass('hidden')
 
-
 $(document).on('turbolinks:load', answerEditFormHandler)
