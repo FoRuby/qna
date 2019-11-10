@@ -1,3 +1,14 @@
 .hidden {
- display: none;
+  display: none;
+}
+
+.edit-best-answer-icon {
+  color: gray;
+  :hover {
+    color: green;
+    cursor: pointer;
+  }
+}
+.best-answer-icon {
+  color: orange;
 }

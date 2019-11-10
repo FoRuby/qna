@@ -4,10 +4,3 @@ $('.new-answer-errors').html('<%= render 'shared/errors', resource: @answer %>')
   $('.new-answer #answer_body').val('')
   $('.flash-messages').html('<%= j render 'shared/messages' %>');
 <% end %>
-
-// document.querySelector('.answer-errors').innerHTML = ('<%= render 'shared/errors', resource: @answer %>');
-// <% if @answer.persisted? %>
-//   document.querySelector('.answers').insertAdjacentHTML('beforeend', '<%= j render @answer %>');
-//   document.querySelector("#answer_body").value = '';
-// <% end %>
-

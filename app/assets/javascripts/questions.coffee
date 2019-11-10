@@ -10,7 +10,6 @@ questionEditFormHandler = ->
       $('#question_body').val($('.question-body').text())
       $('.edit-question-errors').empty()
 
-
     $('.edit-question-form form').toggleClass('hidden')
     $('.question-title').toggleClass('hidden')
     $('.question-body').toggleClass('hidden')

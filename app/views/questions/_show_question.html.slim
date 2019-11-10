@@ -18,3 +18,7 @@
                    question_path(@question),
                    method: :delete,
                    data: { confirm: "Are you sure?" }
+        = ' | '
+        = link_to 'Select best answer',
+                   '#',
+                   class: 'edit-best-answer-link'

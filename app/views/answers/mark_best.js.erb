@@ -1,0 +1,6 @@
+$('.best-answer-icon').remove();
+$('.edit-best-answer-icon').toggleClass('hidden');
+$('#answer-<%= @answer.id %>').remove();
+$('.answers').prepend('<%= j render @answer %>');
+
+$('.flash-messages').html('<%= j render 'shared/messages' %>');

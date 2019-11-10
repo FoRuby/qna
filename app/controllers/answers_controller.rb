@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: :create
-  before_action :set_answer, only: %i[update destroy]
+  before_action :set_answer, only: %i[update destroy mark_best]
 
   def create
     @answer = current_user.answers.new(answer_params)
@@ -13,8 +13,14 @@ class AnswersController < ApplicationController
   def update
     if current_user.author?(@answer)
       @answer.update(answer_params)
-      @question = @answer.question
       flash.now[:success] = 'Answer successfully edited.'
+    end
+  end
+
+  def mark_best
+    if current_user.author?(@answer.question)
+      @answer.mark_as_best
+      flash.now[:success] = 'Best answer selected.'
     end
   end
 

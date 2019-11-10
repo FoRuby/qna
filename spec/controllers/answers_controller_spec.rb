@@ -39,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(assigns(:answer).user).to eq(user)
         end
 
-        it 'rerender create' do
+        it 're-render create' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer),
@@ -61,7 +61,7 @@ RSpec.describe AnswersController, type: :controller do
           }.to_not change(Answer, :count)
         end
 
-        it 'rerender create' do
+        it 're-render create' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer, :invalid_answer),
@@ -136,7 +136,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.body).to eq 'edited answer'
         end
 
-        it 'rerender update view' do
+        it 're-render update view' do
           patch :update, params: {
             id: answer,
             answer: { body: 'edited answer'},
@@ -213,6 +213,55 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(response).to_not render_template :update
         end
+      end
+    end
+  end
+
+  describe 'PATCH #mark_best' do
+    let!(:answer) do
+      create(:answer, question: question, user: user)
+    end
+
+    describe 'Authorized user' do
+      before { login(user) }
+
+      it 'change answer best attribute' do
+        patch :mark_best, params: {
+          id: answer,
+          format: :js
+        }
+
+        answer.reload
+        expect(answer.best).to be_truthy
+      end
+
+      it 're-render update view' do
+        patch :mark_best, params: {
+          id: answer,
+          format: :js
+        }
+
+        expect(response).to render_template :mark_best
+      end
+    end
+
+    describe 'Unauthorized user' do
+      it 'does not change answer best attribute' do
+        patch :mark_best, params: {
+          id: answer,
+          format: :js
+        }
+
+        expect(answer.best).to be_falsey
+      end
+
+      it 'does not re-render update view' do
+        patch :mark_best, params: {
+          id: answer,
+          format: :js
+        }
+
+        expect(response).to_not render_template :mark_best
       end
     end
   end
