@@ -38,11 +38,12 @@ feature 'User can edit his answer', %q{
       click_on 'Edit answer'
 
       within '.answers' do
-        fill_in 'Edit your answer:', with: 'edited answer'
+        old_answer_body = answer.body
+        fill_in 'Edit your answer:', with: 'Edited answer'
         click_on 'Save'
 
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content 'edited answer'
+        expect(page).to_not have_content old_answer_body
+        expect(page).to have_content 'Edited answer'
         expect(page).to_not have_selector '#answer_body'
       end
       expect(page).to have_content 'Answer successfully edited.'

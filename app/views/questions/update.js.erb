@@ -1,6 +1,6 @@
 $('.edit-question-errors')
   .html('<%= render 'shared/errors', resource: @question %>');
-<% unless @question.errors.present? %>
+<% if @question.errors.blank? %>
   $('.question').replaceWith(
     '<%= j render 'questions/show_question', resource: @question %>'
   );

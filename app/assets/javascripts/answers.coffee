@@ -22,12 +22,5 @@ bestAnswerSelectorHandler = ->
     $('.edit-best-answer-icon').toggleClass('hidden')
     $('.best-answer-icon').toggleClass('hidden')
 
-sortAnswersHandler = ->
-  bestAnswerId = $('.best-answer-icon').data('answerId')
-  bestAnswer = $("#answer-#{bestAnswerId}")
-  bestAnswer.remove()
-  $('.answers').prepend(bestAnswer)
-
 $(document).on('turbolinks:load', answerEditFormHandler)
 $(document).on('turbolinks:load', bestAnswerSelectorHandler)
-$(document).on('turbolinks:load', sortAnswersHandler)

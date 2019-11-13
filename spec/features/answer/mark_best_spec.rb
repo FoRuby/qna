@@ -11,11 +11,12 @@ feature 'User can mark answer as best', %q{
   given(:question) do
     create(:question_with_answers,
       user: question_author,
-      answers_count: 2
+      answers_count: 3
     )
   end
   given(:first_answer) { question.answers.first }
-  given(:second_answer) { question.answers.last }
+  given(:second_answer) { question.answers.second }
+  given(:third_answer) { question.answers.last }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -45,7 +46,8 @@ feature 'User can mark answer as best', %q{
       expect(page).to have_content 'Best answer selected.'
       expect(first('.answers')).to have_css("#best-answer-icon-#{second_answer.id}")
       expect(first('.answers')).to_not have_selector('.edit-best-answer-icon')
-      expect(first('.answers')).to have_content "#{second_answer.body}"
+      expect(first('.answers')).to have_content "#{first_answer.body}"
+      expect(first('.answers')).to have_content "#{third_answer.body}"
     end
 
     scenario 'tries to select best answer repeatedly' do
@@ -57,7 +59,8 @@ feature 'User can mark answer as best', %q{
       expect(page).to have_content 'Best answer selected.'
       expect(page).to_not have_selector('.edit-best-answer-icon')
       expect(first('.answers')).to have_css("#best-answer-icon-#{first_answer.id}")
-      expect(first('.answers')).to have_content "#{first_answer.body}"
+      expect(first('.answers')).to have_content "#{second_answer.body}"
+      expect(first('.answers')).to have_content "#{third_answer.body}"
     end
 
     scenario 'tries to cancel best answer selection' do
@@ -65,11 +68,27 @@ feature 'User can mark answer as best', %q{
 
       expect(page).to have_css("#edit-best-answer-icon-#{first_answer.id}")
       expect(page).to have_css("#edit-best-answer-icon-#{second_answer.id}")
+      expect(page).to have_css("#edit-best-answer-icon-#{third_answer.id}")
 
       click_on 'Select best answer'
 
       expect(page).to_not have_css("#edit-best-answer-icon-#{first_answer.id}")
       expect(page).to_not have_css("#edit-best-answer-iconn-#{second_answer.id}")
+      expect(page).to_not have_css("#edit-best-answer-icon-#{third_answer.id}")
     end
+  end
+
+  scenario 'Answers are ordered correct', js: true do
+    login(question_author)
+    visit question_path(question)
+
+    click_on 'Select best answer'
+    find("#edit-best-answer-icon-#{second_answer.id}").click
+
+    expect(find("#answer-#{second_answer.id}")).to have_css("#best-answer-icon-#{second_answer.id}")
+    expect(find("#answer-#{second_answer.id}")).to have_content "#{second_answer.body}"
+
+    expect(find("#answer-#{first_answer.id}")).to have_content "#{first_answer.body}"
+    expect(find("#answer-#{third_answer.id}")).to have_content "#{third_answer.body}"
   end
 end

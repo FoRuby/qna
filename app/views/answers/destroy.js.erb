@@ -1,4 +1,4 @@
-<% unless Answer.exists?(@answer.id) %>
+<% if @answer.destroyed? %>
   $('#answer-<%= @answer.id %>').remove();
   $('.flash-messages').html('<%= j render 'shared/messages' %>');
 <% end %>

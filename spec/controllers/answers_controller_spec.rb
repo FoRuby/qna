@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:question_author) { create(:user) }
+  let(:question) { create(:question, user: question_author) }
+  let(:answer_author) { create(:user) }
 
   describe 'POST #create' do
     describe 'Authorized user' do
-      before { login(user) }
+      before { login(answer_author) }
 
       context 'with valid attributes' do
         it 'save new answer in DB' do
@@ -36,10 +37,10 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(assigns(:answer).user).to eq(user)
+          expect(assigns(:answer).user).to eq(answer_author)
         end
 
-        it 're-render create' do
+        it 'render create' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer),
@@ -51,7 +52,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'does not save the question' do
+        it 'does not save the answer' do
           expect {
             post :create, params: {
               question_id: question,
@@ -61,7 +62,7 @@ RSpec.describe AnswersController, type: :controller do
           }.to_not change(Answer, :count)
         end
 
-        it 're-render create' do
+        it 'render create' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer, :invalid_answer),
@@ -95,7 +96,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'with invalid attributes' do
-        it 'does not save the question' do
+        it 'does not save the answer' do
           expect {
             post :create, params: {
               question_id: question,
@@ -104,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
           }.to_not change(Answer, :count)
         end
 
-        it 'does not re-rerender questions/show view' do
+        it 'does not render questions/show view' do
           post :create, params: {
             question_id: question,
             answer: attributes_for(:answer, :invalid_answer)
@@ -118,11 +119,11 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) do
-      create(:answer, question: question, user: user)
+      create(:answer, question: question, user: answer_author)
     end
 
-    describe 'Authorized user' do
-      before { login(user) }
+    describe 'Authorized answer author' do
+      before { login(answer_author) }
 
       context 'with valid attributes' do
         it 'change answer attributes' do
@@ -136,7 +137,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.body).to eq 'edited answer'
         end
 
-        it 're-render update view' do
+        it 'render update view' do
           patch :update, params: {
             id: answer,
             answer: { body: 'edited answer'},
@@ -149,16 +150,63 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not change answer attributes' do
-          expect {
-            patch :update, params: {
-              id: answer,
-              answer: attributes_for(:answer, :invalid_answer),
-              format: :js
-            }
-          }.to_not change(answer, :body)
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+          expect{ answer.reload }.to_not change(answer, :body)
         end
 
-        it 're-render update view' do
+        it 'render update view' do
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    describe 'Authorized not answer author' do
+      before { login(question_author) }
+
+      context 'with valid attributes' do
+        it 'does not change answer attributes' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'edited answer'},
+            format: :js
+          }
+
+          answer.reload
+          expect(answer.body).to_not eq 'edited answer'
+        end
+
+        it 'does not render update view' do
+          patch :update, params: {
+            id: answer,
+            answer: { body: 'edited answer'},
+            format: :js
+          }
+
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not change answer attributes' do
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+          expect{ answer.reload }.to_not change(answer, :body)
+        end
+
+        it 'render update view' do
           patch :update, params: {
             id: answer,
             answer: attributes_for(:answer, :invalid_answer),
@@ -178,11 +226,12 @@ RSpec.describe AnswersController, type: :controller do
             answer: { body: 'new answer'},
             format: :js
           }
+          answer.reload
 
           expect(answer.body).to_not eq 'edited answer'
         end
 
-        it 'does not re-render update view' do
+        it 'does not render update view' do
           patch :update, params: {
             id: answer,
             answer: { body: 'edited answer'},
@@ -195,16 +244,15 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not change answer attributes' do
-          expect {
-            patch :update, params: {
-              id: answer,
-              answer: attributes_for(:answer, :invalid_answer),
-              format: :js
-            }
-          }.to_not change(answer, :body)
+          patch :update, params: {
+            id: answer,
+            answer: attributes_for(:answer, :invalid_answer),
+            format: :js
+          }
+          expect { answer.reload }.to_not change(answer, :body)
         end
 
-        it 'does not re-rerender update view' do
+        it 'does not render update view' do
           patch :update, params: {
             id: answer,
             answer: attributes_for(:answer, :invalid_answer),
@@ -218,61 +266,71 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #mark_best' do
-    let!(:answer) do
-      create(:answer, question: question, user: user)
-    end
+    let!(:answer) { create(:answer, question: question, user: answer_author) }
 
-    describe 'Authorized user' do
-      before { login(user) }
-
-      it 'change answer best attribute' do
+    describe 'Authorized question author' do
+      before do
+        login(question_author)
         patch :mark_best, params: {
           id: answer,
           format: :js
         }
-
         answer.reload
-        expect(answer.best).to be_truthy
       end
 
-      it 're-render update view' do
+      context 'answer best attribute' do
+        subject { answer.best }
+        it { is_expected.to be_truthy }
+      end
+
+      it 'render mark_best view' do
+        expect(response).to render_template :mark_best
+      end
+    end
+
+    describe 'Authorized not question author' do
+      before do
+        login(answer_author)
         patch :mark_best, params: {
           id: answer,
           format: :js
         }
+      end
 
+      it 'does not change answer best attribute' do
+        expect{ answer.reload }.to_not change{answer.best}
+      end
+
+      it 'render mark_best view' do
         expect(response).to render_template :mark_best
       end
     end
 
     describe 'Unauthorized user' do
-      it 'does not change answer best attribute' do
+      before do
         patch :mark_best, params: {
           id: answer,
           format: :js
         }
-
-        expect(answer.best).to be_falsey
+        answer.reload
       end
 
-      it 'does not re-render update view' do
-        patch :mark_best, params: {
-          id: answer,
-          format: :js
-        }
+      it 'does not change answer best attribute' do
+        expect{ answer.reload }.to_not change{answer.best}
+      end
 
+      it 'does not render mark_best view' do
         expect(response).to_not render_template :mark_best
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) do
-      create(:answer, question: question, user: user)
-    end
+    let!(:answer_author) { create(:user) }
+    let!(:answer) { create(:answer, question: question, user: answer_author) }
 
-    describe 'Authorized user' do
-      before { login(user) }
+    describe 'Authorized answer author' do
+      before { login(answer_author) }
 
       it 'deletes answer from DB' do
         expect {
@@ -280,7 +338,23 @@ RSpec.describe AnswersController, type: :controller do
         }.to change(Answer, :count).by(-1)
       end
 
-      it 're-render destroy view' do
+      it 'render destroy view' do
+        delete :destroy, params: { id: answer, format: :js }
+
+        expect(response).to render_template :destroy
+      end
+    end
+
+    describe 'Authorized not answer author' do
+      before { login(question_author) }
+
+      it 'does not deletes answer from DB' do
+        expect {
+          delete :destroy, params: { id: answer, format: :js }
+        }.to_not change(Answer, :count)
+      end
+
+      it 'render destroy view' do
         delete :destroy, params: { id: answer, format: :js }
 
         expect(response).to render_template :destroy
@@ -294,7 +368,7 @@ RSpec.describe AnswersController, type: :controller do
         }.to_not change(Answer, :count)
       end
 
-      it 'does not re-rerender destroy view' do
+      it 'does not render destroy view' do
         delete :destroy, params: { id: answer, format: :js }
         expect(response).to_not render_template :destroy
       end

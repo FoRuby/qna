@@ -6,6 +6,10 @@ question_authors.each do |user|
   questions << FactoryBot.create(:question, user: user)
 end
 
+questions = question_authors.map do |user|
+  FactoryBot.create(:question, user: user)
+end
+
 answers = []
 questions.each do |question|
   answer_authors.each do |user|
