@@ -8,34 +8,35 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'scopes' do
-    let!(:answer1) { create(:answer) }
-    let!(:answer2) { create(:answer, :best_answer) }
-    let!(:answer3) { create(:answer) }
-    let!(:answer4) { create(:answer, :best_answer) }
+    let!(:question) { create(:question) }
+    let!(:answer1) { create(:answer, question: question) }
+    let!(:answer2) { create(:answer, :best_answer, question: question) }
+    let!(:answer3) { create(:answer, question: question) }
 
     context 'default scope by best: :desc, created_at: :asc' do
-      subject { Answer.all.to_a }
+      subject { question.answers.to_a }
 
-      it { is_expected.to match_array [answer2, answer4, answer1, answer3] }
+      it { is_expected.to match_array [answer2, answer1, answer3] }
     end
   end
 
-  context 'validations' do
-    it { should validate_presence_of :body }
+  describe 'validations' do
+    context '#body' do
+      it { should validate_presence_of :body }
+    end
 
-    describe 'best' do
-      context 'Best answer validate on context :already_best' do
-        it 'is valid with best: true' do
-          answer = build(:answer, best: true)
-          expect(answer.valid?(:already_best)).to be_truthy
-        end
+    context '#best' do
+      let!(:question) { create(:question) }
+      let!(:answer1) { create(:answer, :best_answer, question: question) }
+
+      context 'existing best answer' do
+        subject { answer1 }
+        it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
       end
 
-      context 'Not best answer validate on context :already_best' do
-        it 'is invalid with best: false' do
-          answer = build(:answer, best: false)
-          expect(answer.valid?(:already_best)).to be_falsey
-        end
+      context 'new best answer' do
+        subject { build(:answer, best: true, question: question) }
+        it { should_not validate_uniqueness_of(:best).scoped_to(:question_id) }
       end
     end
   end

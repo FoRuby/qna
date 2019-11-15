@@ -5,11 +5,11 @@ class Answer < ApplicationRecord
   default_scope -> { order(best: :desc, created_at: :asc) }
 
   validates :body, presence: true
-  validates :best, inclusion: [true], on: :already_best
+  validates :best, uniqueness: { scope: :question_id }, if: :best?
 
   def mark_as_best!
     transaction do
-      question.answers.update_all(best: false)
+      question.answers.where.not(id: id).update_all(best: false)
       update!(best: true)
     end
   end

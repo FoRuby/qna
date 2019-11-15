@@ -19,10 +19,8 @@ class AnswersController < ApplicationController
 
   def mark_best
     if current_user.author?(@answer.question)
-      unless @answer.valid?(:already_best)
-        @answer.mark_as_best!
-        flash.now[:success] = 'Best answer selected.'
-      end
+      @answer.mark_as_best!
+      flash.now[:success] = 'Best answer selected.'
     end
   end
 
