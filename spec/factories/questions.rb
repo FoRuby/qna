@@ -21,5 +21,6 @@ FactoryBot.define do
 
   trait :invalid_question do
     title { nil }
+    body { nil }
   end
 end

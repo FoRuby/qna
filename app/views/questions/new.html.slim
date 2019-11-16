@@ -1,10 +1,15 @@
 = render 'shared/errors', resource: @question
 
+h2 New Question:
 = form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
+  div class='row'
+    div class='col-3 form_group'
+      = f.label :title
+      = f.text_field :title, size: 30
 
-  = f.label :body
-  = f.text_area :body
+  div class='row'
+    div class='col-4 form_group'
+      = f.label :body
+      = f.text_area :body, rows: 7, cols: 60
 
   = f.submit 'Ask'

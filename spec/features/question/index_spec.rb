@@ -21,5 +21,4 @@ feature 'User can view a list of all questions', %q{
 
     questions.each { |question| expect(page).to have_content question.title }
   end
-
 end

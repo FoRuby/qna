@@ -11,18 +11,18 @@ feature 'User can destroy answer', %q{
   given(:question) do
     create(:question_with_answers,
       user: question_author,
-      answers_count: 2,
       answers_author: answer_author
     )
   end
   given(:answer) { question.answers.first }
 
-  describe 'Authenticated' do
+  describe 'Authenticated', js: true do
     scenario 'answer author tries delete a answer' do
       login(answer_author)
       visit question_path(question)
       expect(page).to have_content answer.body
       first(:link, 'Delete answer').click
+      accept_confirm
 
       expect(page).to_not have_content answer.body
       expect(page).to have_content 'Answer successfully deleted.'

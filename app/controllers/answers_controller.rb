@@ -1,26 +1,34 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: :create
-  before_action :set_answer, only: :destroy
+  before_action :set_answer, only: %i[update destroy mark_best]
 
   def create
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question
-    if @answer.save
-      redirect_to question_path(@question)
-    else
-      render 'questions/show'
+    @answer.save
+    flash.now[:success] = 'Answer successfully created.'
+  end
+
+  def update
+    if current_user.author?(@answer)
+      @answer.update(answer_params)
+      flash.now[:success] = 'Answer successfully edited.'
+    end
+  end
+
+  def mark_best
+    if current_user.author?(@answer.question)
+      @answer.mark_as_best!
+      flash.now[:success] = 'Best answer selected.'
     end
   end
 
   def destroy
     if current_user.author?(@answer)
       @answer.destroy
-      flash[:notice] = 'Answer successfully deleted.'
-    else
-      flash[:notice] = 'You can only delete your answer.'
+      flash.now[:success] = 'Answer successfully deleted.'
     end
-    redirect_to question_path(@answer.question)
   end
 
   private
