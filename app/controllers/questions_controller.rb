@@ -8,38 +8,38 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @answers = @question.answers
   end
 
   def new
     @question = Question.new
   end
 
-  def edit
-  end
-
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
+      flash[:success] = 'Your question successfully created.'
+      redirect_to @question
     else
       render :new
     end
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    if current_user.author?(@question)
+      @question.update(question_params)
+      flash.now[:success] = 'Question successfully edited.'
     end
   end
 
   def destroy
     if current_user.author?(@question)
       @question.destroy
-      redirect_to questions_path, notice: 'Question successfully deleted.'
+      flash[:success] = 'Question successfully deleted.'
+      redirect_to questions_path
     else
-      redirect_to question_path(@question), notice: 'You can only delete your question.'
+      redirect_to question_path(@question)
+      flash[:success] = 'You can only delete your question.'
     end
   end
 

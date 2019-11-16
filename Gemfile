@@ -24,6 +24,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
+gem 'material_icons'
 
 gem 'bootstrap'
 gem 'jquery-rails'

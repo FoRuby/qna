@@ -18,6 +18,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  RSpec::Matchers.define_negated_matcher :not_change, :change
   # FactoryBot.create(...) => create(...) |new|create_list|...
   config.include FactoryBot::Syntax::Methods
   # Add Devise helpers for controllers testing

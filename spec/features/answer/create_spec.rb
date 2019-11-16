@@ -10,16 +10,17 @@ feature 'User can create answer for current question', %q{
   given(:question) { create(:question, user: user) }
   given(:answer) { build(:answer, body: 'NewAnswerBody') }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       login(user)
       visit question_path(question)
     end
 
     scenario 'tries to create answer for current question with correct params' do
-      fill_in 'Body', with: answer.body
+      fill_in 'Your answer', with: answer.body
       click_on 'Create answer'
       expect(page).to have_content answer.body
+      expect(page).to have_content "Answer successfully created."
     end
 
     scenario 'tries to create answer for current question with incorrect params' do
