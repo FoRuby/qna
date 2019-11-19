@@ -1,6 +1,5 @@
 <% if @attachment.destroyed? %>
   $('#attachment-<%= @attachment.id %>').remove();
-  $('.attachmen-control').toggleClass('hidden');
   $('.flash-messages').html('<%= j render 'shared/messages' %>');
 <% end %>
 

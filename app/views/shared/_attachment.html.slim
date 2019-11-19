@@ -2,7 +2,7 @@
   .attachments
     - resource.files.each do |file|
       div class='row align-items-center' id="attachment-#{file.id}"
-        div class='col-1 attachmen-control hidden'
+        div class='col-1 attachment-control hidden'
           = link_to material_icon.clear.md_36,
                      destroy_attachment_path(file),
                      class: 'delete-attachment-icon',

@@ -49,12 +49,13 @@ feature 'User can edit his question', %q{
 
     scenario 'tries to edit his question with attached files' do
       click_on 'Edit question'
-
-      attach_file 'Files',
-        [
-          "#{Rails.root}/spec/fixtures/files/image1.jpg",
-          "#{Rails.root}/spec/fixtures/files/image2.jpg"
-        ]
+      within '.question' do
+        attach_file 'Files',
+          [
+            "#{Rails.root}/spec/fixtures/files/image1.jpg",
+            "#{Rails.root}/spec/fixtures/files/image2.jpg"
+          ]
+      end
 
       click_on 'Save'
 

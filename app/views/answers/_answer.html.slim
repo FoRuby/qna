@@ -21,7 +21,7 @@ div id="answer-#{answer.id}"
         div class='col-6'
           .answer-body
             p = answer.body
-
+          = render 'shared/attachment', resource: answer
           = render template: 'answers/edit',
                    locals: { answer: answer }
 
@@ -29,15 +29,19 @@ div id="answer-#{answer.id}"
         div class='row'
           div class='col-6'
             = link_to 'Edit answer',
-                       '#',
-                       class: 'edit-answer-link',
-                       data: { answer_id: answer.id }
+                      '#',
+                      class: 'edit-answer-link',
+                      data: { answer_id: answer.id }
             = ' | '
             = link_to 'Delete answer',
-                       answer_path(answer),
-                       method: :delete,
-                       remote: true,
-                       data: { confirm: "Are you sure?" }
-
+                      answer_path(answer),
+                      method: :delete,
+                      remote: true,
+                      data: { confirm: "Are you sure?" }
+            = ' | '
+            = link_to 'Delete attachment',
+                      '#',
+                      data: { answer_id: answer.id },
+                      class: 'delete-attachment-link'
 
 
