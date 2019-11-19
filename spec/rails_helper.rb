@@ -28,6 +28,8 @@ RSpec.configure do |config|
   # Add ControllerHelpers module for controllers testing
   config.include FeatureHelpers, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  config.include ActiveStorageHelpers
+
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   Capybara.javascript_driver = :selenium_chrome_headless
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
