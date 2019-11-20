@@ -9,7 +9,7 @@ set :deploy_to, '/home/deploy/qna'
 set :deploy_user, 'deploy'
 
 set :init_system, :systemd
-set :service_unit_name, "sidekiq.service"
+set :service_unit_name, 'sidekiq.service'
 
 # Default value for :linked_files is []
 append :linked_files, 'config/database.yml', 'config/master.key'
@@ -17,3 +17,5 @@ append :linked_files, 'config/database.yml', 'config/master.key'
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets',
        'public/system', 'storage'
+
+after 'deploy:publishing', 'unicorn:restart'

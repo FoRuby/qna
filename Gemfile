@@ -58,6 +58,7 @@ gem 'capybara-email'
 gem 'gon'
 gem 'sprockets'
 gem 'mini_racer'
+gem 'unicorn'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -81,10 +82,10 @@ group :development do
 
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
