@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
   let(:author) { create(:user) }
+  let(:user) { create(:user) }
   let(:question) { create(:question, user: author) }
 
   describe 'DELETE #destroy' do
@@ -24,12 +25,12 @@ RSpec.describe AttachmentsController, type: :controller do
     end
 
     describe 'Authorized not author' do
-      before { login(author) }
+      before { login(user) }
 
       it 'does not deletes attached file' do
         expect {
           delete :destroy, params: { id: attached_file, format: :js }
-        }.to_not change(Answer, :count)
+        }.to_not change(question.files, :count)
       end
 
       it 'render destroy view' do
@@ -43,12 +44,17 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'does not deletes attached file' do
         expect {
           delete :destroy, params: { id: attached_file, format: :js }
-        }.to_not change(Answer, :count)
+        }.to_not change(question.files, :count)
       end
 
       it 'does not render destroy view' do
         delete :destroy, params: { id: attached_file, format: :js }
         expect(response).to_not render_template :destroy
+      end
+
+      it 'returns 401 Unauthorized status code' do
+        delete :destroy, params: { id: attached_file, format: :js }
+        expect(response).to have_http_status(401)
       end
     end
   end

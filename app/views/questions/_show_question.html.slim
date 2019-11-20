@@ -1,4 +1,4 @@
-.question
+div class='question' id="question-#{@question.id}"
   .question-title
     h1= @question.title
   .question-body
@@ -24,6 +24,6 @@
                    '#',
                    class: 'edit-best-answer-link'
         = ' | '
-        = link_to 'Delete attachment',
+        = link_to 'Delete attachments',
                    '#',
                    class: 'delete-attachment-link'

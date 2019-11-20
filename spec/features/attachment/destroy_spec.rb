@@ -21,7 +21,7 @@ feature 'User can destroy question attachment', %q{
       login(question_author)
       visit question_path(question)
       within '.question' do
-        click_on 'Delete attachment'
+        click_on 'Delete attachments'
         find('.delete-attachment-icon').click
         accept_confirm
 
@@ -37,7 +37,7 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
-        click_on 'Delete attachment'
+        click_on 'Delete attachments'
         find('.delete-attachment-icon').click
         accept_confirm
 
@@ -51,7 +51,7 @@ feature 'User can destroy question attachment', %q{
       login(user)
       visit question_path(question)
       within '.question' do
-        expect(page).to_not have_content 'Delete attachment'
+        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-attachment-icon')
       end
     end
@@ -60,7 +60,7 @@ feature 'User can destroy question attachment', %q{
       login(user)
       visit question_path(question)
       within "#answer-#{answer.id}" do
-        expect(page).to_not have_content 'Delete attachment'
+        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-attachment-icon')
       end
     end
@@ -71,7 +71,7 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
 
       within '.question' do
-        expect(page).to_not have_content 'Delete attachment'
+        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-attachment-icon')
       end
     end
@@ -80,7 +80,7 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
-        expect(page).to_not have_content 'Delete attachment'
+        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-attachment-icon')
       end
     end

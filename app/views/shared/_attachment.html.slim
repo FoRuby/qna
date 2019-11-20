@@ -4,7 +4,7 @@
       div class='row justify-content-start align-items-center' id="attachment-#{file.id}"
         div class='col-1 text-center attachment-control hidden'
           = link_to material_icon.clear.md_36,
-                    destroy_attachment_path(file),
+                    attachment_path(file),
                     class: 'delete-attachment-icon',
                     id: "delete-attachment-icon-#{file.id}",
                     method: :delete,
