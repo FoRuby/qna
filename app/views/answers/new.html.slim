@@ -13,6 +13,6 @@
     div class='row'
       div class='col-3 form-group'
         = f.label :files
-        = f.file_field :files, multiple: true
+        = f.file_field :files, multiple: true, direct_upload: true
 
     = f.submit 'Create answer'
