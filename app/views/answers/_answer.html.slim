@@ -22,6 +22,7 @@ div id="answer-#{answer.id}"
           .answer-body
             p = answer.body
           = render 'shared/attachment', resource: answer
+
           = render template: 'answers/edit',
                    locals: { answer: answer }
 

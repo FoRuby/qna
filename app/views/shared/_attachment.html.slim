@@ -1,14 +1,14 @@
 - if resource.files.attached?
   .attachments
     - resource.files.each do |file|
-      div class='row align-items-center' id="attachment-#{file.id}"
-        div class='col-1 attachment-control hidden'
+      div class='row justify-content-start align-items-center' id="attachment-#{file.id}"
+        div class='col-1 text-center attachment-control hidden'
           = link_to material_icon.clear.md_36,
-                     destroy_attachment_path(file),
-                     class: 'delete-attachment-icon',
-                     id: "delete-attachment-icon-#{file.id}",
-                     method: :delete,
-                     remote: true,
-                     data: { confirm: "Are you sure?" }
-        div class='col attachment-body'
-          p= link_to file.filename.to_s, url_for(file)
+                    destroy_attachment_path(file),
+                    class: 'delete-attachment-icon',
+                    id: "delete-attachment-icon-#{file.id}",
+                    method: :delete,
+                    remote: true,
+                    data: { confirm: "Are you sure?" }
+        div class='col-11 align-baseline attachment-body'
+          = link_to file.filename.to_s, url_for(file)
