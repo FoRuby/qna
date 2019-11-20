@@ -49,6 +49,22 @@ feature 'User can edit his answer', %q{
       expect(page).to have_content 'Answer successfully edited.'
     end
 
+    scenario 'tries to edit his answer with attached files' do
+      click_on 'Edit answer'
+      within "#answer-#{answer.id}" do
+        attach_file 'Files',
+          [
+            "#{Rails.root}/spec/fixtures/files/image1.jpg",
+            "#{Rails.root}/spec/fixtures/files/image2.jpg"
+          ]
+
+        click_on 'Save'
+
+        expect(page).to have_link 'image1.jpg'
+        expect(page).to have_link 'image2.jpg'
+      end
+    end
+
     scenario 'tries to edit his answer with incorrect params' do
       click_on 'Edit answer'
 

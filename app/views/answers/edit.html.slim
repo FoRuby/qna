@@ -7,4 +7,9 @@
     div class='col-6'
       = f.label :body, 'Edit your answer:'
       = f.text_area :body, rows: 7, cols: 60
-      = f.submit 'Save'
+  div class='row'
+    div class='col-3 form-group'
+      = f.label :files
+      = f.file_field :files, multiple: true
+
+  = f.submit 'Save'
