@@ -41,6 +41,26 @@ RSpec.describe Answer, type: :model do
     end
   end
 
+  describe '#files' do
+    let(:answer) { create(:answer) }
+
+    before do
+      answer.files.attach(
+        io: File.open("#{Rails.root}/spec/fixtures/files/image1.jpg"),
+        filename: 'image1.jpg'
+      )
+      answer.files.attach(
+        io: File.open("#{Rails.root}/spec/fixtures/files/image2.jpg"),
+        filename: 'image2.jpg'
+      )
+    end
+
+    subject { answer.files }
+
+    it { is_expected.to be_an_instance_of(ActiveStorage::Attached::Many) }
+  end
+
+
   describe '#mark_as_best!' do
     let!(:question) { create(:question) }
     let!(:best_answer) { create(:answer, :best_answer, question: question) }
