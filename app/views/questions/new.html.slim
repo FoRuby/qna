@@ -17,4 +17,14 @@ h2 New Question:
       = f.label :files
       = f.file_field :files, multiple: true
 
+  div class='row'
+    div class='col form-group'
+      p Links:
+      = f.fields_for :links do |l|
+          =l.label :name, 'Link name'
+          =l.text_field :name
+          br
+          =l.label :url
+          =l.text_field :url
+
   = f.submit 'Ask'

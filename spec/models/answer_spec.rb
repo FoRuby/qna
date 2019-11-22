@@ -5,6 +5,11 @@ RSpec.describe Answer, type: :model do
   context 'associations' do
     it { should belong_to(:question) }
     it { should belong_to(:user) }
+    it { should have_many(:links).dependent(:destroy) }
+  end
+
+  context 'nested attributes' do
+    it { should accept_nested_attributes_for :links }
   end
 
   describe 'scopes' do

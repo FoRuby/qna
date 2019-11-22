@@ -21,6 +21,9 @@ div id="answer-#{answer.id}"
         div class='col-6'
           .answer-body
             p = answer.body
+
+          = render 'shared/link', resource: answer
+
           = render 'shared/attachment', resource: answer
 
           = render template: 'answers/edit',

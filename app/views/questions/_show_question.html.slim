@@ -3,6 +3,9 @@ div class='question' id="question-#{@question.id}"
     h1= @question.title
   .question-body
     p= @question.body
+
+  = render 'shared/link', resource: @question
+
   = render 'shared/attachment', resource: @question
 
   = render template: 'questions/edit',
