@@ -47,6 +47,22 @@ feature 'User can edit his question', %q{
       expect(page).to have_content 'Question successfully edited.'
     end
 
+    scenario 'tries to edit his question with attached files' do
+      click_on 'Edit question'
+      within '.question' do
+        attach_file 'Files',
+          [
+            "#{Rails.root}/spec/fixtures/files/image1.jpg",
+            "#{Rails.root}/spec/fixtures/files/image2.jpg"
+          ]
+      end
+
+      click_on 'Save'
+
+      expect(page).to have_link 'image1.jpg'
+      expect(page).to have_link 'image2.jpg'
+    end
+
     scenario 'tries to edit his question with incorrect params' do
       click_on 'Edit question'
 
@@ -61,6 +77,7 @@ feature 'User can edit his question', %q{
         expect(page).to have_selector '#question_body'
       end
     end
+
 
     scenario 'tries to cancel question editing' do
       click_on 'Edit question'

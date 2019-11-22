@@ -23,6 +23,20 @@ feature 'User can create answer for current question', %q{
       expect(page).to have_content "Answer successfully created."
     end
 
+    scenario 'tries to create answer for current question with attached files' do
+      fill_in 'Your answer', with: answer.body
+      attach_file 'Files',
+      [
+        "#{Rails.root}/spec/fixtures/files/image1.jpg",
+        "#{Rails.root}/spec/fixtures/files/image2.jpg"
+      ]
+
+      click_on 'Create answer'
+
+      expect(page).to have_link 'image1.jpg'
+      expect(page).to have_link 'image2.jpg'
+    end
+
     scenario 'tries to create answer for current question with incorrect params' do
       click_on 'Create answer'
       expect(page).to have_content "Body can't be blank"
