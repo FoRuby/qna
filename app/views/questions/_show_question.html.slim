@@ -1,32 +1,22 @@
 div class='question' id="question-#{@question.id}"
-  .question-title
-    h1= @question.title
-  .question-body
-    p= @question.body
 
-  = render 'shared/link', resource: @question
+  = render template: 'questions/edit', question: @question
 
-  = render 'shared/attachment', resource: @question
+  .question-content
+    div class='row'
+      div class='col-6 question-title'
+        h1= @question.title
 
-  = render template: 'questions/edit',
-           locals: { question: @question }
+    div class='row'
+      div class='col question-body'
+        p= @question.body
+
+    div class='row'
+      div class='col links'
+        = render 'links/link', resource: @question
+
+      div class='col attachments'
+        = render 'attachments/attachment', resource: @question
 
   - if current_user&.author?(@question)
-    div class='row'
-      div class='col-6'
-        = link_to 'Edit question',
-                   '#',
-                   class: 'edit-question-link'
-        = ' | '
-        = link_to 'Delete question',
-                   question_path(@question),
-                   method: :delete,
-                   data: { confirm: "Are you sure?" }
-        = ' | '
-        = link_to 'Select best answer',
-                   '#',
-                   class: 'edit-best-answer-link'
-        = ' | '
-        = link_to 'Delete attachments',
-                   '#',
-                   class: 'delete-attachment-link'
+    = render 'questions/form_control', question: @question

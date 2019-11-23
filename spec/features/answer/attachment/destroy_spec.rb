@@ -16,7 +16,7 @@ feature 'User can destroy answer attachment', %q{
       visit question_path(answer.question)
 
       within "#answer-#{answer.id}" do
-        click_on 'Delete attachments'
+        click_on 'Edit answer'
         find('.delete-attachment-icon').click
         accept_confirm
 

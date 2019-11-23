@@ -9,7 +9,8 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answer.links.new
-    @answers = @question.answers
+
+    @new_link = Link.new
   end
 
   def new
@@ -22,8 +23,6 @@ class QuestionsController < ApplicationController
     if @question.save
       flash[:success] = 'Your question successfully created.'
       redirect_to @question
-    else
-      render :new
     end
   end
 

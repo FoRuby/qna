@@ -2,27 +2,22 @@
   = render 'shared/errors', resource: @answer
 
 .new-answer-form
+  div class='row'
+    div class='col'
+      h2 New Answer:
+
   = form_with model: @answer,
               url: question_answers_path(@question),
               class: 'new-answer' do |f|
-    div class='row'
-      div class='col-3 form_group'
-        = f.label :body, 'Your answer'
-        = f.text_area :body, rows: 7, cols: 60
 
     div class='row'
-      div class='col-3 form-group'
-        = f.label :files
-        = f.file_field :files, multiple: true
+      div class='col-6 form-group'
+        = f.label :body
+        = f.text_area :body, rows: 6, class: 'form-control'
 
-    div class='row'
-      div class='col form-group'
-        p Links:
-        = f.fields_for :links do |l|
-            =l.label :name, 'Link name'
-            =l.text_field :name
-            br
-            =l.label :url
-            =l.text_field :url
+      div class='col-6'
+        = render 'attachments/new', form: f
 
-    = f.submit 'Create answer'
+        = render 'links/new', form: f
+
+    = f.submit 'Create answer', class: 'btn btn-primary'

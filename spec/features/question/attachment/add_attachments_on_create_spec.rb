@@ -26,8 +26,10 @@ feature 'User can create question with attachments', %q{
 
       click_on 'Ask'
 
-      expect(page).to have_link 'image1.jpg'
-      expect(page).to have_link 'image2.jpg'
+      within '.question' do
+        expect(page).to have_link 'image1.jpg'
+        expect(page).to have_link 'image2.jpg'
+      end
     end
   end
 

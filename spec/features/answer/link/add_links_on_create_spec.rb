@@ -16,7 +16,7 @@ feature 'User can add links to answer', %q{
     login(user)
     visit question_path(question)
 
-    fill_in 'Your answer', with: 'AnswerBody'
+    fill_in 'Body', with: 'AnswerBody'
     fill_in 'Link name', with: 'Google'
     fill_in 'Url', with: url
 
@@ -25,5 +25,7 @@ feature 'User can add links to answer', %q{
     within('.answers') do
       expect(page).to have_link('Google'), href: url
     end
+    expect(page).to have_field 'Link name', with: ''
+    expect(page).to have_field 'Url', with: ''
   end
 end

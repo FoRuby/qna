@@ -1,0 +1,5 @@
+$('.new-question-errors')
+  .html('<%= render 'shared/errors', resource: @question %>');
+<% if @question.persisted? %>
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% end %>

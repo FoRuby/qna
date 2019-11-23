@@ -1,22 +1,37 @@
-.edit-question-errors
+div class='row'
+  div class='col'
+    .edit-question-errors
 
-.edit-question-form = form_with model: question,
-                              class: 'hidden',
-                              id: "edit-question-#{question.id}" do |f|
+div class='row'
+  div class='col'
+    .edit-question-form = form_with model: @question,
+                                    class: 'hidden',
+                                    id: "edit-question-#{@question.id}" do |f|
+      div class='row'
+        div class='col'
+          h2 Edit your Question:
 
-  div class='row'
-    div class='col-3 form_group'
-      = f.label :title
-      = f.text_field :title, size: 30
+      div class='row'
+        div class='col-3 form-group'
+          = f.label :title
+          = f.text_field :title, size: 30, class: 'form-control'
 
-  div class='row'
-    div class='col-4 form_group'
-      = f.label :body
-      = f.text_area :body, rows: 7, cols: 60
+      div class='row'
+        div class='col-6 form-group'
+          = f.label :body
+          = f.text_area :body, rows: 6, class: 'form-control'
 
-  div class='row'
-    div class='col-3 form-group'
-      = f.label :files
-      = f.file_field :files, multiple: true
+        div class='col-6'
+          = render 'attachments/new', form: f
 
-  = f.submit 'Save'
+          = render 'links/new', form: f
+
+      div class='row'
+        div class='col links-delete'
+          = render 'links/delete', resource: @question
+
+        div class='col attachments-delete'
+          = render 'attachments/delete', resource: @question
+
+      = f.submit 'Save', class: 'btn btn-primary'
+

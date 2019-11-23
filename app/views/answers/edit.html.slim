@@ -1,15 +1,29 @@
-.edit-answer-errors
+div class='row'
+  div class='col'
+    .edit-answer-errors
 
-.edit-answer-form = form_with model: answer,
-                              class: 'hidden',
-                              id: "edit-answer-#{answer.id}" do |f|
-  div class='row'
-    div class='col-6'
-      = f.label :body, 'Edit your answer:'
-      = f.text_area :body, rows: 7, cols: 60
-  div class='row'
-    div class='col-3 form-group'
-      = f.label :files
-      = f.file_field :files, multiple: true
+div class='row'
+  div class='col'
+    .edit-answer-form = form_with model: answer,
+                                  class: 'hidden',
+                                  id: "edit-answer-#{answer.id}" do |f|
+      div class='row'
+        div class='col'
+          h2 Edit your answer:
 
-  = f.submit 'Save'
+      div class='row'
+        div class='col-6 form-group'
+          = f.label :body
+          = f.text_area :body, rows: 6, class: 'form-control'
+
+        div class='col-6'
+          = render 'attachments/new', form: f
+
+          = render 'links/new', form: f
+
+      div class='row'
+        = render 'links/delete', resource: answer
+
+        = render 'attachments/delete', resource: answer
+
+      = f.submit 'Save', class: 'btn btn-primary'

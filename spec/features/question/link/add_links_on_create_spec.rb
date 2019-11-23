@@ -24,5 +24,7 @@ feature 'User can add links to question', %q{
     click_on 'Ask'
 
     expect(page).to have_link('Google'), href: url
+    expect(page).to have_field 'Link name', with: ''
+    expect(page).to have_field 'Url', with: ''
   end
 end

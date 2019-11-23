@@ -16,7 +16,7 @@ feature 'User can create answer for current question with attachments', %q{
     end
 
     scenario 'tries to create answer with attached files' do
-      fill_in 'Your answer', with: answer.body
+      fill_in 'Body', with: answer.body
       attach_file 'Files',
       [
         "#{Rails.root}/spec/fixtures/files/image1.jpg",
@@ -25,8 +25,10 @@ feature 'User can create answer for current question with attachments', %q{
 
       click_on 'Create answer'
 
-      expect(page).to have_link 'image1.jpg'
-      expect(page).to have_link 'image2.jpg'
+      within '.answers' do
+        expect(page).to have_link 'image1.jpg'
+        expect(page).to have_link 'image2.jpg'
+      end
     end
   end
 

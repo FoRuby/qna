@@ -33,7 +33,7 @@ feature 'User can edit his answer', %q{
 
       within '.answers' do
         old_answer_body = answer.body
-        fill_in 'Edit your answer:', with: 'Edited answer'
+        fill_in 'Body', with: 'Edited answer'
         click_on 'Save'
 
         expect(page).to_not have_content old_answer_body
@@ -63,7 +63,7 @@ feature 'User can edit his answer', %q{
       click_on 'Edit answer'
 
       within '.answers' do
-        fill_in 'Your answer', with: ''
+        fill_in 'Body', with: ''
         click_on 'Save'
 
         expect(page).to have_content answer.body

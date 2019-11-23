@@ -16,10 +16,11 @@ feature 'User can create answer for current question', %q{
     end
 
     scenario 'tries to create answer for current question with correct params' do
-      fill_in 'Your answer', with: 'AnswerBody'
+      fill_in 'Body', with: 'AnswerBody'
       click_on 'Create answer'
-      expect(page).to have_content 'AnswerBody'
       expect(page).to have_content 'Answer successfully created.'
+      within('.answers') { expect(page).to have_content 'AnswerBody' }
+      within('.new-answer-form'){ expect(page).to have_field 'Body', with: '' }
     end
 
     scenario 'tries to create answer for current question with incorrect params' do

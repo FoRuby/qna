@@ -1,0 +1,14 @@
+.new-link-form
+  div class='row'
+    div class='col'
+      p Links:
+  div class='row'
+    = form.fields_for :links, @new_link do |f|
+      div class='col-4 form-group'
+        p
+          =f.label :name, 'Link name'
+          =f.text_field :name, class: 'form-control'
+      div class='col form-group'
+        p
+          =f.label :url
+          =f.text_field :url, size: 28, class: 'form-control'
