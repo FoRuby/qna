@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question_author) { create(:user) }
-  let(:question) { create(:question, user: question_author) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question) }
   let(:answer_author) { create(:user) }
 
   describe 'POST #create' do
@@ -171,7 +171,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     describe 'Authorized not answer author' do
-      before { login(question_author) }
+      before { login(user) }
 
       context 'with valid attributes' do
         it 'does not change answer attributes' do
@@ -270,7 +270,7 @@ RSpec.describe AnswersController, type: :controller do
 
     describe 'Authorized question author' do
       before do
-        login(question_author)
+        login(question.user)
         patch :mark_best, params: {
           id: answer,
           format: :js
@@ -290,7 +290,7 @@ RSpec.describe AnswersController, type: :controller do
 
     describe 'Authorized not question author' do
       before do
-        login(answer_author)
+        login(user)
         patch :mark_best, params: {
           id: answer,
           format: :js
@@ -326,11 +326,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer_author) { create(:user) }
-    let!(:answer) { create(:answer, question: question, user: answer_author) }
+    let!(:answer) { create(:answer, question: question) }
 
     describe 'Authorized answer author' do
-      before { login(answer_author) }
+      before { login(answer.user) }
 
       it 'deletes answer from DB' do
         expect {
@@ -346,7 +345,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     describe 'Authorized not answer author' do
-      before { login(question_author) }
+      before { login(user) }
 
       it 'does not deletes answer from DB' do
         expect {

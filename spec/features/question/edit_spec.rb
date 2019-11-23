@@ -2,13 +2,12 @@ require 'rails_helper'
 
 feature 'User can edit his question', %q{
   In order to correct mistakes
-  As an author of question
+  As author of question
   I'd like to be able to edit my question
 } do
 
   given(:user) { create(:user) }
-  given(:question_author) { create(:user) }
-  given(:question) { create(:question, user: question_author) }
+  given(:question) { create(:question) }
 
   scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
@@ -25,7 +24,7 @@ feature 'User can edit his question', %q{
 
   describe 'Authenticated question author', js: true do
     background do
-      login(question_author)
+      login(question.user)
       visit question_path(question)
     end
 
@@ -45,22 +44,6 @@ feature 'User can edit his question', %q{
         expect(page).to_not have_selector '#question_body'
       end
       expect(page).to have_content 'Question successfully edited.'
-    end
-
-    scenario 'tries to edit his question with attached files' do
-      click_on 'Edit question'
-      within '.question' do
-        attach_file 'Files',
-          [
-            "#{Rails.root}/spec/fixtures/files/image1.jpg",
-            "#{Rails.root}/spec/fixtures/files/image2.jpg"
-          ]
-      end
-
-      click_on 'Save'
-
-      expect(page).to have_link 'image1.jpg'
-      expect(page).to have_link 'image2.jpg'
     end
 
     scenario 'tries to edit his question with incorrect params' do

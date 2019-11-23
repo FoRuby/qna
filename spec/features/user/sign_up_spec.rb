@@ -10,6 +10,7 @@ feature 'User can sign up', %q{
 
   describe 'User tries to sign up' do
     background { visit new_user_registration_path }
+
     scenario 'with valid params' do
       fill_in 'Email', with: 'testemail@example.com'
       fill_in 'Password', with: 'foobar'
@@ -24,6 +25,7 @@ feature 'User can sign up', %q{
       fill_in 'Password', with: '5char'
       fill_in 'Password confirmation', with: '5char'
       click_on 'Sign up'
+
       expect(page).to have_content 'Password is too short (minimum is 6 characters)'
     end
 

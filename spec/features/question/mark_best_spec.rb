@@ -2,18 +2,12 @@ require 'rails_helper'
 
 feature 'User can mark answer as best', %q{
   In order to select best answer
-  As an author of question
+  As author of question
   I'd like to be able to mark answer as best
 } do
 
   given(:user) { create(:user) }
-  given(:question_author) { create(:user) }
-  given(:question) do
-    create(:question_with_answers,
-      user: question_author,
-      answers_count: 3
-    )
-  end
+  given(:question) { create(:question_with_answers, answers_count: 3) }
   given(:first_answer) { question.answers.first }
   given(:second_answer) { question.answers.second }
   given(:third_answer) { question.answers.last }
@@ -33,7 +27,7 @@ feature 'User can mark answer as best', %q{
 
   describe 'Authenticated question author', js: true do
     background do
-      login(question_author)
+      login(question.user)
       visit question_path(question)
     end
 
@@ -79,7 +73,7 @@ feature 'User can mark answer as best', %q{
   end
 
   scenario 'Answers are ordered correct', js: true do
-    login(question_author)
+    login(question.user)
     visit question_path(question)
 
     click_on 'Select best answer'

@@ -2,36 +2,30 @@ require 'rails_helper'
 
 feature 'User can edit his answer', %q{
   In order to correct mistakes
-  As an author of answer
+  As author of answer
   I'd like to be able to edit my answer
 } do
 
   given(:user) { create(:user) }
-  given(:answer_author) { create(:user) }
-  given(:question) do
-    create(:question_with_answers,
-      answers_author: answer_author
-    )
-  end
-  given(:answer) { question.answers.first }
+  given(:answer) { create(:answer) }
 
   scenario 'Unauthenticated user can not edit answer' do
-    visit question_path(question)
+    visit question_path(answer.question)
 
     expect(page).to_not have_link 'Edit answer'
   end
 
   scenario "Authenticated user can not edit other user's answer" do
     login(user)
-    visit question_path(question)
+    visit question_path(answer.question)
 
     expect(page).to_not have_link 'Edit answer'
   end
 
   describe 'Authenticated answer author', js: true do
     background do
-      login(answer_author)
-      visit question_path(question)
+      login(answer.user)
+      visit question_path(answer.question)
     end
 
     scenario 'tries to edit his answer with correct params' do

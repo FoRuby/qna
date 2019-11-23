@@ -2,13 +2,12 @@ require 'rails_helper'
 
 feature 'User can create answer for current question', %q{
   In order to help current question author
-  As User
+  As authenticated User
   I'd like to create answer for current question
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answer) { build(:answer, body: 'NewAnswerBody') }
+  given(:question) { create(:question) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -17,24 +16,10 @@ feature 'User can create answer for current question', %q{
     end
 
     scenario 'tries to create answer for current question with correct params' do
-      fill_in 'Your answer', with: answer.body
+      fill_in 'Your answer', with: 'AnswerBody'
       click_on 'Create answer'
-      expect(page).to have_content answer.body
-      expect(page).to have_content "Answer successfully created."
-    end
-
-    scenario 'tries to create answer for current question with attached files' do
-      fill_in 'Your answer', with: answer.body
-      attach_file 'Files',
-      [
-        "#{Rails.root}/spec/fixtures/files/image1.jpg",
-        "#{Rails.root}/spec/fixtures/files/image2.jpg"
-      ]
-
-      click_on 'Create answer'
-
-      expect(page).to have_link 'image1.jpg'
-      expect(page).to have_link 'image2.jpg'
+      expect(page).to have_content 'AnswerBody'
+      expect(page).to have_content 'Answer successfully created.'
     end
 
     scenario 'tries to create answer for current question with incorrect params' do

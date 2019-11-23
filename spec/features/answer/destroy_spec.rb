@@ -2,24 +2,18 @@ require 'rails_helper'
 
 feature 'User can destroy answer', %q{
   In order to delete answer from system
-  As User
+  As author of answer
   I'd like to be able to destroy answer
 } do
 
-  given(:question_author) { create(:user) }
-  given(:answer_author) { create(:user) }
-  given(:question) do
-    create(:question_with_answers,
-      user: question_author,
-      answers_author: answer_author
-    )
-  end
-  given(:answer) { question.answers.first }
+  given(:user) { create(:user) }
+  given!(:answer) { create(:answer) }
 
   describe 'Authenticated', js: true do
     scenario 'answer author tries delete a answer' do
-      login(answer_author)
-      visit question_path(question)
+      login(answer.user)
+      visit question_path(answer.question)
+
       expect(page).to have_content answer.body
       first(:link, 'Delete answer').click
       accept_confirm
@@ -29,15 +23,15 @@ feature 'User can destroy answer', %q{
     end
 
     scenario 'user tries delete foreign answer' do
-      login(question_author)
-      visit question_path(question)
+      login(user)
+      visit question_path(answer.question)
 
       expect(page).to_not have_link 'Delete answer'
     end
   end
 
   scenario 'Unauthenticated user tries delete a answer' do
-    visit question_path(question)
+    visit question_path(answer.question)
 
     expect(page).to_not have_content 'Delete answer'
   end
