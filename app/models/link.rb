@@ -6,6 +6,6 @@ class Link < ApplicationRecord
   validates :name, :url, presence: true
   validates :url, format: {
     with: URL_REGEXP,
-    message: 'Invalid URL format'
+    message: 'invalid format'
   }
 end

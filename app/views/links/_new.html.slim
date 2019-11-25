@@ -3,7 +3,7 @@
     div class='col'
       p Links:
   div class='row'
-    = form.fields_for :links, @new_link do |f|
+    = form.fields_for :links, Link.new do |f|
       div class='col-4 form-group'
         p
           =f.label :name, 'Link name'

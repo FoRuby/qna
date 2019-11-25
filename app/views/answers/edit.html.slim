@@ -22,8 +22,9 @@ div class='row'
           = render 'links/new', form: f
 
       div class='row'
-        = render 'links/delete', resource: answer
-
-        = render 'attachments/delete', resource: answer
+        div class='col links-delete'
+          = render 'links/delete', resource: answer
+        div class='col attachments-delete'
+          = render 'attachments/delete', resource: answer
 
       = f.submit 'Save', class: 'btn btn-primary'
