@@ -7,6 +7,10 @@ FactoryBot.define do
     best { false }
   end
 
+  factory :answer_with_link, parent: :answer do
+    after(:build) { |answer| create(:link, linkable: answer) }
+  end
+
   trait :invalid_answer do
     body { nil }
   end

@@ -17,11 +17,11 @@ feature 'User can destroy question attachment', %q{
 
       within '.question' do
         click_on 'Edit question'
-        find('.delete-attachment-icon').click
+        find('.delete-icon').click
         accept_confirm
 
         expect(page).to_not have_content question_attached_file.filename.to_s
-        expect(page).to_not have_selector('.delete-attachment-icon')
+        expect(page).to_not have_selector('.delete-icon')
       end
       expect(page).to have_content 'Attachment successfully deleted.'
     end
@@ -31,7 +31,7 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
       within '.question' do
         expect(page).to_not have_content 'Delete attachments'
-        expect(page).to_not have_selector('.delete-attachment-icon')
+        expect(page).to_not have_selector('.delete-icon')
       end
     end
   end
@@ -42,7 +42,7 @@ feature 'User can destroy question attachment', %q{
 
       within '.question' do
         expect(page).to_not have_content 'Delete attachments'
-        expect(page).to_not have_selector('.delete-attachment-icon')
+        expect(page).to_not have_selector('.delete-icon')
       end
     end
   end

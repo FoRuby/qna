@@ -25,6 +25,7 @@ gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
 gem 'material_icons'
+gem 'cocoon'
 
 gem 'bootstrap'
 gem 'jquery-rails'
