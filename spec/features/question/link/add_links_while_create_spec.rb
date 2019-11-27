@@ -8,9 +8,12 @@ feature 'User can add links to question while create', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
-  given(:links) { create_list(:link, 2) }
-  given(:url) { 'https://www.google.com/' }
-  given(:invalid_url) { 'https//www.google.com/' }
+  given(:links) { build_list(:link, 2) }
+
+  given(:valid_link_url) { 'https://www.google.com/' }
+  given(:invalid_link_url) { 'https//www.google.com/' }
+  given(:valid_gist_url) { 'https://gist.github.com/FoRuby/f7059ba947b5d0138f302f8e43694348' }
+  given(:invalid_gist_url) { 'https://gist.github.com/FoRuby/302f8e43694348' }
 
   describe 'Authenticated user', js: true do
     background do
@@ -23,12 +26,23 @@ feature 'User can add links to question while create', %q{
     context 'tries to create question' do
       scenario 'with valid link' do
         fill_in 'Link name', with: 'Google'
-        fill_in 'Url', with: url
+        fill_in 'Url', with: valid_link_url
 
         click_on 'Ask'
 
         within('.question') do
-          expect(page).to have_link('Google'), href: url
+          expect(page).to have_link('Google'), href: valid_link_url
+        end
+      end
+
+      scenario 'with valid gist' do
+        fill_in 'Link name', with: 'ValidGist'
+        fill_in 'Url', with: valid_gist_url
+
+        click_on 'Ask'
+
+        within('.question') do
+          expect(page).to have_content 'GistTitle'
         end
       end
 
@@ -52,22 +66,35 @@ feature 'User can add links to question while create', %q{
 
       scenario 'with invalid link name' do
         fill_in 'Link name', with: ''
-        fill_in 'Url', with: url
+        fill_in 'Url', with: valid_link_url
         click_on 'Ask'
 
         expect(page).to have_content "Links name can't be blank"
         expect(page).to have_field 'Link name', with: ''
-        expect(page).to have_field 'Url', with: url
+        expect(page).to have_field 'Url', with: valid_link_url
       end
 
       scenario 'with invalid link url' do
         fill_in 'Link name', with: 'Google'
-        fill_in 'Url', with: invalid_url
+        fill_in 'Url', with: invalid_link_url
         click_on 'Ask'
+
 
         expect(page).to have_content "Links url invalid format"
         expect(page).to have_field 'Link name', with: 'Google'
-        expect(page).to have_field 'Url', with: invalid_url
+        expect(page).to have_field 'Url', with: invalid_link_url
+      end
+
+      scenario 'with invalid gist url' do
+        fill_in 'Link name', with: 'InvalidGist'
+        fill_in 'Url', with: invalid_gist_url
+
+        click_on 'Ask'
+
+        within('.question') do
+          expect(page).to_not have_content 'GistTitle'
+          expect(page).to_not have_link 'InvalidGist', href: invalid_gist_url
+        end
       end
     end
   end

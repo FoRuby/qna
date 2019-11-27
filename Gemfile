@@ -30,6 +30,8 @@ gem 'cocoon'
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'octokit'
+gem 'faraday'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

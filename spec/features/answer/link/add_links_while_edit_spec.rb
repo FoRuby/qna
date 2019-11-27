@@ -9,8 +9,10 @@ feature 'User can add links to answer while editing', %q{
   given(:user) { create(:user) }
   given(:answer) { create(:answer) }
   given(:links) { create_list(:link, 2) }
-  given(:url) { 'https://www.google.com/' }
-  given(:invalid_url) { 'https//www.google.com/' }
+  given(:valid_link_url) { 'https://www.google.com/' }
+  given(:invalid_link_url) { 'https//www.google.com/' }
+  given(:valid_gist_url) { 'https://gist.github.com/FoRuby/f7059ba947b5d0138f302f8e43694348' }
+  given(:invalid_gist_url) { 'https://gist.github.com/FoRuby/302f8e43694348' }
 
   describe 'Authenticated', js: true do
     context 'Author' do
@@ -24,12 +26,23 @@ feature 'User can add links to answer while editing', %q{
         scenario 'with valid link' do
           within '.edit-answer-form' do
             fill_in 'Link name', with: 'Google'
-            fill_in 'Url', with: url
+            fill_in 'Url', with: valid_link_url
           end
 
           click_on 'Save'
 
-          within('.answers') { expect(page).to have_link 'Google', href: url }
+          within('.answers') { expect(page).to have_link 'Google', href: valid_link_url }
+        end
+
+        scenario 'with valid gist' do
+          within '.edit-answer-form' do
+            fill_in 'Link name', with: 'ValidGist'
+            fill_in 'Url', with: valid_gist_url
+          end
+
+          click_on 'Save'
+
+          within('.answers') { expect(page).to have_content 'GistTitle' }
         end
 
         scenario 'with valid links' do
@@ -52,7 +65,7 @@ feature 'User can add links to answer while editing', %q{
         scenario 'with invalid link name' do
           within '.edit-answer-form ' do
             fill_in 'Link name', with: ''
-            fill_in 'Url', with: url
+            fill_in 'Url', with: valid_link_url
             click_on 'Save'
           end
 
@@ -62,11 +75,22 @@ feature 'User can add links to answer while editing', %q{
         scenario 'with invalid link url' do
           within '.edit-answer-form ' do
             fill_in 'Link name', with: 'Google'
-            fill_in 'Url', with: invalid_url
+            fill_in 'Url', with: invalid_link_url
             click_on 'Save'
           end
 
           expect(page).to have_content "Links url invalid format"
+        end
+
+        scenario 'with invalid gist url' do
+          within '.edit-answer-form ' do
+            fill_in 'Link name', with: 'InvalidGist'
+            fill_in 'Url', with: invalid_gist_url
+            click_on 'Save'
+          end
+
+          expect(page).to_not have_content 'GistTitle'
+          expect(page).to_not have_link 'InvalidGist', href: invalid_gist_url
         end
       end
     end
