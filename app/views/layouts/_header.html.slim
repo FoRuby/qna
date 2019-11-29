@@ -1,11 +1,20 @@
 nav class='navbar navbar-expand-lg navbar-dark bg-primary'
   = link_to "Q&A", root_path, class: 'navbar-brand'
 
-  span class="navbar-text text-light"
+  ul class='navbar-nav mr-auto'
+    li class='nav-item'
+      = link_to 'Questions', questions_path, class: 'nav-link'
     - if user_signed_in?
-      =link_to 'Sign out', destroy_user_session_path, method: :delete
+      li class='nav-item'
+        = link_to 'Rewards', rewards_path, class: 'nav-link'
+
+  ul class='navbar-nav'
+    - if user_signed_in?
+      li class='nav-item'
+        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link'
     - else
-      - unless current_page?(new_user_session_path) || current_page?(new_user_registration_path)
-        = link_to 'Sign in', new_user_session_path
-        = ' | '
-        = link_to 'Sign up', new_user_registration_path
+      li class='nav-item'
+        = link_to 'Sign in', new_user_session_path, class: 'nav-link'
+      li class='nav-item'
+        = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
+

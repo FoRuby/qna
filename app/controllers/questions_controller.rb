@@ -55,7 +55,8 @@ class QuestionsController < ApplicationController
       :title,
       :body,
       files: [],
-      links_attributes: [:name, :url]
+      links_attributes: [:name, :url],
+      reward_attributes: [:title, :image]
     )
   end
 end

@@ -16,6 +16,7 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.where.not(id: id).update_all(best: false)
       update!(best: true)
+      AnswerRewardService.new(self).reward
     end
   end
 end

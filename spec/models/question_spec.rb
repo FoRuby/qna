@@ -3,17 +3,20 @@ require 'rails_helper'
 RSpec.describe Question, type: :model do
 
   describe 'associations' do
+    it { should belong_to(:user) }
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:links).dependent(:destroy) }
-    it { should belong_to(:user) }
+    it { should have_one(:reward).dependent(:destroy) }
 
-    it 'have many attached files' do
-      expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    context 'have many attached files' do
+      subject { Question.new.files }
+      it { is_expected.to be_an_instance_of(ActiveStorage::Attached::Many) }
     end
   end
 
   describe 'nested attributes' do
     it { should accept_nested_attributes_for :links }
+    it { should accept_nested_attributes_for :reward }
   end
 
   describe 'validations' do
@@ -22,23 +25,5 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'methods' do
-    context '#files' do
-      let(:question) { create(:question) }
-
-      before do
-        question.files.attach(
-          io: File.open("#{Rails.root}/spec/fixtures/files/image1.jpg"),
-          filename: 'image1.jpg'
-        )
-        question.files.attach(
-          io: File.open("#{Rails.root}/spec/fixtures/files/image2.jpg"),
-          filename: 'image2.jpg'
-        )
-      end
-
-      subject { question.files }
-
-      it { is_expected.to be_an_instance_of(ActiveStorage::Attached::Many) }
-    end
   end
 end
