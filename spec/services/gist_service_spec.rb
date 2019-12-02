@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe GistService, type: :service do
+RSpec.describe GistService, :vcr do
 
   let(:valid_gist_url) { 'https://gist.github.com/FoRuby/f7059ba947b5d0138f302f8e43694348' }
-  let(:invalid_gist_url) { 'https://gist.github.com/invalid/invalid' }
+  let(:invalid_gist_url) { 'https://gist.github.com/FoRuby/f7059ba947b5d01' }
 
   describe '#call GistService' do
     context 'when gist url valid' do

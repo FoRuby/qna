@@ -1,15 +1,15 @@
 -if resource.links.any?
-  div class='row'
-    div class='col'
+  .row
+    .col
       p Links:
   - resource.links.each do |link|
-    div class='row justify-content-start align-items-center'
-      div class='col-2 text-center link-control'
+    .row.justify-content-start.align-items-center
+      .col-2.text-center.link-control
         = link_to material_icon.clear.md_36,
                   link_path(link),
                   class: 'delete-icon',
                   method: :delete,
                   remote: true,
                   data: { confirm: "Are you sure?" }
-      div class='col-lg-auto align-baseline'
+      .col-lg-auto.align-baseline
         = link_to link.name, link.url, target: '_blank'

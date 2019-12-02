@@ -17,6 +17,10 @@ feature 'User can destroy answer link', %q{
         visit question_path(answer.question)
 
         within '.answers' do
+          within '.answer-content' do
+            expect(page).to have_link link.name, href: link.url
+          end
+
           click_on 'Edit answer'
           find('.delete-icon').click
           accept_confirm

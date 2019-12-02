@@ -17,6 +17,10 @@ feature 'User can destroy question link', %q{
         visit question_path(question)
 
         within '.question' do
+          within '.question-content' do
+            expect(page).to have_link link.name, href: link.url
+          end
+
           click_on 'Edit question'
           find('.delete-icon').click
           accept_confirm

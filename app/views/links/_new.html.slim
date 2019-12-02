@@ -1,13 +1,13 @@
 .new-link-form
-  div class='row'
-    div class='col'
+  .row
+    .col
       p Links:
 
-  div class='row' id='new-links'
+  .row id='new-links'
     = form.fields_for :links, Link.new do |link|
       = render 'links/link_fields', f: link
 
-  div class='row'
-    div class='col'
+  .row
+    .col
       = link_to_add_association 'Add link', form, :links,
         partial: 'links/link_fields', class: 'btn btn-primary'

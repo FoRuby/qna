@@ -7,7 +7,7 @@ feature 'User can look a question with answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question_with_answers, answers_count: 3) }
+  given(:question) { create(:question_with_answers, answers_count: 2) }
 
   scenario 'Unauthenticated user tries to see a question with answers' do
     visit question_path(question)

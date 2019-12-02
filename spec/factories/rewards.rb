@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :reward do
     sequence(:title){ |n| "Title#{n}" }
-    user { create(:user) }
-    question { create(:question) }
+    user
+    question
 
     after(:create) do |reward|
       reward.image.attach(

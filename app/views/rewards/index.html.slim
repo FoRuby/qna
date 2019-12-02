@@ -1,11 +1,11 @@
 - if @rewards.any?
   h1 Rewards:
-  table class='table table-bordered w-auto'
+  table.table.table-bordered.w-auto
     thead
-      tr class='text-center'
-        th scope='col' = 'Reward'
-        th scope='col' = 'Reward title'
-        th scope='col' = 'Question title'
+      tr.text-center
+        th scope='col' Reward
+        th scope='col' Reward title
+        th scope='col' Question title
     tbody
       = render @rewards
 - else

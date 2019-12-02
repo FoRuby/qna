@@ -1,5 +1,5 @@
 showPrewiew = ->
-  $('#image').on 'change', (event) ->
+  $('.reward-image').on 'change', (event) ->
     files = event.target.files
     image = files[0]
     reader = new FileReader()
@@ -10,6 +10,5 @@ showPrewiew = ->
       $('#image-prewiew').html(img)
 
     reader.readAsDataURL(image);
-    console.log(files);
 
 $(document).on('turbolinks:load', showPrewiew)

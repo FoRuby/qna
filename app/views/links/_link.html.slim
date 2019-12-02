@@ -1,9 +1,9 @@
 - if resource.links.any?
-  div class='col links'
+  .col.links
     p Links:
     - resource.links.each do |link|
-      div class='row' id="link-#{link.id}"
-        div class='col'
+      .row id="link-#{link.id}"
+        .col
           - if link.gist?
               p = link.gist_body
           - else

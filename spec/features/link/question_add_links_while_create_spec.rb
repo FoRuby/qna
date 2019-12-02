@@ -35,7 +35,7 @@ feature 'User can add links to question while create', %q{
         end
       end
 
-      scenario 'with valid gist' do
+      scenario 'with valid gist', :vcr do
         fill_in 'Link name', with: 'ValidGist'
         fill_in 'Url', with: valid_gist_url
 
@@ -85,7 +85,7 @@ feature 'User can add links to question while create', %q{
         expect(page).to have_field 'Url', with: invalid_link_url
       end
 
-      scenario 'with invalid gist url' do
+      scenario 'with invalid gist url', :vcr do
         fill_in 'Link name', with: 'InvalidGist'
         fill_in 'Url', with: invalid_gist_url
 

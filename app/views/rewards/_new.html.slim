@@ -1,19 +1,19 @@
 .new-reward
-  div class='row'
-    div class='col'
+  .row
+    .col
       h2 Reward:
 
-  div class='row'
-    div class='col'
+  .row
+    .col
       = form.fields_for :reward, Reward.new do |reward|
-        div class='row'
-          div class='col form-group'
+        .row
+          .col.form-group
             = reward.label :title, 'Reward title'
             = reward.text_field :title, class: 'form-control'
 
-        div class='row'
-          div class='col form-group'
-            = reward.label :image
-            = reward.file_field :image, class: 'form-control-file'
-    div clsss='col'
+        .row
+          .col.form-group
+            = reward.label :image, 'Image'
+            = reward.file_field :image, class: 'form-control-file reward-image'
+    .col
       #image-prewiew

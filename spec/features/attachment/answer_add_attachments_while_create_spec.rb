@@ -7,16 +7,16 @@ feature 'User can create answer for current question with attachments', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:answer) { build(:answer, body: 'NewAnswerBody') }
+  given(:question) { create(:question) }
 
   describe 'Authenticated user', js: true do
     background do
       login(user)
-      visit question_path(answer.question)
+      visit question_path(question)
     end
 
     scenario 'tries to create answer with attached files' do
-      fill_in 'Body', with: answer.body
+      fill_in 'Body', with: 'AnswerBody'
       attach_file 'Files',
       [
         "#{Rails.root}/spec/fixtures/files/image1.jpg",
@@ -34,7 +34,7 @@ feature 'User can create answer for current question with attachments', %q{
 
   describe 'Unauthenticated user', js: true do
     background do
-      visit question_path(answer.question)
+      visit question_path(question)
     end
 
     scenario 'tries to create answer with attached files' do

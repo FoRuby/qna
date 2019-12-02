@@ -9,8 +9,6 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answer.links.new
-
-    @new_link = Link.new
   end
 
   def new

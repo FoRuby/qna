@@ -1,11 +1,10 @@
 div id="answer-#{answer.id}"
   hr
-  = render template: 'answers/edit',
-           locals: { answer: answer }
+  = render 'answers/edit', answer: answer
 
   .answer-content
-    div class='row'
-      div class='col-1 text-center'
+    .row
+      .col-1.text-center
         - if answer.best?
           = content_tag :div,
                         material_icon.grade.md_36,
@@ -20,12 +19,12 @@ div id="answer-#{answer.id}"
                   method: :patch,
                   remote: true
 
-      div class='col'
-        div class='row'
-          div class='col answer-body'
+      .col
+        .row
+          .col.answer-body
             p = answer.body
 
-        div class='row'
+        .row
           = render 'links/link', resource: answer
 
           = render 'attachments/attachment', resource: answer

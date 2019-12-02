@@ -16,6 +16,8 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
 
       within '.question' do
+        expect(page).to have_content question_attached_file.filename.to_s
+
         click_on 'Edit question'
         find('.delete-icon').click
         accept_confirm
@@ -29,8 +31,8 @@ feature 'User can destroy question attachment', %q{
     scenario 'user tries delete foreign question attachment' do
       login(user)
       visit question_path(question)
+
       within '.question' do
-        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-icon')
       end
     end
@@ -41,7 +43,6 @@ feature 'User can destroy question attachment', %q{
       visit question_path(question)
 
       within '.question' do
-        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-icon')
       end
     end

@@ -6,7 +6,7 @@ RSpec.describe RewardsController, type: :controller do
 
   describe 'GET #index' do
     context 'Authorized user' do
-      let(:rewards) { create_list(:reward, 3, user: user) }
+      let(:rewards) { create_list(:reward, 2, user: user) }
 
       before do
         login(user)

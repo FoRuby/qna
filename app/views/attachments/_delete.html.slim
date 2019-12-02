@@ -1,15 +1,15 @@
 -if resource.files.attached?
-  div class='row'
-    div class='col'
+  .row
+    .col
       p Attachments:
   - resource.files.each do |file|
-    div class='row justify-content-start align-items-center'
-      div class='col-2 text-center'
+    .row.justify-content-start.align-items-center
+      .col-2.text-center
         = link_to material_icon.clear.md_36,
                   attachment_path(file),
                   class: 'delete-icon',
                   method: :delete,
                   remote: true,
                   data: { confirm: "Are you sure?" }
-      div class='col-lg-auto align-baseline'
+      .col-lg-auto.align-baseline
         = link_to file.filename.to_s, url_for(file), target: '_blank'

@@ -60,7 +60,10 @@ group :test do
   gem 'launchy'
   gem 'webdrivers'
   gem 'shoulda-matchers'
+  gem 'shoulda-callback-matchers'
   gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

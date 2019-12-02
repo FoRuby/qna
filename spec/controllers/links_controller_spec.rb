@@ -43,7 +43,7 @@ RSpec.describe LinksController, type: :controller do
       it 'does not deletes link' do
         expect {
           delete :destroy, params: { id: link, format: :js }
-        }.to_not change(question.files, :count)
+        }.to_not change(question.links, :count)
       end
 
       it 'does not render destroy view' do

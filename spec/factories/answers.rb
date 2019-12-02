@@ -2,8 +2,8 @@ FactoryBot.define do
 
   factory :answer do
     sequence(:body) { |n| "AnswerBody#{n}" }
-    question { create(:question) }
-    user { create(:user) }
+    question
+    user
     best { false }
   end
 

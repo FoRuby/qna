@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :question do
     sequence(:title){ |n| "QuestionTitle#{n}" }
     sequence(:body){ |n| "QuestionBody#{n}" }
-    user { create(:user) }
+    user
   end
 
   factory :question_with_answers, parent: :question do

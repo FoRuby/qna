@@ -1,11 +1,11 @@
-div class='row align-items-center h-100 nested-fields'
-  div class='col-1'
+.row.align-items-center.h-100.nested-fields
+  .col-1
     = link_to_remove_association 'X', f, class: 'btn btn-primary'
-  div class='col-4 form-group'
+  .col-4.form-group
     p
       = f.label :name, 'Link name'
       = f.text_field :name, class: 'form-control'
-  div class='col form-group'
+  .col.form-group
     p
       = f.label :url
       = f.text_field :url, size: 28, class: 'form-control'

@@ -9,11 +9,12 @@ feature 'User can view rewards list', %q{
   describe 'Authenticated user' do
     given(:user) { create(:user) }
     context 'With rewards' do
-      given!(:user_rewards) { create_list(:reward, 3, user: user) }
+      given!(:user_rewards) { create_list(:reward, 2, user: user) }
+      given!(:another_user_reward) { create(:reward) }
 
       background do
         login(user)
-        visit rewards_path
+        visit user_rewards_path
       end
 
       scenario 'sees a list of his rewards' do
@@ -22,12 +23,17 @@ feature 'User can view rewards list', %q{
           expect(page).to have_content reward.question.title
         end
       end
+
+      scenario "doesn't see other users's rewards" do
+        expect(page).to_not have_content another_user_reward.title
+        expect(page).to_not have_content another_user_reward.question.title
+      end
     end
 
     context 'Without rewards' do
       background do
         login(user)
-        visit rewards_path
+        visit user_rewards_path
       end
 
       scenario "sees 'No rewards message'" do
@@ -38,14 +44,14 @@ feature 'User can view rewards list', %q{
 
   describe 'Unauthenticated user' do
     given(:user) { create(:user) }
-    given!(:user_rewards) { create_list(:reward, 3, user: user) }
+    given!(:user_rewards) { create_list(:reward, 2, user: user) }
 
     background do
       visit root_path
     end
 
     scenario 'does not see rewards link' do
-      expect(page).to_not have_link 'Rewards', href: rewards_path
+      expect(page).to_not have_link 'Rewards', href: user_rewards_path
     end
   end
 end

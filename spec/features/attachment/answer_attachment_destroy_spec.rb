@@ -16,9 +16,12 @@ feature 'User can destroy answer attachment', %q{
       visit question_path(answer.question)
 
       within "#answer-#{answer.id}" do
+        expect(page).to have_content answer_attached_file.filename.to_s
+
         click_on 'Edit answer'
         find('.delete-icon').click
         accept_confirm
+
         expect(page).to_not have_content answer_attached_file.filename.to_s
         expect(page).to_not have_selector('.delete-icon')
       end
@@ -30,7 +33,6 @@ feature 'User can destroy answer attachment', %q{
       visit question_path(answer.question)
 
       within "#answer-#{answer.id}" do
-        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-icon')
       end
     end
@@ -41,7 +43,6 @@ feature 'User can destroy answer attachment', %q{
       visit question_path(answer.question)
 
       within "#answer-#{answer.id}" do
-        expect(page).to_not have_content 'Delete attachments'
         expect(page).to_not have_selector('.delete-icon')
       end
     end

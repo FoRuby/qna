@@ -34,7 +34,7 @@ feature 'User can add links to question while editing', %q{
           within('.question') { expect(page).to have_link 'Google', href: valid_link_url }
         end
 
-        scenario 'with valid gist' do
+        scenario 'with valid gist', :vcr do
           within '.edit-question-form' do
             fill_in 'Link name', with: 'ValidGist'
             fill_in 'Url', with: valid_gist_url
@@ -82,7 +82,7 @@ feature 'User can add links to question while editing', %q{
           expect(page).to have_content "Links url invalid format"
         end
 
-        scenario 'with invalid gist' do
+        scenario 'with invalid gist', :vcr do
           within '.edit-question-form' do
             fill_in 'Link name', with: 'InvalidGist'
             fill_in 'Url', with: invalid_gist_url

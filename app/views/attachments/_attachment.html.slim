@@ -1,7 +1,7 @@
 - if resource.files.attached?
-  div class='col attachments'
+  .col.attachments
     p Attachments:
     - resource.files.each do |file|
-      div class='row' id="attachment-#{file.id}"
-        div class='col attachment-body'
+      .row id="attachment-#{file.id}"
+        .col.attachment-body
           = link_to file.filename.to_s, url_for(file), target: '_blank'

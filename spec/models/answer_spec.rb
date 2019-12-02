@@ -51,37 +51,60 @@ RSpec.describe Answer, type: :model do
 
   describe 'methods' do
     context '#mark_as_best!' do
-      let!(:question) { create(:question) }
-      let!(:best_answer) { create(:answer, :best_answer, question: question) }
-      let!(:ordinary_answer) { create(:answer, question: question) }
+      context 'change answer attributes' do
+        let!(:question) { create(:question) }
+        let!(:best_answer) { create(:answer, :best_answer, question: question) }
+        let!(:ordinary_answer) { create(:answer, question: question) }
 
-      context 'mark ordinary answer as best' do
-        before { ordinary_answer.mark_as_best! }
+        context 'mark ordinary answer as best' do
+          before { ordinary_answer.mark_as_best! }
 
-        context 'ordinary_answer' do
-          subject { ordinary_answer }
-          it { is_expected.to be_best }
+          context 'ordinary_answer' do
+            subject { ordinary_answer }
+            it { is_expected.to be_best }
+          end
+
+          context 'best_answer' do
+            before { best_answer.reload }
+
+            subject { best_answer }
+            it { is_expected.not_to be_best }
+          end
         end
 
-        context 'best_answer' do
-          before { best_answer.reload }
+        context 'mark best answer repeatedly' do
+          before { best_answer.mark_as_best! }
 
-          subject { best_answer }
-          it { is_expected.not_to be_best }
+          context 'best_answer' do
+            subject { best_answer }
+            it { is_expected.to be_best }
+          end
+
+          context 'ordinary_answer' do
+            subject { ordinary_answer }
+            it { is_expected.not_to be_best }
+          end
         end
       end
 
-      context 'mark best answer repeatedly' do
-        before { best_answer.mark_as_best! }
+      context 'change reward attributes' do
+        let!(:question) { create(:question) }
+        let!(:answer) { create(:answer, question: question) }
 
-        context 'best_answer' do
-          subject { best_answer }
-          it { is_expected.to be_best }
+        context 'change reward user if reward present' do
+          let!(:reward) { create(:reward, question: question, user: nil) }
+
+          before { answer.mark_as_best! }
+          subject { reward.user }
+
+          it { is_expected.to eq answer.user }
         end
 
-        context 'ordinary_answer' do
-          subject { ordinary_answer }
-          it { is_expected.not_to be_best }
+        context 'does not change reward user if reward does not present' do
+          before { answer.mark_as_best! }
+          subject { question.reward }
+
+          it { is_expected.to be_nil }
         end
       end
     end

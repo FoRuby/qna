@@ -1,20 +1,20 @@
-nav class='navbar navbar-expand-lg navbar-dark bg-primary'
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
   = link_to "Q&A", root_path, class: 'navbar-brand'
 
-  ul class='navbar-nav mr-auto'
-    li class='nav-item'
+  ul.navbar-nav.mr-auto
+    li.nav-item
       = link_to 'Questions', questions_path, class: 'nav-link'
     - if user_signed_in?
-      li class='nav-item'
-        = link_to 'Rewards', rewards_path, class: 'nav-link'
+      li.nav-item
+        = link_to 'Rewards', user_rewards_path, class: 'nav-link'
 
   ul class='navbar-nav'
     - if user_signed_in?
-      li class='nav-item'
+      li.nav-item
         = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link'
     - else
-      li class='nav-item'
+      li.nav-item
         = link_to 'Sign in', new_user_session_path, class: 'nav-link'
-      li class='nav-item'
+      li.nav-item
         = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
 

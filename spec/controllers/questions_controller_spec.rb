@@ -7,7 +7,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 2) }
     before { get :index }
 
     it 'show an array of all questions' do

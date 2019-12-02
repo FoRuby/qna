@@ -1,21 +1,21 @@
-div class='question' id="question-#{@question.id}"
+.question id="question-#{@question.id}"
 
   = render template: 'questions/edit', question: @question
 
   .question-content
-    div class='row'
-      div class='col-6 question-title'
+    .row
+      .col-6.question-title
         h1= @question.title
 
-    div class='row'
-      div class='col question-body'
+    .row
+      .col.question-body
         p= @question.body
 
-    div class='row'
-      div class='col links'
+    .row
+      .col.links
         = render 'links/link', resource: @question
 
-      div class='col attachments'
+      .col.attachments
         = render 'attachments/attachment', resource: @question
 
   - if current_user&.author?(@question)
