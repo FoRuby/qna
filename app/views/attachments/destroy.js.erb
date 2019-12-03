@@ -1,8 +1,9 @@
 <% if @attachment.destroyed? %>
-  $('#attachment-<%= @attachment.id %>').remove();
-  $('<%= record_css_id_of_attachment(@attachment) %> .attachment-control')
-    .toggleClass('hidden');
+  $('<%= record_css_id_of_attachment(@attachment) %> .attachments')
+    .html('<%= j render 'attachments/attachment', resource: @attachment.record %>');
+
+  $('<%= record_css_id_of_attachment(@attachment) %> .attachments-delete')
+    .html('<%= j render 'attachments/delete', resource: @attachment.record %>');
 
   $('.flash-messages').html('<%= j render 'shared/messages' %>');
 <% end %>
-

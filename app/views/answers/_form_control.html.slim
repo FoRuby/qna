@@ -1,0 +1,14 @@
+br
+.answer-control
+  .row
+    .col-6
+      = link_to 'Edit answer',
+                '#',
+                class: 'edit-answer-link',
+                data: { answer_id: answer.id }
+      = ' | '
+      = link_to 'Delete answer',
+                answer_path(answer),
+                method: :delete,
+                remote: true,
+                data: { confirm: "Are you sure?" }

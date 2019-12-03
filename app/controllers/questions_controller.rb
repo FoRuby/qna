@@ -8,11 +8,12 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-    @answers = @question.answers
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new
   end
 
   def create
@@ -20,8 +21,6 @@ class QuestionsController < ApplicationController
     if @question.save
       flash[:success] = 'Your question successfully created.'
       redirect_to @question
-    else
-      render :new
     end
   end
 
@@ -50,6 +49,12 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(
+      :title,
+      :body,
+      files: [],
+      links_attributes: [:name, :url],
+      reward_attributes: [:title, :image]
+    )
   end
 end

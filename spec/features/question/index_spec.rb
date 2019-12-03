@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'User can view a list of all questions', %q{
   In order see the answer to a specific question
-  As a User
+  As User
   I'd like to see a list of all questions
 } do
 

@@ -1,3 +1,10 @@
 .hidden {
   display: none;
 }
+.delete-icon {
+  color: gray;
+  :hover {
+    color: red;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,15 @@
+-if resource.links.any?
+  .row
+    .col
+      p Links:
+  - resource.links.each do |link|
+    .row.justify-content-start.align-items-center
+      .col-2.text-center.link-control
+        = link_to material_icon.clear.md_36,
+                  link_path(link),
+                  class: 'delete-icon',
+                  method: :delete,
+                  remote: true,
+                  data: { confirm: "Are you sure?" }
+      .col-lg-auto.align-baseline
+        = link_to link.name, link.url, target: '_blank'

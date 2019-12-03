@@ -10,11 +10,14 @@ feature 'User can sign up', %q{
 
   describe 'User tries to sign up' do
     background { visit new_user_registration_path }
+
     scenario 'with valid params' do
       fill_in 'Email', with: 'testemail@example.com'
       fill_in 'Password', with: 'foobar'
       fill_in 'Password confirmation', with: 'foobar'
-      click_on 'Sign up'
+      within '.actions' do
+        click_on 'Sign up'
+      end
 
       expect(page).to have_content 'Welcome! You have signed up successfully.'
     end
@@ -23,7 +26,10 @@ feature 'User can sign up', %q{
       fill_in 'Email', with: 'testemail@example.com'
       fill_in 'Password', with: '5char'
       fill_in 'Password confirmation', with: '5char'
-      click_on 'Sign up'
+      within '.actions' do
+        click_on 'Sign up'
+      end
+
       expect(page).to have_content 'Password is too short (minimum is 6 characters)'
     end
 
@@ -31,7 +37,9 @@ feature 'User can sign up', %q{
       fill_in 'Email', with: 'testemail@example.com'
       fill_in 'Password', with: 'foobar'
       fill_in 'Password confirmation', with: 'foo'
-      click_on 'Sign up'
+      within '.actions' do
+        click_on 'Sign up'
+      end
 
       expect(page).to have_content "Password confirmation doesn't match Password"
     end
@@ -40,7 +48,9 @@ feature 'User can sign up', %q{
       fill_in 'Email', with: user.email
       fill_in 'Password', with: 'foobar'
       fill_in 'Password confirmation', with: 'foobar'
-      click_on 'Sign up'
+      within '.actions' do
+        click_on 'Sign up'
+      end
 
       expect(page).to have_content 'Email has already been taken'
     end
@@ -49,7 +59,9 @@ feature 'User can sign up', %q{
       fill_in 'Email', with: 'testemail@example.com'
       fill_in 'Password', with: 'foobar'
       fill_in 'Password confirmation', with: 'foobar'
-      click_on 'Sign up'
+      within '.actions' do
+        click_on 'Sign up'
+      end
       visit new_user_registration_path
 
       expect(page).to have_content 'You are already signed in.'

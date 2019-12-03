@@ -1,0 +1,9 @@
+<% if @link.destroyed? %>
+  $('<%= record_css_id_of_attachment(@attachment) %> .links')
+    .html('<%= j render 'links/link', resource: @link.linkable %>');
+
+  $('<%= record_css_id_of_attachment(@attachment) %> .links-delete')
+    .html('<%= j render 'links/delete', resource: @link.linkable %>');
+
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% end %>
