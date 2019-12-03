@@ -3,18 +3,23 @@ answerEditFormHandler = ->
     e.preventDefault()
 
     answer_id = $(this).data('answerId')
-    edit_form = $("form#edit-answer-#{answer_id}")
+    answer_edit_form = $("form#edit-answer-#{answer_id}")
+    answer_content = $("#answer-#{answer_id} .answer-content")
     answer_body = $("#answer-#{answer_id} .answer-body")
 
-    if edit_form.hasClass('hidden')
+    if answer_edit_form.hasClass('hidden')
       $(this).text('Cancel')
     else
       $(this).text('Edit answer')
-      $("form#edit-answer-#{answer_id} #answer_body").val(answer_body.text())
+      #при отмене в форму редактирования возвращает текст ответа
+      $("#answer_body").val(answer_body.text())
+      #при отмене очищаем форму линков
+      $("#answer-#{answer_id} .new-link-form input").val('')
+      #при отмене очищается форма с ошибками
       $('.edit-answer-errors').empty()
 
-    edit_form.toggleClass('hidden')
-    answer_body.toggleClass('hidden')
+    answer_edit_form.toggleClass('hidden')
+    answer_content.toggleClass('hidden')
 
 bestAnswerSelectorHandler = ->
   $('.question').on 'click', '.edit-best-answer-link', (e) ->

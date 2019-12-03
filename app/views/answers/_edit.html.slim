@@ -1,0 +1,32 @@
+.row
+  .col
+    .edit-answer-errors
+
+.row
+  .col
+    .edit-answer-form = form_with model: answer,
+                                  class: 'hidden',
+                                  id: "edit-answer-#{answer.id}" do |f|
+      .row
+        .col
+          h2 Edit your answer:
+
+      .row
+        .col-6.form-group
+          = f.label :body
+          = f.text_area :body, rows: 6, class: 'form-control'
+
+        .col-6
+          = render 'attachments/new', form: f
+
+          = render 'links/new', form: f
+
+      br
+
+      .row
+        .col.links-delete
+          = render 'links/delete', resource: answer
+        .col.attachments-delete
+          = render 'attachments/delete', resource: answer
+
+      = f.submit 'Save', class: 'btn btn-primary'

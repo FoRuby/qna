@@ -2,9 +2,13 @@ FactoryBot.define do
 
   factory :answer do
     sequence(:body) { |n| "AnswerBody#{n}" }
-    question { create(:question) }
-    user { create(:user) }
+    question
+    user
     best { false }
+  end
+
+  factory :answer_with_link, parent: :answer do
+    after(:build) { |answer| create(:link, linkable: answer) }
   end
 
   trait :invalid_answer do

@@ -2,23 +2,16 @@ require 'rails_helper'
 
 feature 'User can destroy question', %q{
   In order to delete question from system
-  As User
+  As author of question
   I'd like to be able to destroy question
 } do
 
-  given(:question_author) { create(:user) }
-  given(:answer_author) { create(:user) }
-  given(:question) do
-    create(:question_with_answers,
-      user: question_author,
-      answers_author: answer_author
-    )
-  end
+  given(:user) { create(:user) }
+  given!(:question) { create(:question) }
 
   describe 'Authenticated' do
-
-    scenario 'author tries delete a question' do
-      login(question_author)
+    scenario 'question author tries delete a question' do
+      login(question.user)
       visit question_path(question)
       click_on 'Delete question'
 
@@ -27,7 +20,7 @@ feature 'User can destroy question', %q{
     end
 
     scenario 'user tries delete foreign question' do
-      login(answer_author)
+      login(user)
       visit question_path(question)
 
       expect(page).to_not have_link 'Delete question'

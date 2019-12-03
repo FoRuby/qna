@@ -6,15 +6,8 @@ feature 'User can look a question with answers', %q{
   I'd like to see a question with all the answers
 } do
 
-  given(:user_author) { create(:user) }
   given(:user) { create(:user) }
-  given(:question) do
-    create(:question_with_answers,
-      user: user_author,
-      answers_count: 3,
-      answers_author: user
-    )
-  end
+  given(:question) { create(:question_with_answers, answers_count: 2) }
 
   scenario 'Unauthenticated user tries to see a question with answers' do
     visit question_path(question)
@@ -25,7 +18,7 @@ feature 'User can look a question with answers', %q{
   end
 
   scenario 'Authenticated user tries to see a question with answers' do
-    login(user_author)
+    login(question.user)
     visit question_path(question)
 
     expect(page).to have_content question.title

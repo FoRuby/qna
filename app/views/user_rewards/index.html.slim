@@ -1,0 +1,13 @@
+- if @user_rewards.any?
+  h1 Rewards:
+  table.table.table-bordered.w-auto
+    thead
+      tr.text-center
+        th scope='col' Reward
+        th scope='col' Reward title
+        th scope='col' Question title
+    tbody
+      = render partial: 'user_reward', collection: @user_rewards
+- else
+  h1 No Rewards yet.
+

@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-  let(:author) { create(:user) }
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: author) }
+  let(:question) { create(:question) }
 
   describe 'DELETE #destroy' do
     let!(:attached_file) { question.files.attach(create_file_blob).first }
 
     describe 'Authorized author' do
-      before { login(author) }
+      before { login(question.user) }
 
       it 'deletes attached file' do
         expect {

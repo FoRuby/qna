@@ -25,10 +25,14 @@ gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
 gem 'material_icons'
+gem 'cocoon'
 
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'octokit'
+gem 'faraday'
+gem 'mini_magick'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -56,7 +60,10 @@ group :test do
   gem 'launchy'
   gem 'webdrivers'
   gem 'shoulda-matchers'
+  gem 'shoulda-callback-matchers'
   gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

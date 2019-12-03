@@ -1,4 +1,10 @@
 class User < ApplicationRecord
+  has_many :answers, dependent: :destroy
+  has_many :questions, dependent: :destroy
+  has_many :rewards, dependent: :destroy
+
+  validates :email, presence: true, uniqueness: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
@@ -6,11 +12,6 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable
-
-  has_many :answers
-  has_many :questions
-
-  validates :email, presence: true, uniqueness: true
 
   def author?(item)
     return false unless item.respond_to?(:user)
