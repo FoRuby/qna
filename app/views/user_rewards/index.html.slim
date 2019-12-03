@@ -1,4 +1,4 @@
-- if @rewards.any?
+- if @user_rewards.any?
   h1 Rewards:
   table.table.table-bordered.w-auto
     thead
@@ -7,7 +7,7 @@
         th scope='col' Reward title
         th scope='col' Question title
     tbody
-      = render @rewards
+      = render partial: 'user_reward', collection: @user_rewards
 - else
   h1 No Rewards yet.
 

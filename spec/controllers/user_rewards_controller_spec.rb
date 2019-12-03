@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RewardsController, type: :controller do
+RSpec.describe UserRewardsController, type: :controller do
 
   let(:user) { create(:user) }
 
@@ -14,7 +14,7 @@ RSpec.describe RewardsController, type: :controller do
       end
 
       it 'assign @rewards to array of all user rewards' do
-        expect(assigns(:rewards)).to match_array(rewards)
+        expect(assigns(:user_rewards)).to match_array(rewards)
       end
 
       it 'render index view' do
@@ -26,7 +26,7 @@ RSpec.describe RewardsController, type: :controller do
       before { get :index }
 
       it 'does not assign @rewards to array of all user rewards' do
-        expect(assigns(:rewards)).to be_nil
+        expect(assigns(:user_rewards)).to be_nil
       end
 
       it 'does not render index view' do

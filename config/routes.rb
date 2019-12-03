@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'user_rewards/index'
   devise_for :users
   root to: 'questions#index'
-  get 'rewards/index'
-  get 'user/rewards', to: 'rewards#index'
+  get 'user/rewards', to: 'user_rewards#index'
 
   resources :attachments, only: [:destroy]
   resources :links, only: [:destroy]
