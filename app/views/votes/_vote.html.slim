@@ -1,0 +1,31 @@
+-if current_user && !current_user.author?(resource)
+  .vote
+    .row
+      .col
+        = link_to material_icon.arrow_drop_up.md_48,
+                  polymorphic_path(resource, action: :vote_up),
+                  class: 'vote-up-icon',
+                  method: :patch,
+                  data: { type: :json },
+                  remote: true
+
+    .row
+      .col.rating
+          = resource.rating
+
+    .row
+      .col
+        = link_to material_icon.arrow_drop_down.md_48,
+                  polymorphic_path(resource, action: :vote_down),
+                  class: 'vote-down-icon',
+                  method: :patch,
+                  data: { type: :json },
+                  remote: true
+    .row
+     .col
+        = link_to material_icon.cancel.md_36,
+                  polymorphic_path(resource, action: :cancel_vote),
+                  class: 'vote-cancel-icon',
+                  method: :delete,
+                  data: { type: :json },
+                  remote: true
