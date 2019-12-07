@@ -3,7 +3,7 @@
     .row
       .col
         = link_to material_icon.arrow_drop_up.md_48,
-                  polymorphic_path(resource, action: :vote_up),
+                  polymorphic_path(resource, action: :vote, value: 1),
                   class: 'vote-up-icon',
                   method: :patch,
                   data: { type: :json },
@@ -16,7 +16,7 @@
     .row
       .col
         = link_to material_icon.arrow_drop_down.md_48,
-                  polymorphic_path(resource, action: :vote_down),
+                  polymorphic_path(resource, action: :vote, value: -1),
                   class: 'vote-down-icon',
                   method: :patch,
                   data: { type: :json },
@@ -24,8 +24,8 @@
     .row
      .col
         = link_to material_icon.cancel.md_36,
-                  polymorphic_path(resource, action: :cancel_vote),
+                  polymorphic_path(resource, action: :vote, value: 0),
                   class: 'vote-cancel-icon',
-                  method: :delete,
+                  method: :patch,
                   data: { type: :json },
                   remote: true

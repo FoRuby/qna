@@ -6,11 +6,7 @@ Rails.application.routes.draw do
   get 'user/rewards', to: 'user_rewards#index'
 
   concern :voted do
-    member do
-      patch :vote_up
-      patch :vote_down
-      delete :cancel_vote
-    end
+    patch :vote, on: :member
   end
 
   resources :attachments, only: [:destroy]
