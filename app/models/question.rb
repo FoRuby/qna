@@ -1,5 +1,6 @@
 class Question < ApplicationRecord
   include HasLinks
+  include HasVotes
 
   belongs_to :user
   has_one :reward, dependent: :destroy

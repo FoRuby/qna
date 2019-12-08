@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  include_examples 'links'
+  it_behaves_like 'linkable'
+  it_behaves_like 'votable'
 
   describe 'associations' do
     it { should belong_to(:user) }
