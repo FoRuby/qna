@@ -5,6 +5,8 @@ div id="answer-#{answer.id}"
   .answer-content
     .row
       .col-1.text-center
+        = render 'votes/vote', resource: answer
+
         - if answer.best?
           = content_tag :div,
                         material_icon.grade.md_36,

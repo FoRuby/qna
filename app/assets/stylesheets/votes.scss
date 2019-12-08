@@ -1,0 +1,22 @@
+.vote-up-icon {
+  color: gray;
+  :hover {
+    color: green;
+    cursor: pointer;
+  }
+}
+
+.vote-down-icon {
+  color: gray;
+  :hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.vote_cancel {
+  color: gray;
+  :hover {
+    cursor: pointer;
+  }
+}

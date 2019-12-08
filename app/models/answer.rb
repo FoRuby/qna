@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include HasLinks
+  include HasVotes
 
   default_scope -> { order(best: :desc, created_at: :asc) }
 
