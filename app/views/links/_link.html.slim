@@ -2,7 +2,7 @@
   .col.links
     p Links:
     - resource.links.each do |link|
-      .row id="link-#{link.id}"
+      .row.link id="link-#{link.id}"
         .col
           - if link.gist?
               p = link.gist_body

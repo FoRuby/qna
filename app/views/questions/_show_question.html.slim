@@ -17,11 +17,9 @@
             p= @question.body
 
         .row
-          .col.links
-            = render 'links/link', resource: @question
+          = render 'links/link', resource: @question
 
-          .col.attachments
-            = render 'attachments/attachment', resource: @question
+          = render 'attachments/attachment', resource: @question
 
   - if current_user&.author?(@question)
     = render 'questions/form_control', question: @question
