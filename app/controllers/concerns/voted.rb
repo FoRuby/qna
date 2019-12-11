@@ -8,16 +8,14 @@ module Voted
   def vote
     @vote = @votable.votes.new(user: current_user, value: params[:value])
 
-    @votable.vote_by(@vote) ? render_json : render_errors
+    if @votable.vote_by(@vote)
+      render 'votes/vote'
+    else
+      render_errors
+    end
   end
 
   private
-
-  def render_json
-    render json: { resourceName: @votable.class.name.downcase,
-                   resourceId: @votable.id,
-                   rating: @votable.rating }
-  end
 
   def render_errors
     render json: { errorMessages: @vote.errors.full_messages },

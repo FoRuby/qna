@@ -40,6 +40,8 @@ gem 'skim'
 gem 'sprockets'
 gem 'gon'
 
+gem 'rabl'
+
 gem 'mini_magick'
 
 # Reduces boot times through caching; required in config/boot.rb

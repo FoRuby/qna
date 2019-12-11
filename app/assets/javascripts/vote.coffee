@@ -1,9 +1,9 @@
 votesHandler = ->
   $('.vote').on 'ajax:success', (e) ->
-    rating = e.detail[0]['rating']
-    resourceName = e.detail[0]['resourceName']
-    resourceId = e.detail[0]['resourceId']
+    votableName = e.detail[0]['votable']['name']
+    votableId = e.detail[0]['votable']['id']
+    rating =  e.detail[0]['votable']['rating']
 
-    $("##{resourceName}-#{resourceId} .vote .rating").html(rating)
+    $("##{votableName}-#{votableId} .vote .rating").html(rating)
 
 $(document).on('turbolinks:load', votesHandler)
