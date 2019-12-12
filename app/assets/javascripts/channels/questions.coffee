@@ -1,8 +1,7 @@
-App.questions = App.cable.subscriptions.create "QuestionsChannel",
+App.cable.subscriptions.create { channel: "QuestionsChannel"},
+
   connected: ->
     # Called when the subscription is ready for use on the server
-    console.log 'CONNECTED QUESTIONS'
-    @perform 'follow'
 
   disconnected: ->
     # Called when the subscription has been terminated by the server

@@ -31,14 +31,9 @@ shared_examples_for 'voted' do
         }.to_not change { votable.rating }
       end
 
-      it 'returns data in json' do
+      it 'render vote.rabl' do
         patch :vote, params: { id: votable, value: 1, format: :json }
-
-        expect(JSON(response.body)).to eq({
-          'resourceName' => votable.class.name.downcase,
-          'resourceId' => votable.id,
-          'rating' => votable.rating
-        })
+        expect(response).to render_template :vote
       end
     end
 
