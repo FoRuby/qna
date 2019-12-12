@@ -1,7 +1,7 @@
 App.questions = App.cable.subscriptions.create "QuestionsChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
-    console.log 'CONNECTED'
+    console.log 'CONNECTED QUESTIONS'
     @perform 'follow'
 
   disconnected: ->
@@ -9,7 +9,5 @@ App.questions = App.cable.subscriptions.create "QuestionsChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    # console.log 'RECEIVED', data
-    console.log data
-    # $('.questions').append(data)
-    $('.questions').append("TESTTESTTESTTESTTESTTESTTESTTEST")
+    console.log 'RECEIVED question', data
+    $('.questions').append(JST['templates/question'](data))

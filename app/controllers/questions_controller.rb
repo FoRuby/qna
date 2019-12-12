@@ -50,12 +50,13 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.with_attached_files.find(params[:id])
+    gon.question_id = @question.id
   end
 
   def publish_question
     return if @question.errors.any?
 
-    ActionCable.server.broadcast 'questions', json: @question.to_json
+    ActionCable.server.broadcast 'questions', question: @question
   end
 
   def question_params

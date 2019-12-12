@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :set_question, only: :create
   before_action :set_answer, only: %i[update destroy mark_best]
 
+  after_action :publish_answer, only: :create
+
   def create
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question
@@ -41,6 +43,14 @@ class AnswersController < ApplicationController
       files: [],
       links_attributes: [:name, :url]
     )
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast "question_#{@question.id}",
+                                  answer: @answer,
+                                  rating: @answer.rating
   end
 
   def set_question

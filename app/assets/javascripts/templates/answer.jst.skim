@@ -1,0 +1,49 @@
+div id="answer-#{@answer.id}"
+  hr
+  .row
+    .col-1.text-center
+      .vote
+        .row
+          .col
+            a[href="/answers/#{@answer.id}/vote?value=1"
+              class = 'vote-up-icon'
+              data-method='patch'
+              data-type='json'
+              data-remote='true']
+              i.material-icons.md-48 arrow_drop_up
+        .row
+          .col.rating
+            = @rating
+
+        .row
+          .col
+            a[href="/answers/#{@answer.id}/vote?value=-1"
+              class='vote-down-icon'
+              data-method='patch'
+              data-type='json'
+              data-remote='true']
+              i.material-icons.md-48 arrow_drop_down
+
+        .row
+          .col
+            a[href="/answers/#{@answer.id}/vote?value=0"
+              class='vote-cancel-icon'
+              data-method='patch'
+              data-type='json'
+              data-remote='true']
+              i.material-icons.md-36 cancel
+
+      .row
+        .col
+          a[href="/answers/#{@answer.id}/mark_best"
+            class='edit-best-answer-icon hidden'
+            id="edit-best-answer-icon-#{@answer.id}"
+            data-method='patch'
+            data-type='json'
+            data-remote='true']
+            i.material-icons.md-36 done
+
+    .col
+      .row
+        .col.answer-body
+          p = @answer.body
