@@ -1,0 +1,4 @@
+.alert.alert-success.alert-dismissible.fade.show role='alert'
+  span = @success
+  button.close type='button' data-dismiss='alert' aria-label='Close'
+    span aria-hidden='true' &times;

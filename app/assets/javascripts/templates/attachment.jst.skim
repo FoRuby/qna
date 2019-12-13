@@ -1,7 +1,0 @@
-.col.attachments
-  p Attachments:
-  - for file in @attachments
-    .row.attachment id="attachment-#{file.id}"
-      .col.attachment-body
-        h1 = file.blob.filename
-        a href=file.blob.url target='_blank' = img

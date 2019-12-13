@@ -29,6 +29,7 @@ feature 'When user creates a new question,
 
       Capybara.using_session('guest') do
         expect(page).to have_content 'TestQuestion'
+        expect(page).to have_content 'There was a new Question. Answer it first.'
       end
     end
   end

@@ -35,11 +35,10 @@ feature 'When user creates a new answer,
       end
 
       Capybara.using_session('guest') do
-        within('.answers') do
-          expect(page).to have_link 'image1.jpg'
-          expect(page).to have_link 'Google', href: 'https://www.google.com/'
-          expect(page).to have_content 'AnswerBody'
-        end
+        expect(page).to have_link 'image1.jpg'
+        expect(page).to have_link 'Google', href: 'https://www.google.com/'
+        expect(page).to have_content 'AnswerBody'
+        expect(page).to have_content 'There was a new Answer.'
       end
     end
 
@@ -72,6 +71,7 @@ feature 'When user creates a new answer,
         expect(page).to_not have_link 'image1.jpg'
         expect(page).to_not have_link 'Google', href: 'https://www.google.com/'
         expect(page).to_not have_content 'AnswerBody'
+        expect(page).to_not have_content 'There was a new Answer.'
       end
     end
   end

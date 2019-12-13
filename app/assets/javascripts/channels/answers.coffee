@@ -18,3 +18,4 @@ App.cable.subscriptions
           rating: data.rating,
           attachments: data.attachments)
         )
+        $('.flash-messages').html(JST['templates/message'](success: data.success))

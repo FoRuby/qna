@@ -59,7 +59,8 @@ class AnswersController < ApplicationController
       answer: @answer,
       rating: @answer.rating,
       links: @answer.links,
-      attachments: attachments
+      attachments: attachments,
+      success: 'There was a new Answer.'
     }
 
     ActionCable.server.broadcast "question_#{@question.id}", data
