@@ -1,5 +1,7 @@
 - if resource.present? && resource.errors.present?
-  div class='card text-white bg-danger mb-3'
+  div class='card text-white bg-danger mb-3 alert alert-dismissible' role="error"
+    button type="button" class="close" data-dismiss="alert" aria-label="Close"
+      span aria-hidden="true" &times;
     b class='card-header'= "#{resource.errors.count} error(s) detected: "
     div class='card-body'
       ul

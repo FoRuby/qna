@@ -1,0 +1,28 @@
+.new-comment-errors
+
+.new-comment-form.hidden
+  .row
+    .col
+      h2 New Comment:
+
+      - if commentable.is_a?(Question)
+        = form_with model: Comment.new,
+                    url: question_comments_path(commentable),
+                    method: :post,
+                    class: 'new-comment' do |f|
+          .row
+            .col.form-group
+              = f.text_area :body, rows: 6, class: 'form-control'
+
+          = f.submit 'Create Comment', class: 'btn btn-primary'
+
+      - if commentable.is_a?(Answer)
+        = form_with model: Comment.new,
+                    url: answer_comments_path(commentable),
+                    method: :post,
+                    class: 'new-comment' do |f|
+          .row
+            .col.form-group
+              = f.text_area :body, rows: 6, class: 'form-control'
+
+          = f.submit 'Create Comment', class: 'btn btn-primary'
