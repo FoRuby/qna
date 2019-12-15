@@ -22,11 +22,7 @@ module Voted
            status: :forbidden
   end
 
-  def model_klass
-    controller_name.classify.constantize
-  end
-
   def set_votable
-    @votable = model_klass.find(params[:id])
+    @votable = controller_name.classify.constantize.find(params[:id])
   end
 end
