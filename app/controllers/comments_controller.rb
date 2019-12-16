@@ -1,15 +1,15 @@
 class CommentsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_context, only: [:create]
+  before_action :set_context, only: :create
+  before_action :set_question, only: :create
 
-  after_action :publish_comment, only: [:create]
+  after_action :publish_comment, only: :create
 
   def create
     @comment = @context.comments.new(comment_params)
     @comment.user = current_user
-    @comment.save
-    flash.now[:success] = 'Comment successfully created.'
+    flash.now[:success] = 'Comment successfully created.' if @comment.save
   end
 
   private
@@ -22,16 +22,6 @@ class CommentsController < ApplicationController
     @context = context_resource.find(context_id)
   end
 
-  def publish_comment
-    return if @comment.errors.any?
-
-    data = {
-      comment: @comment,
-      success: 'There was a new Comment.'
-    }
-    ActionCable.server.broadcast "question_#{question_id}_comments", data
-  end
-
   def context_resource
     params[:context].classify.constantize
   end
@@ -40,9 +30,23 @@ class CommentsController < ApplicationController
     params.fetch("#{params[:context].foreign_key}")
   end
 
-  def question_id
-    return @context.id if @context.is_a?(Question)
+  def set_question
+    # return @context.id if @context.is_a?(Question)
+    # return @context.question.id if @context.is_a?(Answer)
+    @question = @context if @context.is_a?(Question)
+    @question = @context.question if @context.is_a?(Answer)
+    @question
+  end
 
-    return @context.question.id if @context.is_a?(Answer)
+  def publish_comment
+    return if @comment.errors.any?
+
+    data = {
+      comment: @comment,
+      question_id: @question.id,
+      success: 'There was a new Comment.'
+    }
+
+    ActionCable.server.broadcast "question_#{@question.id}_comments", data
   end
 end

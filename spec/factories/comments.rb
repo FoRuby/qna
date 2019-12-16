@@ -4,4 +4,8 @@ FactoryBot.define do
     commentable { create(:question)}
     user
   end
+
+  trait :invalid_comment do
+    body { nil }
+  end
 end
