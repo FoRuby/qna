@@ -9,13 +9,12 @@ App.cable.subscriptions
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    console.log 'RECEIVED answer', data
-    # if gon.question_id == data.answer.question_id
     if gon.user_id != data.answer.user_id
       $('.answers').append(JST['templates/answer'](
         answer: data.answer,
         links: data.links,
         rating: data.rating,
-        attachments: data.attachments)
+        attachments: data.attachments,
+        current_user_id: gon.user_id)
       )
       $('.flash-messages').html(JST['templates/message'](success: data.success))

@@ -31,8 +31,6 @@ class CommentsController < ApplicationController
   end
 
   def set_question
-    # return @context.id if @context.is_a?(Question)
-    # return @context.question.id if @context.is_a?(Answer)
     @question = @context if @context.is_a?(Question)
     @question = @context.question if @context.is_a?(Answer)
     @question
@@ -46,7 +44,6 @@ class CommentsController < ApplicationController
       success: 'There was a new Comment.'
     }
 
-    # ActionCable.server.broadcast "question_#{@question.id}_comments", data
     CommentsChannel.broadcast_to(@question, data)
   end
 end

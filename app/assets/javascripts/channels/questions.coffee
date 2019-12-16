@@ -8,6 +8,5 @@ App.cable.subscriptions.create { channel: "QuestionsChannel"},
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    console.log 'RECEIVED question', data
     $('.questions').append(JST['templates/question'](question: data.question))
     $('.flash-messages').html(JST['templates/message'](success: data.success))

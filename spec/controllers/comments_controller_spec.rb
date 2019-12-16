@@ -104,6 +104,17 @@ RSpec.describe CommentsController, type: :controller do
 
             expect(response).to_not render_template :create
           end
+
+          it 'response status 401' do
+            post :create, params: {
+              question_id: question,
+              context: 'question',
+              comment: attributes_for(:comment),
+              format: :js
+            }
+
+            expect(response.status).to eq 401
+          end
         end
 
         context 'with invalid attributes' do
@@ -127,6 +138,17 @@ RSpec.describe CommentsController, type: :controller do
             }
 
             expect(response).to_not render_template :create
+          end
+
+          it 'response status 401' do
+            post :create, params: {
+              question_id: question,
+              context: 'question',
+              comment: attributes_for(:comment),
+              format: :js
+            }
+
+            expect(response.status).to eq 401
           end
         end
       end
@@ -230,6 +252,17 @@ RSpec.describe CommentsController, type: :controller do
 
             expect(response).to_not render_template :create
           end
+
+          it 'response status 401' do
+            post :create, params: {
+              question_id: question,
+              context: 'question',
+              comment: attributes_for(:comment),
+              format: :js
+            }
+
+            expect(response.status).to eq 401
+          end
         end
 
         context 'with invalid attributes' do
@@ -253,6 +286,17 @@ RSpec.describe CommentsController, type: :controller do
             }
 
             expect(response).to_not render_template :create
+          end
+
+          it 'response status 401' do
+            post :create, params: {
+              question_id: question,
+              context: 'question',
+              comment: attributes_for(:comment),
+              format: :js
+            }
+
+            expect(response.status).to eq 401
           end
         end
       end

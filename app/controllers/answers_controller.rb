@@ -63,7 +63,6 @@ class AnswersController < ApplicationController
       success: 'There was a new Answer.'
     }
 
-    # ActionCable.server.broadcast "question_#{@question.id}", data
     AnswersChannel.broadcast_to(@question, data)
   end
 
