@@ -43,10 +43,10 @@ class CommentsController < ApplicationController
 
     data = {
       comment: @comment,
-      question_id: @question.id,
       success: 'There was a new Comment.'
     }
 
-    ActionCable.server.broadcast "question_#{@question.id}_comments", data
+    # ActionCable.server.broadcast "question_#{@question.id}_comments", data
+    CommentsChannel.broadcast_to(@question, data)
   end
 end

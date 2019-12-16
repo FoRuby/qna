@@ -10,9 +10,7 @@ App.cable.subscriptions
     console.log 'RECEIVED comment', data
     type = data.comment.commentable_type.toLowerCase()
     id = data.comment.commentable_id
-    if gon.question_id == data.question_id
-      if gon.user_id != data.comment.user_id
-        console.log 'inside'
-        $("##{type}-#{id} .comments")
-          .append(JST['templates/comment'](comment: data.comment))
-        $('.flash-messages').html(JST['templates/message'](success: data.success))
+    if gon.user_id != data.comment.user_id
+      $("##{type}-#{id} .comments")
+        .append(JST['templates/comment'](comment: data.comment))
+      $('.flash-messages').html(JST['templates/message'](success: data.success))
