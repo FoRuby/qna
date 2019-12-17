@@ -1,6 +1,6 @@
 commentAddCommentButton = ->
-  $('body').on 'click', '.add-comment-link', (e) ->
-    e.preventDefault()
+  $('body').on 'click', '.add-comment-link', (event) ->
+    event.preventDefault()
 
     commentable_id = $(this).data('commentableId')
     commentable_type = $(this).data('commentableType')

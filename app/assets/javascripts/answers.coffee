@@ -1,6 +1,6 @@
 answerEditFormHandler = ->
-  $('.answers').on 'click', '.edit-answer-link', (e) ->
-    e.preventDefault()
+  $('.answers').on 'click', '.edit-answer-link', (event) ->
+    event.preventDefault()
 
     answer_id = $(this).data('answerId')
     answer_edit_form = $("form#edit-answer-#{answer_id}")
@@ -22,8 +22,8 @@ answerEditFormHandler = ->
     answer_content.toggleClass('hidden')
 
 bestAnswerSelectorHandler = ->
-  $('.question').on 'click', '.edit-best-answer-link', (e) ->
-    e.preventDefault()
+  $('.question').on 'click', '.edit-best-answer-link', (event) ->
+    event.preventDefault()
     $('.edit-best-answer-icon').toggleClass('hidden')
     $('.best-answer-icon').toggleClass('hidden')
 

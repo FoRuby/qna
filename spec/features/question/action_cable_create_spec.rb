@@ -11,10 +11,16 @@ feature 'When user creates a new question,
       Capybara.using_session('user') do
         login(user)
         visit questions_path
+
+        expect(page).to_not have_content 'TestQuestion'
+        expect(page).to_not have_content 'TestBody'
       end
 
       Capybara.using_session('guest') do
         visit questions_path
+
+        expect(page).to_not have_content 'TestQuestion'
+        expect(page).to_not have_content 'TestBody'
       end
 
       Capybara.using_session('user') do
@@ -30,6 +36,31 @@ feature 'When user creates a new question,
       Capybara.using_session('guest') do
         expect(page).to have_content 'TestQuestion'
         expect(page).to have_content 'There was a new Question. Answer it first.'
+      end
+    end
+
+    scenario 'invalid question does not appears
+      for all users who are on the same questions#index page' do
+      Capybara.using_session('user') do
+        login(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+        fill_in 'Title', with: 'TestQuestion'
+        fill_in 'Body', with: ''
+        click_on 'Ask'
+
+        expect(page).to have_content "Body can't be blank"
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to_not have_content 'TestQuestion'
       end
     end
   end

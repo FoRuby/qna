@@ -1,13 +1,8 @@
 class CommentsChannel < ApplicationCable::Channel
   def subscribed
-    stream_for question
+    stream_from "question_#{params[:question_id]}_comments"
   end
 
   def unsubscribed
-    stop_all_streams
-  end
-
-  def question
-    Question.find_by(id: params[:question_id])
   end
 end

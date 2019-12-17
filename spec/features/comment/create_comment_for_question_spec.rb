@@ -17,6 +17,8 @@ feature 'User can create comment for question', %q{
 
     scenario 'create comment' do
       within('.question') do
+        expect(page).to_not have_content 'CommentBody'
+
         click_on 'Add comment'
         find('#comment_body').fill_in with: 'CommentBody'
 

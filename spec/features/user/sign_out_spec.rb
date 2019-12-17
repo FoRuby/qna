@@ -10,7 +10,6 @@ feature 'User can sign out', %q{
 
   scenario 'User tries to sign out' do
     login(user)
-    # within('.header') { click_on 'Sign out' }
     click_on 'Sign out'
 
     expect(page).to have_content 'Signed out successfully.'

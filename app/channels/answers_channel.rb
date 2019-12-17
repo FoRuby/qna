@@ -4,7 +4,6 @@ class AnswersChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    stop_all_streams
   end
 
   def question

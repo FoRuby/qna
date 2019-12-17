@@ -1,27 +1,12 @@
-<% if @context.is_a? Question %>
-  <% if @comment.persisted? %>
-    $('.question .comments').append(
-      '<%= j render @comment, comment: @comment %>'
-    );
-    $('.question textarea#comment_body').val('');
-    $('.question .new-comment-form').addClass('hidden');
-    $('.flash-messages').html('<%= j render 'shared/messages' %>');
-  <% else %>
-    $('.question .new-comment-errors')
-      .html('<%= render 'shared/errors', resource: @comment %>');
-  <% end %>
-<% end %>
-
-<% if @context.is_a? Answer %>
-  <% if @comment.persisted? %>
-    $('#answer-<%= @context.id %> .comments').append(
-      '<%= j render @comment, comment: @comment %>'
-    );
-    $('#answer-<%= @context.id %> textarea#comment_body').val('');
-    $('#answer-<%= @context.id %> .new-comment-form').addClass('hidden');
-    $('.flash-messages').html('<%= j render 'shared/messages' %>');
-  <% else %>
-    $('#answer-<%= @context.id %> .new-comment-errors')
-      .html('<%= render 'shared/errors', resource: @comment %>');
-  <% end %>
+<% context = "#{@context.class.to_s.downcase}-#{@context.id}" %>
+<% if @comment.persisted? %>
+  $('#<%= context %> .comments').append(
+    '<%= j render @comment, comment: @comment %>'
+  );
+  $('#<%= context %>  textarea#comment_body').val('');
+  $('#<%= context %>  .new-comment-form').addClass('hidden');
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% else %>
+  $('#<%= context %>  .new-comment-errors')
+    .html('<%= render 'shared/errors', resource: @comment %>');
 <% end %>

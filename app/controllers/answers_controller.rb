@@ -49,7 +49,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     attachments = []
-    @answer.files.each do |attachment|
+    @answer.files.map do |attachment|
       attachments << { id: attachment.id,
                        url: url_for(attachment),
                        name: attachment.filename.to_s }

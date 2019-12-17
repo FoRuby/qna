@@ -7,9 +7,10 @@ App.cable.subscriptions
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    return if gon.user_id is data.comment.user_id
+
     type = data.comment.commentable_type.toLowerCase()
     id = data.comment.commentable_id
-    if gon.user_id != data.comment.user_id
-      $("##{type}-#{id} .comments")
-        .append(JST['templates/comment'](comment: data.comment))
-      $('.flash-messages').html(JST['templates/message'](success: data.success))
+    $("##{type}-#{id} .comments")
+      .append(JST['templates/comment'](comment: data.comment))
+    $('.flash-messages').html(JST['templates/message'](success: data.success))
