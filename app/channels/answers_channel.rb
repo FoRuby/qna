@@ -3,9 +3,6 @@ class AnswersChannel < ApplicationCable::Channel
     stream_for question
   end
 
-  def unsubscribed
-  end
-
   def question
     Question.find_by(id: params[:question_id])
   end
