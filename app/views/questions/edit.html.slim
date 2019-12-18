@@ -29,10 +29,9 @@
       br
 
       .row
-        .col.links-delete
-          = render 'links/delete', resource: @question
-        .col.attachments-delete
-          = render 'attachments/delete', resource: @question
+        = render 'links/delete', resource: @question
+
+        = render 'attachments/delete', resource: @question
 
       = f.submit 'Save', class: 'btn btn-primary'
 

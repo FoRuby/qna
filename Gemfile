@@ -10,7 +10,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -24,15 +24,26 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
+# Google icons
 gem 'material_icons'
+# Nested forms
 gem 'cocoon'
-
+# Bootstrap
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'slim-rails'
+
 gem 'octokit'
 gem 'faraday'
+
+gem 'skim'
+gem 'sprockets'
+gem 'gon'
+
+gem 'rabl'
+
 gem 'mini_magick'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -40,7 +51,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'dotenv-rails'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails', '~> 4.0.0.beta2'
+  gem 'rspec-rails'
   gem 'factory_bot_rails'
 end
 
@@ -55,7 +66,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   # Acceptance tests page opener
   gem 'launchy'
   gem 'webdrivers'

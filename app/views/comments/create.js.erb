@@ -1,0 +1,12 @@
+<% context = "#{@context.class.to_s.downcase}-#{@context.id}" %>
+<% if @comment.persisted? %>
+  $('#<%= context %> .comments').append(
+    '<%= j render @comment, comment: @comment %>'
+  );
+  $('#<%= context %>  textarea#comment_body').val('');
+  $('#<%= context %>  .new-comment-form').addClass('hidden');
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% else %>
+  $('#<%= context %>  .new-comment-errors')
+    .html('<%= render 'shared/errors', resource: @comment %>');
+<% end %>

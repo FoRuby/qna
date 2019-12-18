@@ -1,6 +1,6 @@
 questionEditFormHandler = ->
-  $('.question').on 'click', '.edit-question-link', (e) ->
-    e.preventDefault()
+  $('.question').on 'click', '.edit-question-link', (event) ->
+    event.preventDefault()
 
     if $(".edit-question-form form").hasClass('hidden')
       $(this).text('Cancel')

@@ -1,0 +1,6 @@
+hr
+div id="comment-#{@comment.id}"
+  .comment-content
+    .row
+      .col
+        p = @comment.body

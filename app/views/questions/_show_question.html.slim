@@ -7,7 +7,7 @@
       .col-1.text-center
         = render 'votes/vote', resource: @question
 
-      .col
+      .col-11
         .row
           .col-6.question-title
             h1= @question.title
@@ -17,11 +17,23 @@
             p= @question.body
 
         .row
-          .col.links
-            = render 'links/link', resource: @question
+          = render 'links/link', resource: @question
 
-          .col.attachments
-            = render 'attachments/attachment', resource: @question
+          = render 'attachments/attachment', resource: @question
+
+        - if user_signed_in?
+          = link_to 'Add comment',
+                    '#',
+                    class: 'add-comment-link',
+                    data: { commentable_type: @question.class.to_s.downcase,
+                            commentable_id: @question.id }
+        .row
+          .col.new-comment
+            = render 'comments/new', commentable: @question
+
+        .row
+          .col.comments
+            = render @question.comments
 
   - if current_user&.author?(@question)
     = render 'questions/form_control', question: @question
