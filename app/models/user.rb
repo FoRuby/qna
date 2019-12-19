@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :rewards, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :authorizations, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
 
@@ -13,7 +14,12 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable
+         :validatable,
+         :omniauthable, omniauth_providers: [:github]
+
+  def self.find_for_oauth(auth)
+    Services::FindForOauth.new(auth).call
+  end
 
   def author?(item)
     return false unless item.respond_to?(:user)

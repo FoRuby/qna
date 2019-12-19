@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'user_rewards/index'
-  devise_for :users
   root to: 'questions#index'
+
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
   get 'user/rewards', to: 'user_rewards#index'
 
   concern :voted do
