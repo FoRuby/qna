@@ -26,6 +26,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-twitter'
+gem 'omniauth-yandex'
+
 # Google icons
 gem 'material_icons'
 # Nested forms

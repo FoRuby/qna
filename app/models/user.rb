@@ -15,7 +15,7 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
-         :omniauthable, omniauth_providers: [:github]
+         :omniauthable, omniauth_providers: %i[github twitter yandex]
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
