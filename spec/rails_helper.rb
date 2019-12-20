@@ -28,6 +28,8 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   # Add ControllerHelpers module for controllers testing
   config.include FeatureHelpers, type: :feature
+  # Add FeatureHelpers module for OmniAuth testing
+  config.include OmniauthHelper
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.include ActiveStorageHelpers
 
@@ -48,6 +50,9 @@ RSpec.configure do |config|
     FileUtils.rm_rf("#{Rails.root}/tmp/storage")
   end
 end
+
+OmniAuth.config.test_mode = true
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec

@@ -18,7 +18,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'QnA@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -264,12 +264,14 @@ Devise.setup do |config|
     Rails.application.credentials[Rails.env.to_sym][:github][:app_id],
     Rails.application.credentials[Rails.env.to_sym][:github][:app_secret],
     scope: 'user:email, read:user'
-  config.omniauth :twitter,
-    Rails.application.credentials[Rails.env.to_sym][:twitter][:app_id],
-    Rails.application.credentials[Rails.env.to_sym][:twitter][:app_secret]
+
   config.omniauth :yandex,
     Rails.application.credentials[Rails.env.to_sym][:yandex][:app_id],
     Rails.application.credentials[Rails.env.to_sym][:yandex][:app_secret]
+
+  config.omniauth :vkontakte,
+    Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_id],
+    Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
