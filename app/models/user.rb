@@ -19,14 +19,10 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: %i[github yandex vkontakte]
 
   def self.find_for_oauth(auth, email)
-    Services::FindForOauth.new(auth, email).call
+    FindForOauthService.new(auth, email).call
   end
 
-  def self.find_by_auth(auth)
-    Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
-  end
-
-  def self.find_or_create(email)
+  def self.find_or_create!(email)
     user = User.find_by(email: email)
     user || create_user_with_rand_password!(email)
   end

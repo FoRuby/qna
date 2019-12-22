@@ -21,7 +21,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def fill_email
     cookies[:email] = params[:email]
-    user = User.find_or_create(params[:email])
+    user = User.find_or_create!(params[:email])
     confirmed_message(user)
   end
 

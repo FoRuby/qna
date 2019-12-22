@@ -1,12 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Authorization, type: :model do
-  context 'associations' do
+  describe 'associations' do
     it { should belong_to(:user) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     it { should validate_presence_of :provider }
     it { should validate_presence_of :uid }
+    it { should validate_presence_of :user }
+
+    context 'uniqueness of user scoped to [:provider, :uid]' do
+      let!(:authorization) { create(:authorization) }
+
+      it { should validate_uniqueness_of(:user).scoped_to(:provider, :uid) }
+    end
   end
 end

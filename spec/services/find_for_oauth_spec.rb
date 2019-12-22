@@ -1,39 +1,51 @@
 require 'rails_helper'
 
-RSpec.describe Services::FindForOauth do
-  let!(:user) {create(:user)}
+RSpec.describe FindForOauthService do
+  let!(:user) { create(:user) }
   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
 
   describe 'user already exist' do
-    context 'user exist by email' do
-      let(:email) { user.email }
-      subject { Services::FindForOauth.new(auth, email) }
+    subject { FindForOauthService.new(auth, user.email) }
 
+    context 'user exist by email' do
       it 'returns user by email' do
         expect(subject.call).to eq user
+      end
+
+      it 'does not create new user' do
+        expect { subject.call }.to_not change(User, :count)
+      end
+
+      it 'create new authorization' do
+        expect { subject.call }.to change(user.authorizations, :count)
       end
     end
 
     context 'user has authorization' do
-      subject { Services::FindForOauth.new(auth, 'user@example.com') }
+      let!(:authorization) do
+        create(:authorization, user: user, provider: 'facebook', uid: '123456')
+      end
+
+      it 'does not create new user' do
+        expect { subject.call }.to_not change(User, :count)
+      end
+
+      it 'does not create new authorization' do
+        expect { subject.call }.to_not change(Authorization, :count)
+      end
 
       it 'returns the user' do
-        user.authorizations.create(provider: 'facebook', uid: '123456')
-
         expect(subject.call).to eq user
       end
     end
 
     context 'user has not authorization' do
       context 'user already exists' do
-        let(:email) { user.email }
-        subject { Services::FindForOauth.new(auth, email) }
-
         it 'does not create new user' do
           expect { subject.call }.to_not change(User, :count)
         end
 
-        it 'create authorization for user' do
+        it 'create authorization for new user' do
           expect { subject.call }.to change(user.authorizations, :count).by(1)
         end
 
@@ -45,7 +57,7 @@ RSpec.describe Services::FindForOauth do
   end
 
   describe 'user does not exist' do
-    subject { Services::FindForOauth.new(auth, 'user@example.ru') }
+    subject { FindForOauthService.new(auth, 'user@example.ru') }
 
     it 'creates new user' do
       expect { subject.call }.to change(User, :count).by(1)

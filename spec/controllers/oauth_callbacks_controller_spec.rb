@@ -37,7 +37,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to eq user
       end
 
-
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
       end
@@ -172,37 +171,45 @@ RSpec.describe OauthCallbacksController, type: :controller do
     before { @request.env['devise.mapping'] = Devise.mappings[:user] }
 
     describe 'user exist' do
-      before do
-        post :fill_email, params: { email: user.email }
-      end
-
       it 'sets user email in session' do
+        post :fill_email, params: { email: user.email }
         expect(cookies[:email]).to eq user.email
       end
 
+      it 'does not create new user' do
+        expect { post :fill_email, params: { email: user.email } }
+          .to_not change(User, :count)
+      end
+
       it 'redirects to user_session_path' do
+        post :fill_email, params: { email: user.email }
         expect(response).to redirect_to user_session_path
       end
 
       it 'show flash message' do
+        post :fill_email, params: { email: user.email }
         expect(flash[:success]).to eq 'You can sign in by provider'
       end
     end
 
     describe 'user does not exist' do
-      before do
-        post :fill_email, params: { email: 'user@example.com' }
-      end
-
       it 'sets user email in session' do
+        post :fill_email, params: { email: 'user@example.com' }
         expect(cookies[:email]).to eq 'user@example.com'
       end
 
+      it 'create new user' do
+        expect { post :fill_email, params: { email: 'user@example.com' } }
+          .to change(User, :count)
+      end
+
       it 'redirects to user_session_path' do
+        post :fill_email, params: { email: 'user@example.com' }
         expect(response).to redirect_to user_session_path
       end
 
       it 'show flash message' do
+        post :fill_email, params: { email: 'user@example.com' }
         expect(flash[:success]).to eq 'We send you email on user@example.com for confirmation '
       end
     end

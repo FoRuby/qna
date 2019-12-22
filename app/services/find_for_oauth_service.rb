@@ -1,4 +1,4 @@
-class Services::FindForOauth
+class FindForOauthService
   attr_reader :auth, :email
 
   def initialize(auth, email)
@@ -10,7 +10,7 @@ class Services::FindForOauth
     authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
-    user = User.find_or_create(email)
+    user = User.find_or_create!(email)
     user.authorizations.create!(provider: auth.provider, uid: auth.uid)
     user
   end

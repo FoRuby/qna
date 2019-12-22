@@ -55,10 +55,20 @@ feature 'Authorization from providers', %q{
   end
 
   describe 'Sign in with Vkontakte' do
-    scenario 'existing user' do
+    before do
       mock_auth :vkontakte
       click_on 'Sign in with Vkontakte'
+    end
 
+    scenario 'Try to sign up with invalid email', js:true do
+      fill_in 'Email', with: 'invalid_email'
+      click_on 'Confirm'
+
+      expect(current_path).to eql(user_vkontakte_omniauth_authorize_path)
+      expect(page).to_not have_content 'We send you email on invalid_email for confirmation'
+    end
+
+    scenario 'existing user' do
       fill_in 'Email', with: user.email
       click_on 'Confirm'
 
@@ -68,11 +78,10 @@ feature 'Authorization from providers', %q{
     end
 
     scenario 'does not existing user' do
-      mock_auth :vkontakte
-      click_on 'Sign in with Vkontakte'
-
       fill_in 'Email', with: 'new_user@example.com'
       click_on 'Confirm'
+
+      expect(page).to have_content 'We send you email on new_user@example.com for confirmation'
 
       open_email 'new_user@example.com'
       current_email.click_link 'Confirm my account'
