@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
-  get 'user_rewards/index'
-  devise_for :users
   root to: 'questions#index'
+
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  devise_scope :user do
+    post '/fill_email', to: 'oauth_callbacks#fill_email'
+  end
+
   get 'user/rewards', to: 'user_rewards#index'
 
   concern :voted do
