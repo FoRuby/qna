@@ -19,7 +19,10 @@ feature 'User can sign up', %q{
         click_on 'Sign up'
       end
 
-      expect(page).to have_content 'Welcome! You have signed up successfully.'
+      open_email 'testemail@example.com'
+      current_email.click_link 'Confirm my account'
+
+      expect(page).to have_content 'Your email address has been successfully confirmed.'
     end
 
     scenario 'with invalid password length' do
@@ -53,18 +56,6 @@ feature 'User can sign up', %q{
       end
 
       expect(page).to have_content 'Email has already been taken'
-    end
-
-    scenario 'repeatedly' do
-      fill_in 'Email', with: 'testemail@example.com'
-      fill_in 'Password', with: 'foobar'
-      fill_in 'Password confirmation', with: 'foobar'
-      within '.actions' do
-        click_on 'Sign up'
-      end
-      visit new_user_registration_path
-
-      expect(page).to have_content 'You are already signed in.'
     end
   end
 end
