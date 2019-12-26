@@ -1,3 +1,5 @@
+FactoryBot.create(:admin, email: 'admin@example.com')
+
 question_authors = FactoryBot.create_list(:user, 3)
 answer_authors = FactoryBot.create_list(:user, 3)
 

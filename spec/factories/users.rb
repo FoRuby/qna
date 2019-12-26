@@ -5,4 +5,8 @@ FactoryBot.define do
     password_confirmation { 'foobar' }
     confirmed_at { Time.now }
   end
+
+  factory :admin, parent: :user do
+    admin { true }
+  end
 end
