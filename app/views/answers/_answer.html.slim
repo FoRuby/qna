@@ -31,7 +31,7 @@ div id="answer-#{answer.id}"
 
           = render 'attachments/attachment', resource: answer
 
-        - if user_signed_in?
+        - if can?(:create, Comment)
           = link_to 'Add comment',
                     '#',
                     class: 'add-comment-link',
