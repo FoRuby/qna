@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: :create
 
+  authorize_resource
+
   def create
     @answer = current_user.answers.new(answer_params)
     @answer.question = @question

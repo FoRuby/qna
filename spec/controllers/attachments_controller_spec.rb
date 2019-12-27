@@ -32,10 +32,10 @@ RSpec.describe AttachmentsController, type: :controller do
         }.to_not change(question.files, :count)
       end
 
-      it 'render destroy view' do
+      it 'does not render destroy view' do
         delete :destroy, params: { id: attached_file, format: :js }
 
-        expect(response).to render_template :destroy
+        expect(response).to_not render_template :destroy
       end
     end
 

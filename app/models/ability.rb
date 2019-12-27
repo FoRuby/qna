@@ -22,7 +22,24 @@ class Ability
   def user_abilityes
     guest_abilityes
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user_id: user.id
+
+    can %i[update destroy], [Question, Answer], user_id: user.id
+
+    can :vote, [Question, Answer] do |votable|
+      votable.user_id != user.id
+    end
+
+    can :destroy, Link do |link|
+      link.linkable.user_id == user.id
+    end
+
+    can :destroy, ActiveStorage::Attachment do |attachment|
+      attachment.record.user_id == user.id
+    end
+
+    can :mark_best, Answer do |answer|
+      answer.question.user_id == user.id
+    end
   end
 
   def admin_abilityes

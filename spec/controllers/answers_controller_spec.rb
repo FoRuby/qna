@@ -194,7 +194,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(response).to render_template :update
+          expect(response).to_not render_template :update
         end
       end
 
@@ -208,14 +208,14 @@ RSpec.describe AnswersController, type: :controller do
           expect{ answer.reload }.to_not change(answer, :body)
         end
 
-        it 'render update view' do
+        it 'does not render update view' do
           patch :update, params: {
             id: answer,
             answer: attributes_for(:answer, :invalid_answer),
             format: :js
           }
 
-          expect(response).to render_template :update
+          expect(response).to_not render_template :update
         end
       end
     end
@@ -303,8 +303,8 @@ RSpec.describe AnswersController, type: :controller do
         expect{ answer.reload }.to_not change{answer.best}
       end
 
-      it 'render mark_best view' do
-        expect(response).to render_template :mark_best
+      it 'does not render mark_best view' do
+        expect(response).to_not render_template :mark_best
       end
     end
 
@@ -355,10 +355,10 @@ RSpec.describe AnswersController, type: :controller do
         }.to_not change(Answer, :count)
       end
 
-      it 'render destroy view' do
+      it 'does not render destroy view' do
         delete :destroy, params: { id: answer, format: :js }
 
-        expect(response).to render_template :destroy
+        expect(response).to_not render_template :destroy
       end
     end
 
