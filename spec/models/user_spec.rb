@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
     it { should have_db_index(:email).unique(:true) }
   end
 
-  describe '#author?(item)' do
+  describe '#author_of?(item)' do
     let(:author) { create(:user) }
     let(:not_author) { create(:user) }
     let(:question) { create(:question, user: author) }

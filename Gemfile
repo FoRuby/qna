@@ -29,6 +29,9 @@ gem 'omniauth-github'
 gem 'omniauth-yandex'
 gem 'omniauth-vkontakte'
 
+# Authorization
+gem 'cancancan'
+
 # Google icons
 gem 'material_icons'
 # Nested forms

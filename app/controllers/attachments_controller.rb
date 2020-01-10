@@ -2,8 +2,10 @@ class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_attachment
 
+  authorize_resource
+
   def destroy
-    if current_user.author?(@attachment.record)
+    if current_user.author_of?(@attachment.record)
       @attachment.purge
       flash.now[:success] = 'Attachment successfully deleted.'
     end

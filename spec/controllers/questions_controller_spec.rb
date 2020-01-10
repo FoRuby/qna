@@ -142,7 +142,7 @@ RSpec.describe QuestionsController, type: :controller do
           }.to_not change(Question, :count)
         end
 
-        it 'render new view' do
+        it 'does not render new view' do
           post :create, params: {
             question: attributes_for(:question, :invalid_question)
           }
@@ -239,14 +239,14 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to_not eq 'New question body'
         end
 
-        it 'render update view' do
+        it 'does not render update view' do
           patch :update, params: {
             id: question,
             question: attributes_for(:question),
             format: :js
           }
 
-          expect(response).to render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
@@ -264,8 +264,8 @@ RSpec.describe QuestionsController, type: :controller do
             .and not_change(question, :body)
         end
 
-        it 'render update view' do
-          expect(response).to render_template :update
+        it 'does not render update view' do
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
