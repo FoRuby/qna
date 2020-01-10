@@ -35,7 +35,7 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'does not render destroy view' do
         delete :destroy, params: { id: attached_file, format: :js }
 
-        expect(response).to_not render_template :destroy
+        expect(response).to have_http_status(:forbidden)
       end
     end
 

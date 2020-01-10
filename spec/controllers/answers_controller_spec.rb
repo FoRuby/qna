@@ -194,7 +194,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
@@ -215,7 +215,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -240,7 +240,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:unauthorized)
         end
       end
 
@@ -261,7 +261,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :js
           }
 
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:unauthorized)
         end
       end
     end
@@ -304,7 +304,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'does not render mark_best view' do
-        expect(response).to_not render_template :mark_best
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
@@ -358,7 +358,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not render destroy view' do
         delete :destroy, params: { id: answer, format: :js }
 
-        expect(response).to_not render_template :destroy
+        expect(response).to have_http_status(:forbidden)
       end
     end
 

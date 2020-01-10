@@ -5,7 +5,7 @@ class AttachmentsController < ApplicationController
   authorize_resource
 
   def destroy
-    if current_user.author?(@attachment.record)
+    if current_user.author_of?(@attachment.record)
       @attachment.purge
       flash.now[:success] = 'Attachment successfully deleted.'
     end

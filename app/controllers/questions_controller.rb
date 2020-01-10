@@ -31,14 +31,14 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author?(@question)
+    if current_user.author_of?(@question)
       @question.update(question_params)
       flash.now[:success] = 'Question successfully edited.'
     end
   end
 
   def destroy
-    if current_user.author?(@question)
+    if current_user.author_of?(@question)
       @question.destroy
       flash[:success] = 'Question successfully deleted.'
       redirect_to questions_path

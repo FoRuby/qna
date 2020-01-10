@@ -45,5 +45,5 @@ div id="answer-#{answer.id}"
           .col.comments
             = render answer.comments
 
-  - if current_user&.author?(answer)
+  - if current_user&.author_of?(answer)
     = render 'answers/form_control', answer: answer

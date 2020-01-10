@@ -36,7 +36,7 @@ class User < ApplicationRecord
     )
   end
 
-  def author?(item)
+  def author_of?(item)
     return false unless item.respond_to?(:user)
 
     id == item.user_id

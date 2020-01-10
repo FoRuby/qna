@@ -17,21 +17,21 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author?(@answer)
+    if current_user.author_of?(@answer)
       @answer.update(answer_params)
       flash.now[:success] = 'Answer successfully edited.'
     end
   end
 
   def mark_best
-    if current_user.author?(@answer.question)
+    if current_user.author_of?(@answer.question)
       @answer.mark_as_best!
       flash.now[:success] = 'Best answer selected.'
     end
   end
 
   def destroy
-    if current_user.author?(@answer)
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash.now[:success] = 'Answer successfully deleted.'
     end

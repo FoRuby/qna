@@ -24,19 +24,19 @@ class Ability
     can %i[update destroy], [Question, Answer], user_id: user.id
 
     can :vote, [Question, Answer] do |votable|
-      votable.user_id != user.id
+      not user.author_of?(votable)
     end
 
     can :destroy, Link do |link|
-      link.linkable.user_id == user.id
+      user.author_of?(link.linkable)
     end
 
     can :destroy, ActiveStorage::Attachment do |attachment|
-      attachment.record.user_id == user.id
+      user.author_of?(attachment.record)
     end
 
     can :mark_best, Answer do |answer|
-      answer.question.user_id == user.id
+      user.author_of?(answer.question)
     end
   end
 

@@ -246,7 +246,7 @@ RSpec.describe QuestionsController, type: :controller do
             format: :js
           }
 
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
@@ -265,7 +265,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'does not render update view' do
-          expect(response).to_not render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
