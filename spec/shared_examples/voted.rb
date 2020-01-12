@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'voted' do
 
   let!(:model) { described_class.controller_name.classify.constantize }
