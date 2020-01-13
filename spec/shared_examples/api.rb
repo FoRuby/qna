@@ -19,3 +19,25 @@ shared_examples_for 'Successful request' do
     expect(response).to be_successful
   end
 end
+
+shared_examples 'Public fields' do
+  it 'return all public fields' do
+    attributes.each do |attr|
+      expect(resource_response[attr]).to eq resource.send(attr).as_json
+    end
+  end
+end
+
+shared_examples 'Private fields' do
+  it 'does not returns private fields' do
+    attributes.each do |attr|
+      expect(resource_response).to_not have_key(attr)
+    end
+  end
+end
+
+shared_examples 'List' do
+  it 'returns list of resources' do
+    expect(resource_response.size).to eq resource.size
+  end
+end
