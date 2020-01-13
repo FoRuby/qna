@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
   skip_authorization_check
 
-  before_action :set_question, only: %i[show edit update destroy]
+  before_action :set_question, only: %i[show update destroy]
 
   def index
     @questions = Question.all

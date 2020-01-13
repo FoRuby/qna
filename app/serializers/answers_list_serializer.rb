@@ -1,3 +1,4 @@
 class AnswersListSerializer < ActiveModel::Serializer
-  attributes :id, :body, :user_id, :best, :created_at, :updated_at
+  attributes :id, :body, :best, :question_id, :created_at, :updated_at
+  belongs_to :user
 end
