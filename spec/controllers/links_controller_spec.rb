@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
-  let(:user) { create(:user) }
   let(:question) { create(:question) }
 
   describe 'DELETE #destroy' do
@@ -24,6 +23,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     describe 'Authorized not author' do
+      let(:user) { create(:user) }
       before { login(user) }
 
       it 'does not deletes link' do
