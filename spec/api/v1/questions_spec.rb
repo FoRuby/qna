@@ -5,10 +5,9 @@ describe 'Question API', type: :request do
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
+    let(:method) { :get }
 
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :get }
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -16,10 +15,10 @@ describe 'Question API', type: :request do
       let!(:answers) { create_list(:answer, 2, question: question) }
       let(:question) { questions.first }
       let(:question_response) { json['questions'].first }
+      let(:params) { { access_token: access_token.token } }
 
-      before do
-        do_request(:get, api_path, params: { access_token: access_token.token }, headers: headers)
-      end
+
+      before { do_request(method, api_path, params: params, headers: headers) }
 
       it_behaves_like 'Successful request'
 
@@ -60,20 +59,17 @@ describe 'Question API', type: :request do
     let!(:question) { create(:question) }
     let!(:comments) { create_list(:comment, 2, commentable: question) }
     let!(:links) { create_list(:link, 2, linkable: question) }
+    let(:method) { :get }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :get }
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let(:question_response) { json['question'] }
       let(:params) { { access_token: access_token.token } }
 
-      before do
-        do_request(:get, api_path, params: params, headers: headers)
-      end
+      before { do_request(method, api_path, params: params, headers: headers) }
 
       it_behaves_like 'Successful request'
 
@@ -107,66 +103,57 @@ describe 'Question API', type: :request do
   end
 
   describe 'POST /api/v1/questions' do
+    let(:method) { :post }
     let(:api_path) { '/api/v1/questions' }
 
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :post }
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let(:params) { { access_token: access_token.token } }
-
-      before do
-        do_request(:get, api_path, params: params, headers: headers)
-      end
 
       context 'with valid attributes' do
+        let(:params) do
+          {
+            question: attributes_for(:question),
+            access_token: access_token.token
+          }
+        end
+
         it 'saves a new question in database' do
-          expect {
-            post api_path,
-            params: {
-              question: attributes_for(:question),
-              access_token:access_token.token
-            }
+          expect{
+            do_request(method, api_path, params: params, headers: headers)
           }.to change(Question, :count).by(1)
         end
 
         it 'returns status :created' do
-          post api_path, params: {
-            question: attributes_for(:question),
-            access_token: access_token.token
-          }
+          do_request(method, api_path, params: params, headers: headers)
 
-          expect(response.status).to eq 201
+          expect(response).to have_http_status(:created)
         end
       end
 
       context 'with invalid attributes' do
+        let(:params) do
+          {
+            question: attributes_for(:question, :invalid_question),
+            access_token: access_token.token
+          }
+        end
+
         it 'does not save the question' do
           expect {
-            post api_path,
-            params: {
-              question: attributes_for(:question, :invalid_question),
-              access_token: access_token.token
-            }
+            do_request(method, api_path, params: params, headers: headers)
           }.to_not change(Question, :count)
         end
 
-        it 'returns status :unprocessible_entity' do
-          post api_path, params: {
-            question: attributes_for(:question, :invalid_question),
-            access_token: access_token.token
-          }
+        it 'returns status :unprocessable_entity' do
+          do_request(method, api_path, params: params, headers: headers)
 
-          expect(response.status).to eq 422
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'returns error message' do
-          post api_path, params: {
-            question: attributes_for(:question, :invalid_question),
-            access_token: access_token.token
-          }
+          do_request(method, api_path, params: params, headers: headers)
 
           expect(json['errors']).to be
         end
@@ -176,54 +163,50 @@ describe 'Question API', type: :request do
 
   describe 'PATCH /api/v1/questions/:id' do
     let(:user) { create(:user) }
-    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
     let(:question) { create(:question, user: user) }
+    let(:method) { :patch }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :patch }
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
       context 'with valid attributes' do
-        before do
-          patch api_path, params: {
-            id: question,
-            question: { title: 'New question title', body: 'New question body' },
+        let(:params) do
+          {
+            question: { title: 'Edited title', body: 'Edited body' },
             access_token: access_token.token
           }
         end
+
+        before { do_request(method, api_path, params: params, headers: headers) }
 
         it_behaves_like 'Successful request'
 
         it 'changes question attributes' do
-          question.reload
-
-          expect(question.title).to eq 'New question title'
-          expect(question.body).to eq 'New question body'
-        end
-
-        it 'returns status :created' do
-          expect(response.status).to eq 201
+          expect{question.reload}.to change(question, :title).to('Edited title')
+            .and change(question, :body).to('Edited body')
         end
       end
 
       context 'with invalid attributes' do
-        before do
-          patch api_path, params: {
-            id: question,
-            question: { title: '', body: '' },
+        let(:params) do
+          {
+            question: attributes_for(:question, :invalid_question),
             access_token: access_token.token
           }
         end
 
+        before { do_request(method, api_path, params: params, headers: headers) }
+
         it 'does not change attributes of question' do
-          expect { question.reload }.to not_change(question, :title)
+          expect{ question.reload }.to not_change(question, :title)
             .and not_change(question, :body)
         end
 
-        it 'returns status :unprocessible_entity' do
-          expect(response.status).to eq 422
+        it 'returns status :unprocessable_entity' do
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'returns error message' do
@@ -233,76 +216,72 @@ describe 'Question API', type: :request do
     end
 
     context 'not question author tries to update question' do
-      let(:other_user) { create(:user) }
-      let(:other_question) { create(:question, user: other_user) }
-      let(:other_api_path) { "/api/v1/questions/#{other_question.id}" }
-
-      before do
-        patch other_api_path, params: {
-          id: other_question,
-          question: { title: 'New question title', body: 'New question body' },
-          access_token: access_token.token }
+      let(:params) do
+        {
+          question: { title: 'Edited title', body: 'Edited body' },
+          access_token: create(:access_token).token
+        }
       end
 
-      it 'returns status 302' do
-        expect(response.status).to eq 302
+      before { do_request(method, api_path, params: params, headers: headers) }
+
+      it 'returns status :forbidden' do
+        expect(response).to have_http_status(:forbidden)
       end
 
       it 'does not change question attributes' do
-        other_question.reload
-
-        expect(other_question.title).to_not eq 'New question title'
-        expect(other_question.body).to_not eq 'New question body'
+        expect{ question.reload }.to not_change(question, :title)
+          .and not_change(question, :body)
       end
     end
   end
 
   describe 'DELETE /api/v1/questions/:id' do
     let(:user) { create(:user) }
-    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
-    let(:question) { create(:question, user: user) }
+    let!(:question) { create(:question, user: user) }
+    let(:method) { :delete }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :delete }
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
-      context 'delete question' do
-        let(:params) { { access_token: access_token.token } }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+      let(:params) { { access_token: access_token.token } }
 
-        before do
-          do_request(:delete, api_path, params: params, headers: headers)
+      context 'delete question' do
+        it 'returns status :ok' do
+          do_request(method, api_path, params: params, headers: headers)
+
+          expect(response).to have_http_status(:ok)
         end
 
-        it_behaves_like 'Successful request'
-
         it 'deletes question from DB' do
-          expect(Question.count).to eq 0
+          expect{
+            do_request(method, api_path, params: params, headers: headers)
+          }.to change{Question.count}.by(-1)
         end
 
         it 'returns json message' do
+          do_request(method, api_path, params: params, headers: headers)
+
           expect(json['messages']).to include 'Question was successfully deleted.'
         end
       end
     end
 
-    context 'not question author' do
-      let(:other_user) { create(:user) }
-      let(:other_question) { create(:question, user: other_user) }
-      let(:other_api_path) { "/api/v1/questions/#{other_question.id}" }
-      let(:params) { { access_token: access_token.token } }
+    context 'not question author tries to delete question' do
+      let(:params) { { access_token: create(:access_token).token } }
 
-      before do
-        do_request(:delete, other_api_path, params: params, headers: headers)
-      end
+      it 'returns status :forbidden' do
+        do_request(method, api_path, params: params, headers: headers)
 
-      it 'returns status 403' do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status(:forbidden)
       end
 
       it 'does not deletes question from DB' do
-        expect(Question.count).to eq 1
+        expect{
+          do_request(method, api_path, params: params, headers: headers)
+        }.to_not change{Question.count}
       end
     end
   end
