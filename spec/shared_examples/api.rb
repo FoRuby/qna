@@ -11,6 +11,12 @@ shared_examples_for 'API Authorizable' do
 
       expect(response).to have_http_status(401)
     end
+
+    it 'response body is empty' do
+      do_request(method, api_path, params: { access_token: 'invalid_token' }, headers: headers)
+
+      expect(response.body).to be_empty
+    end
   end
 end
 
