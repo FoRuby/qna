@@ -4,7 +4,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   before_action :set_question, only: %i[show update destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.includes(:answers)
     render json: @questions, each_serializer: QuestionsListSerializer
   end
 
