@@ -20,6 +20,10 @@ RSpec.describe UserRewardsController, type: :controller do
       it 'render index view' do
         expect(response).to render_template :index
       end
+
+      it 'returns status :ok' do
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context 'Unauthorized user' do
@@ -33,8 +37,12 @@ RSpec.describe UserRewardsController, type: :controller do
         expect(response).to_not render_template :index
       end
 
-      it 'returns 302 status code redirect to login page' do
-        expect(response).to have_http_status(302)
+      it 'redirect to login page' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'returns status :redirect' do
+        expect(response).to have_http_status(:redirect)
       end
     end
   end

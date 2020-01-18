@@ -28,6 +28,10 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-yandex'
 gem 'omniauth-vkontakte'
+gem 'doorkeeper', '5.1.0'
+
+gem 'active_model_serializers'
+gem 'oj'
 
 # Authorization
 gem 'cancancan'

@@ -34,6 +34,8 @@ RSpec.configure do |config|
   config.include OmniauthHelper
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.include ActiveStorageHelpers
+  # Add ApiHelpers module for request testing
+  config.include ApiHelpers, type: :request
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   Capybara.javascript_driver = :selenium_chrome_headless
