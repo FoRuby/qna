@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-RSpec.shared_examples 'votable' do
+shared_examples_for 'votable' do
 
   describe 'associations' do
     it { should have_many(:votes).dependent(:destroy) }
