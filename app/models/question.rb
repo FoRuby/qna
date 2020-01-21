@@ -12,4 +12,12 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank, allow_destroy: true
+
+  after_commit :calculate_reputation, on: :create
+
+  private
+
+  # def calculate_reputation
+  #   ReputationJob.perform_later(self)
+  # end
 end
