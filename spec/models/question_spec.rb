@@ -26,13 +26,7 @@ RSpec.describe Question, type: :model do
     it { should validate_presence_of :body }
   end
 
-  describe 'subscription' do
-    let(:question) { build(:question) }
-
-    it 'calls ReputationJob' do
-      expect(ReputationJob).to receive(:perform_later).with(question)#.and_call_original
-
-      question.save!
-    end
+  describe 'callbacks' do
+    it { should callback(:create_subscription).after(:create) }
   end
 end
