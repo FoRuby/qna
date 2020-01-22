@@ -42,6 +42,14 @@ class Ability
     can :mark_best, Answer do |answer|
       user.author_of?(answer.question)
     end
+
+    can :subscribe, Question do |question|
+      not user.subscribed_on?(question)
+    end
+
+    can :unsubscribe, Question do |question|
+      user.subscribed_on?(question)
+    end
   end
 
   def admin_abilityes

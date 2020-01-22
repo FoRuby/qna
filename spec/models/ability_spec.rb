@@ -31,6 +31,16 @@ RSpec.describe Ability do
       it { should_not be_able_to :destroy, other_question }
     end
 
+    context 'Subscription' do
+      # может подписаться на чужой вопрос
+      it { should be_able_to :subscribe, other_question }
+      # не может подписаться на свой вопрос, т.к. подписан при создании
+      it { should_not be_able_to :subscribe, question }
+
+      it { should be_able_to :unsubscribe, question }
+      it { should_not be_able_to :unsubscribe, other_question }
+    end
+
     context 'Answer' do
       it { should be_able_to :create, Answer }
 

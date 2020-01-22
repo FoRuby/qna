@@ -16,9 +16,17 @@ class Question < ApplicationRecord
 
   after_create :create_subscription
 
+  def subscribe(user)
+    subscriptions.create(user_id: user.id)
+  end
+
+  def unsubscribe(user)
+    subscriptions.where(user_id: user.id).destroy_all
+  end
+
   private
 
   def create_subscription
-    subscriptions.create(user: user)
+    subscribe(user)
   end
 end
