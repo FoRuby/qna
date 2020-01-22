@@ -14,7 +14,6 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank, allow_destroy: true
 
-  # after_commit :calculate_reputation, on: :create
   after_create :create_subscription
 
   private
@@ -22,8 +21,4 @@ class Question < ApplicationRecord
   def create_subscription
     subscriptions.create(user: user)
   end
-
-  # def calculate_reputation
-  #   ReputationJob.perform_later(self)
-  # end
 end

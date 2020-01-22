@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
   validates :body, presence: true
   validates :best, uniqueness: { scope: :question_id }, if: :best?
 
+  after_commit :send_email_to_subscribers, on: :create
+
   def mark_as_best!
     transaction do
       question.answers.where.not(id: id).update_all(best: false)
@@ -20,5 +22,11 @@ class Answer < ApplicationRecord
       reward = question.reward
       reward.update!(user: user) if reward.present?
     end
+  end
+
+  private
+
+  def send_email_to_subscribers
+    NewAnswerNotificationJob.perform_later(self)
   end
 end
