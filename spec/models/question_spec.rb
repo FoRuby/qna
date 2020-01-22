@@ -9,6 +9,7 @@ RSpec.describe Question, type: :model do
     it { should belong_to(:user) }
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_one(:reward).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
 
     context 'have many attached files' do
       subject { Question.new.files }
