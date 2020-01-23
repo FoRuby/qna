@@ -8,7 +8,7 @@ RSpec.describe AnswerNotificationJob, type: :job do
     allow(AnswerNotificationService).to receive(:new).and_return(service)
   end
 
-  it 'calls AnswerNotification#send_notification' do
+  it 'calls AnswerNotificationService#send_notification' do
     expect(service).to receive(:send_notification).with(answer)
 
     AnswerNotificationJob.perform_now(answer)

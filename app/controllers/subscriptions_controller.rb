@@ -6,7 +6,7 @@ class SubscriptionsController < ApplicationController
     authorize! :subscribe, @question
 
     @subsciption = @question.subscribe(current_user)
-    flash[:success] = 'You successfully subscribed!'
+    flash[:success] = 'You successfully Subscribed'
   end
 
   def destroy
