@@ -21,7 +21,7 @@ class Question < ApplicationRecord
   end
 
   def unsubscribe(user)
-    subscriptions.where(user_id: user.id).destroy_all
+    subscriptions.find_by(user_id: user.id).destroy
   end
 
   private
