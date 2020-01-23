@@ -27,6 +27,6 @@ class Answer < ApplicationRecord
   private
 
   def send_email_to_subscribers
-    NewAnswerNotificationJob.perform_later(self)
+    AnswerNotificationJob.perform_later(self)
   end
 end

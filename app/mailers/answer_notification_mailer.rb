@@ -1,4 +1,4 @@
-class NewAnswerMailer < ApplicationMailer
+class AnswerNotificationMailer < ApplicationMailer
   def notification(answer, user)
     @answer = answer
 
