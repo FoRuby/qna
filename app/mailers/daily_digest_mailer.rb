@@ -1,6 +1,6 @@
 class DailyDigestMailer < ApplicationMailer
-  def digest(question_ids, user)
-    @questions = Question.where(id: question_ids)
+  def digest(user)
+    @questions = Question.where(created_at: 1.days.ago..Time.now)
 
     mail to: user.email
   end

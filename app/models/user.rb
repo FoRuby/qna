@@ -44,6 +44,6 @@ class User < ApplicationRecord
   end
 
   def subscribed_on?(question)
-    subscriptions.exists?(question_id: question.id)
+    subscriptions.exists?(question: question)
   end
 end

@@ -27,31 +27,46 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'callbacks' do
-    it { should callback(:create_subscription).after(:create) }
+    context 'after_create' do
+      let(:user) { create(:user) }
+      let(:question) { create(:question, user: user) }
+
+      it 'create new subscription' do
+        expect{question}.to change(Subscription, :count).by(1)
+      end
+
+      it 'assign question user to new subscription user' do
+        expect(question.subscriptions.last.user).to eq user
+      end
+      
+      it 'assign question to new subscription # QUESTION: ' do
+        expect(question.subscriptions.last.question).to eq question
+      end
+    end
   end
 
   describe 'methods' do
-    context '#subscribe(user)' do
+    context '#subscribe!(user)' do
       let!(:question) { create(:question) }
       let(:user) { create(:user) }
 
       it 'create new subscription' do
-        expect{question.subscribe(user)}.to change(Subscription, :count).by(1)
+        expect{question.subscribe!(user)}.to change(Subscription, :count).by(1)
       end
 
       it 'assign new subscription' do
-        question.subscribe(user)
+        question.subscribe!(user)
 
-        expect(question.subscriptions.last.user_id).to eq user.id
-        expect(question.subscriptions.last.question_id).to eq question.id
+        expect(question.subscriptions.last.user).to eq user
+        expect(question.subscriptions.last.question).to eq question
       end
     end
 
-    context '#unsubscribe(user)' do
+    context '#unsubscribe!(user)' do
       let!(:subscription) { create(:subscription) }
 
       it 'destroy subscription' do
-        expect{subscription.question.unsubscribe(subscription.user)}
+        expect{subscription.question.unsubscribe!(subscription.user)}
           .to change(Subscription, :count).by(-1)
       end
     end

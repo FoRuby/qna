@@ -5,14 +5,14 @@ class SubscriptionsController < ApplicationController
   def create
     authorize! :subscribe, @question
 
-    @subsciption = @question.subscribe(current_user)
+    @subsciption = @question.subscribe!(current_user)
     flash[:success] = 'You successfully Subscribed'
   end
 
   def destroy
     authorize! :unsubscribe, @question
 
-    @subsciption = @question.unsubscribe(current_user)
+    @subsciption = @question.unsubscribe!(current_user)
     flash[:success] = 'You successfully Unsubscribed'
   end
 
