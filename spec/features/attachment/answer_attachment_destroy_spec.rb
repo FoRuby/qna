@@ -48,4 +48,3 @@ feature 'User can destroy answer attachment', %q{
     end
   end
 end
-

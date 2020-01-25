@@ -6,11 +6,8 @@ module HasVotes
   end
 
   def vote_by(item)
-    if vote = votes.find_by(user: item.user)
-      vote.update(value: item.value)
-    else
-      item.save
-    end
+    vote = votes.find_by(user: item.user)
+    vote ? vote.update(value: item.value) : item.save
   end
 
   def rating

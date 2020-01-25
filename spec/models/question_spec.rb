@@ -38,7 +38,7 @@ RSpec.describe Question, type: :model do
       it 'assign question user to new subscription user' do
         expect(question.subscriptions.last.user).to eq user
       end
-      
+
       it 'assign question to new subscription # QUESTION: ' do
         expect(question.subscriptions.last.question).to eq question
       end

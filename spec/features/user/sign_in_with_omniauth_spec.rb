@@ -60,7 +60,7 @@ feature 'Authorization from providers', %q{
       click_on 'Sign in with Vkontakte'
     end
 
-    scenario 'Try to sign up with invalid email', js:true do
+    scenario 'Try to sign up with invalid email', js: true do
       fill_in 'Email', with: 'invalid_email'
       click_on 'Confirm'
 

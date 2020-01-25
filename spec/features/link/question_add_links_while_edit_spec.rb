@@ -79,7 +79,7 @@ feature 'User can add links to question while editing', %q{
             click_on 'Save'
           end
 
-          expect(page).to have_content "Links url invalid format"
+          expect(page).to have_content 'Links url invalid format'
         end
 
         scenario 'with invalid gist', :vcr do

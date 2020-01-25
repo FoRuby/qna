@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
     sequence(:body) { |n| "CommentBody#{n}" }
-    commentable { create(:question)}
+    commentable { create(:question) }
     user
   end
 

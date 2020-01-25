@@ -18,11 +18,8 @@ feature 'User can create question with attachments', %q{
     scenario 'asks a question with attached files' do
       fill_in 'Title', with: 'Title'
       fill_in 'Body', with: 'Body'
-      attach_file 'Files',
-        [
-          "#{Rails.root}/spec/fixtures/files/image1.jpg",
-          "#{Rails.root}/spec/fixtures/files/image2.jpg"
-        ]
+      attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/image1.jpg",
+                            "#{Rails.root}/spec/fixtures/files/image2.jpg"]
 
       click_on 'Ask'
 

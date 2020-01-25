@@ -8,7 +8,7 @@ FactoryBot.define do
       reward.image.attach(
         io: File.open("#{Rails.root}/spec/fixtures/files/image3.jpg"),
         filename: 'reward'
-        )
+      )
     end
   end
 end

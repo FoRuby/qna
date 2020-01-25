@@ -40,8 +40,8 @@ feature 'User can mark answer as best', %q{
       expect(page).to have_content 'Best answer selected.'
       expect(first('.answers')).to have_css("#best-answer-icon-#{second_answer.id}")
       expect(first('.answers')).to_not have_selector('.edit-best-answer-icon')
-      expect(first('.answers')).to have_content "#{first_answer.body}"
-      expect(first('.answers')).to have_content "#{third_answer.body}"
+      expect(first('.answers')).to have_content first_answer.body.to_s
+      expect(first('.answers')).to have_content third_answer.body.to_s
     end
 
     scenario 'tries to select best answer repeatedly' do
@@ -53,8 +53,8 @@ feature 'User can mark answer as best', %q{
       expect(page).to have_content 'Best answer selected.'
       expect(page).to_not have_selector('.edit-best-answer-icon')
       expect(first('.answers')).to have_css("#best-answer-icon-#{first_answer.id}")
-      expect(first('.answers')).to have_content "#{second_answer.body}"
-      expect(first('.answers')).to have_content "#{third_answer.body}"
+      expect(first('.answers')).to have_content second_answer.body.to_s
+      expect(first('.answers')).to have_content third_answer.body.to_s
     end
 
     scenario 'tries to cancel best answer selection' do
@@ -80,9 +80,9 @@ feature 'User can mark answer as best', %q{
     find("#edit-best-answer-icon-#{second_answer.id}").click
 
     expect(find("#answer-#{second_answer.id}")).to have_css("#best-answer-icon-#{second_answer.id}")
-    expect(find("#answer-#{second_answer.id}")).to have_content "#{second_answer.body}"
+    expect(find("#answer-#{second_answer.id}")).to have_content second_answer.body.to_s
 
-    expect(find("#answer-#{first_answer.id}")).to have_content "#{first_answer.body}"
-    expect(find("#answer-#{third_answer.id}")).to have_content "#{third_answer.body}"
+    expect(find("#answer-#{first_answer.id}")).to have_content first_answer.body.to_s
+    expect(find("#answer-#{third_answer.id}")).to have_content third_answer.body.to_s
   end
 end
