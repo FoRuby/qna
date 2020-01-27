@@ -16,16 +16,14 @@ shared_examples_for 'voted' do
 
       it 'set new vote up' do
         expect {
-          patch :vote,
-          params: { id: votable, value: 1, format: :json }
+          patch :vote, params: { id: votable, value: 1, format: :json }
         }.to change { votable.rating }.by(1)
       end
 
       it 'tries to vote twice' do
         patch :vote, params: { id: votable }
         expect {
-          patch :vote,
-          params: { id: votable, format: :json }
+          patch :vote, params: { id: votable, format: :json }
         }.to_not change { votable.rating }
       end
 
@@ -40,8 +38,7 @@ shared_examples_for 'voted' do
 
       it 'tries to set vote up' do
         expect {
-          patch :vote,
-          params: { id: authored, value: 1, format: :json }
+          patch :vote, params: { id: authored, value: 1, format: :json }
         }.to_not change { votable.rating }
       end
 
@@ -58,8 +55,7 @@ shared_examples_for 'voted' do
     context 'Unauthorized user' do
       it 'tries to set vote up' do
         expect {
-          patch :vote,
-          params: { id: votable, format: :json }
+          patch :vote, params: { id: votable, format: :json }
         }.to_not change { votable.rating }
       end
 

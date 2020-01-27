@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-
   before_action :authenticate_user!
   before_action :set_context, only: :create
   before_action :set_question, only: :create
@@ -29,7 +28,7 @@ class CommentsController < ApplicationController
   end
 
   def context_id
-    params.fetch("#{params[:context].foreign_key}")
+    params.fetch(params[:context].foreign_key.to_s)
   end
 
   def set_question

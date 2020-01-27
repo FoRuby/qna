@@ -27,7 +27,6 @@ feature 'When changing the best answer, the award
       mark_link.click
       click_on 'Sign out'
 
-
       login(old_best_answer.user)
       visit user_rewards_path
       expect(page).to_not have_content reward.title

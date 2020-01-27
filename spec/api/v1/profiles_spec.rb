@@ -85,7 +85,7 @@ describe 'Profiles API', type: :request do
       end
 
       it 'response does not include access_token user' do
-        expect(json['users'].map { |e| e['id']})
+        expect(json['users'].map { |e| e['id'] })
           .to_not include access_token.resource_owner_id
       end
     end

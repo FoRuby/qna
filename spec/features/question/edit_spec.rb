@@ -61,7 +61,6 @@ feature 'User can edit his question', %q{
       end
     end
 
-
     scenario 'tries to cancel question editing' do
       click_on 'Edit question'
       click_on 'Cancel'

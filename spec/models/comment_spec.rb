@@ -24,5 +24,4 @@ RSpec.describe Comment, type: :model do
       it { is_expected.to match_array [comment1, comment2] }
     end
   end
-
 end

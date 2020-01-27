@@ -9,13 +9,11 @@ feature 'User can sign in', %q{
   background { visit new_user_session_path }
 
   describe 'Registered user' do
-    given(:user){
-      create(:user,
-        email: 'testemail@example.com',
-        password: 'foobar',
-        password_confirmation: 'foobar'
-      )
-    }
+    given(:user) do
+      create(:user, email: 'testemail@example.com',
+                    password: 'foobar',
+                    password_confirmation: 'foobar')
+    end
 
     scenario 'tries to sign in with correct params' do
       fill_in 'Email', with: user.email

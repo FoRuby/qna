@@ -17,11 +17,8 @@ feature 'User can create answer for current question with attachments', %q{
 
     scenario 'tries to create answer with attached files' do
       fill_in 'Body', with: 'AnswerBody'
-      attach_file 'Files',
-      [
-        "#{Rails.root}/spec/fixtures/files/image1.jpg",
-        "#{Rails.root}/spec/fixtures/files/image2.jpg"
-      ]
+      attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/image1.jpg",
+                            "#{Rails.root}/spec/fixtures/files/image2.jpg"]
 
       click_on 'Create answer'
 

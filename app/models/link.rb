@@ -1,8 +1,8 @@
 class Link < ApplicationRecord
   default_scope -> { order(created_at: :asc) }
 
-  URL_REGEXP = /https?:\/\/[\S]+/
-  GIST_URL_REGEXP = /https?:\/\/gist.github.com\/[\S]+/
+  URL_REGEXP = %r{https?:\/\/[\S]+}.freeze
+  GIST_URL_REGEXP = %r{https?:\/\/gist.github.com\/[\S]+}.freeze
 
   belongs_to :linkable, polymorphic: true
 

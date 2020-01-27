@@ -2,15 +2,16 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  context 'associations' do
+  describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:questions).dependent(:destroy) }
     it { should have_many(:rewards).dependent(:destroy) }
-    it { should have_many(:comments).dependent(:destroy)  }
-    it { should have_many(:authorizations).dependent(:destroy)  }
+    it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:authorizations).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     it { should validate_presence_of :email }
     it { should validate_presence_of :password }
 
@@ -37,6 +38,23 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#subscribed_on?(question)' do
+    let(:question) { create(:question) }
+    let(:subscriber) { create(:user) }
+    let(:not_subscriber) { create(:user) }
+    let!(:subscription) { create(:subscription, user: subscriber, question: question) }
+
+    context 'subscriber' do
+      subject { subscriber }
+        it { is_expected.to be_an_subscribed_on(question) }
+    end
+
+    context 'not subscriber' do
+      subject { not_subscriber }
+        it { is_expected.to_not be_an_subscribed_on(question) }
+    end
+  end
+
   describe '.find_for_oauth(auth, email)' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123') }
@@ -44,7 +62,7 @@ RSpec.describe User, type: :model do
 
     it 'calls FindForOauthService' do
       expect(FindForOauthService).to receive(:new).with(auth, user.email)
-        .and_return(service)
+                                                  .and_return(service)
       expect(service).to receive(:call)
 
       User.find_for_oauth(auth, user.email)

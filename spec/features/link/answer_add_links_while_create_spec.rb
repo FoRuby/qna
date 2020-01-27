@@ -81,7 +81,7 @@ feature 'User can add links to answer while create', %q{
         fill_in 'Url', with: invalid_link_url
         click_on 'Create answer'
 
-        expect(page).to have_content "Links url invalid format"
+        expect(page).to have_content 'Links url invalid format'
         expect(page).to have_field 'Link name', with: 'Google'
         expect(page).to have_field 'Url', with: invalid_link_url
       end
