@@ -13,7 +13,6 @@ RSpec.describe Vote, type: :model do
     it { should validate_presence_of :votable }
     it { should validate_inclusion_of(:value).in_array([-1, 0, 1]) }
 
-
     context 'uniqueness of user scoped to votable' do
       let(:user) { create(:user) }
       let(:question) { create(:question) }
@@ -22,8 +21,9 @@ RSpec.describe Vote, type: :model do
       let!(:voted_answer) { create(:vote, user: user, votable: answer, value: 1) }
 
       it { should validate_uniqueness_of(:user)
-            .scoped_to([:votable_id, :votable_type])
-            .with_message('has already voted') }
+        .scoped_to(%i[votable_id votable_type])
+        .with_message('has already voted')
+      }
     end
 
     context 'voter can not be votable author' do

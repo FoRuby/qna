@@ -34,6 +34,7 @@
         .row
           .col.comments
             = render @question.comments
-
   - if current_user&.author_of?(@question)
     = render 'questions/form_control', question: @question
+
+  = render 'subscriptions/subscription', question: @question

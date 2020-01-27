@@ -36,13 +36,12 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def confirmed_message(user)
-    if user.confirmed?
-      flash[:success] = 'You can sign in by provider'
-      redirect_to user_session_path
-    else
-      flash[:success] = "We send you email on #{user.email} for confirmation "
-      redirect_to user_session_path
-    end
+    flash[:success] = if user.confirmed?
+                        'You can sign in by provider'
+                      else
+                        "We send you email on #{user.email} for confirmation"
+                      end
+    redirect_to user_session_path
   end
 
   def login_with_provider(provider_name)
@@ -51,7 +50,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication
       if is_navigational_format?
-        set_flash_message(:notice, :success,kind: provider_name)
+        set_flash_message(:notice, :success, kind: provider_name)
       end
     else
       redirect_to root_path, alert: 'Something went wrong'

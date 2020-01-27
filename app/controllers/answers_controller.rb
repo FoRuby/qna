@@ -37,14 +37,13 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(
       :body,
       files: [],
-      links_attributes: [:name, :url]
+      links_attributes: %i[name url]
     )
   end
 
   def publish_answer
     return if @answer.errors.any?
 
-    attachments = []
     attachments = @answer.files.map do |attachment|
       {
         id: attachment.id,

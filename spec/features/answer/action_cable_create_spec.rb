@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'When user creates a new answer,
   then this answer appears for all users,
   who are on the same question page' do
-
   given(:user) { create(:user) }
   given(:question1) { create(:question) }
   given(:question2) { create(:question) }
@@ -32,7 +31,7 @@ feature 'When user creates a new answer,
         fill_in 'Body', with: 'AnswerBody'
         fill_in 'Link name', with: 'Google'
         fill_in 'Url', with: 'https://www.google.com/'
-        attach_file 'Files',"#{Rails.root}/spec/fixtures/files/image1.jpg"
+        attach_file 'Files', "#{Rails.root}/spec/fixtures/files/image1.jpg"
 
         click_on 'Create answer'
 
@@ -66,7 +65,7 @@ feature 'When user creates a new answer,
         fill_in 'Body', with: 'AnswerBody'
         fill_in 'Link name', with: 'Google'
         fill_in 'Url', with: 'https://www.google.com/'
-        attach_file 'Files',"#{Rails.root}/spec/fixtures/files/image1.jpg"
+        attach_file 'Files', "#{Rails.root}/spec/fixtures/files/image1.jpg"
 
         click_on 'Create answer'
 
@@ -100,7 +99,7 @@ feature 'When user creates a new answer,
         fill_in 'Body', with: 'AnswerBody'
         fill_in 'Link name', with: 'Google'
         fill_in 'Url', with: 'invalid_url'
-        attach_file 'Files',"#{Rails.root}/spec/fixtures/files/image1.jpg"
+        attach_file 'Files', "#{Rails.root}/spec/fixtures/files/image1.jpg"
 
         click_on 'Create answer'
 

@@ -63,4 +63,3 @@ feature 'User can destroy answer link', %q{
     end
   end
 end
-

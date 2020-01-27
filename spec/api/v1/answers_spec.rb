@@ -98,7 +98,7 @@ describe 'Answer API', type: :request do
           {
             question_id: question,
             answer: attributes_for(:answer),
-            access_token:access_token.token
+            access_token: access_token.token
           }
         end
 

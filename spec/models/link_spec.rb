@@ -58,13 +58,11 @@ RSpec.describe Link, type: :model do
   describe 'methods' do
     context '#gist?' do
       let(:gist) do
-        create(:gist,
-          name: 'Gist',
-          url: 'https://gist.github.com/test/test',
-          gist_body: 'GistBody',
-        )
+        create(:gist, name: 'Gist',
+                      url: 'https://gist.github.com/test/test',
+                      gist_body: 'GistBody')
       end
-      let(:link) { create(:link)}
+      let(:link) { create(:link) }
 
       context 'gist', :vcr do
         subject { gist }

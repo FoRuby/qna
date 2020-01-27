@@ -17,7 +17,6 @@ describe 'Question API', type: :request do
       let(:question_response) { json['questions'].first }
       let(:params) { { access_token: access_token.token } }
 
-
       before { do_request(method, api_path, params: params, headers: headers) }
 
       it_behaves_like 'Successful request'

@@ -63,5 +63,3 @@ feature 'User can destroy question link', %q{
     end
   end
 end
-
-

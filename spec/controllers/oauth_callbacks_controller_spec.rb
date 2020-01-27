@@ -52,7 +52,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(response).to redirect_to root_path
       end
 
-
       it 'does not login user' do
         expect(subject.current_user).to_not be
       end
@@ -93,7 +92,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to eq user
       end
 
-
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
       end
@@ -108,7 +106,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
       end
-
 
       it 'does not login user' do
         expect(subject.current_user).to_not be
@@ -210,7 +207,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
       it 'show flash message' do
         post :fill_email, params: { email: 'user@example.com' }
-        expect(flash[:success]).to eq 'We send you email on user@example.com for confirmation '
+        expect(flash[:success]).to eq 'We send you email on user@example.com for confirmation'
       end
     end
   end

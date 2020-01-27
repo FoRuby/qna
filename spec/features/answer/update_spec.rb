@@ -46,11 +46,8 @@ feature 'User can edit his answer', %q{
     scenario 'tries to edit his answer with attached files' do
       click_on 'Edit answer'
       within "#answer-#{answer.id}" do
-        attach_file 'Files',
-          [
-            "#{Rails.root}/spec/fixtures/files/image1.jpg",
-            "#{Rails.root}/spec/fixtures/files/image2.jpg"
-          ]
+        attach_file 'Files', ["#{Rails.root}/spec/fixtures/files/image1.jpg",
+                              "#{Rails.root}/spec/fixtures/files/image2.jpg"]
 
         click_on 'Save'
 

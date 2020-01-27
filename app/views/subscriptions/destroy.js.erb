@@ -1,0 +1,4 @@
+<% if @subsciption.destroyed? %>
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+  $('.subscription').html('<%= j render 'subscription', question: @question %>');
+<% end %>

@@ -28,7 +28,7 @@ class Ability
     can %i[update destroy], [Question, Answer], user_id: user.id
 
     can :vote, [Question, Answer] do |votable|
-      not user.author_of?(votable)
+      !user.author_of?(votable)
     end
 
     can :destroy, Link do |link|
@@ -41,6 +41,14 @@ class Ability
 
     can :mark_best, Answer do |answer|
       user.author_of?(answer.question)
+    end
+
+    can :subscribe, Question do |question|
+      !user.subscribed_on?(question)
+    end
+
+    can :unsubscribe, Question do |question|
+      user.subscribed_on?(question)
     end
   end
 

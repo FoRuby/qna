@@ -1,8 +1,8 @@
 FactoryBot.define do
 
   factory :question do
-    sequence(:title){ |n| "QuestionTitle#{n}" }
-    sequence(:body){ |n| "QuestionBody#{n}" }
+    sequence(:title) { |n| "QuestionTitle#{n}" }
+    sequence(:body) { |n| "QuestionBody#{n}" }
     user
   end
 
@@ -13,9 +13,8 @@ FactoryBot.define do
     end
     after(:create) do |question, evaluator|
       create_list(:answer, evaluator.answers_count,
-        question: question,
-        user: evaluator.answers_author
-      )
+                  question: question,
+                  user: evaluator.answers_author)
     end
   end
 

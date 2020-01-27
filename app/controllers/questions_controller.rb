@@ -51,9 +51,11 @@ class QuestionsController < ApplicationController
   def publish_question
     return if @question.errors.any?
 
-    ActionCable.server.broadcast 'questions',
+    ActionCable.server.broadcast(
+      'questions',
       question: @question,
       success: 'There was a new Question. Answer it first.'
+    )
   end
 
   def question_params
@@ -61,8 +63,8 @@ class QuestionsController < ApplicationController
       :title,
       :body,
       files: [],
-      links_attributes: [:name, :url],
-      reward_attributes: [:title, :image]
+      links_attributes: %i[name url],
+      reward_attributes: %i[title image]
     )
   end
 end
