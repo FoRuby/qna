@@ -23,11 +23,20 @@ RSpec.describe SearchService do
       end
     end
 
+    describe 'search without search_string' do
+      it 'does not call search' do
+        expect(ThinkingSphinx).to_not receive(:search).with('')
+        SearchService.call('', '')
+      end
+    end
+
     describe 'search with invalid SCOPE' do
-      it 'calls search in all' do
+      it 'does not call search' do
         expect(ThinkingSphinx).to_not receive(:search).with(search_string)
         SearchService.call(search_string, 'InvalidScope')
       end
     end
+
+    # TODO: тесты на возврат корректных знвчений
   end
 end

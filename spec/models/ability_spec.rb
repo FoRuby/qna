@@ -8,6 +8,7 @@ RSpec.describe Ability do
 
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
+    it { should be_able_to :search, User }
   end
 
   describe 'for user' do

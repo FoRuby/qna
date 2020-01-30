@@ -1,2 +1,11 @@
-h1 Search#search
-p Find me in app/views/search/search.html.slim
+.search_results
+  .row
+    .col
+      h3 Search results:
+      - if @search_results.empty?
+        span.result Nothing was found.
+
+  - @search_results.each do |result|
+    hr
+    =render partial: "search/#{result.class.name.downcase}", locals: { result: result }
+  hr
