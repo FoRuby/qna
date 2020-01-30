@@ -8,9 +8,9 @@ feature 'User can search on site', %q{
 
   describe 'User can search', js: true do
     given!(:user) { create(:user, email: 'test@gmail.com') }
-    given!(:question) { create(:question, body: 'test') }
-    given!(:answer) { create(:answer, body: 'test') }
-    given!(:comment) { create(:comment, commentable: question, body: 'test') }
+    given!(:question) { create(:question, body: 'Question test body') }
+    given!(:answer) { create(:answer, body: 'Answer test body') }
+    given!(:comment) { create(:comment, commentable: question, body: 'Comment test body') }
 
     before do
       ThinkingSphinx::Test.index
@@ -23,11 +23,10 @@ feature 'User can search on site', %q{
           search(query: 'test', scope: 'Question')
 
           expect(page).to have_content(question.body)
-          expect(page).to have_css(".result#question-#{question.id}")
 
-          expect(page).to_not have_css(".result#answer-#{answer.id}")
-          expect(page).to_not have_css(".result#comment-#{comment.id}")
-          expect(page).to_not have_css(".result#user-#{user.id}")
+          expect(page).to_not have_content(user.email)
+          expect(page).to_not have_content(answer.body)
+          expect(page).to_not have_content(comment.body)
         end
       end
 
@@ -36,11 +35,10 @@ feature 'User can search on site', %q{
           search(query: 'test', scope: 'Answer')
 
           expect(page).to have_content(answer.body)
-          expect(page).to have_css(".result#answer-#{answer.id}")
 
-          expect(page).to_not have_css(".result#question-#{question.id}")
-          expect(page).to_not have_css(".result#comment-#{comment.id}")
-          expect(page).to_not have_css(".result#user-#{user.id}")
+          expect(page).to_not have_content(user.email)
+          expect(page).to_not have_content(question.body)
+          expect(page).to_not have_content(comment.body)
         end
       end
 
@@ -49,11 +47,10 @@ feature 'User can search on site', %q{
           search(query: 'test', scope: 'Comment')
 
           expect(page).to have_content(comment.body)
-          expect(page).to have_css(".result#comment-#{comment.id}")
 
-          expect(page).to_not have_css(".result#question-#{question.id}")
-          expect(page).to_not have_css(".result#answer-#{answer.id}")
-          expect(page).to_not have_css(".result#user-#{user.id}")
+          expect(page).to_not have_content(user.email)
+          expect(page).to_not have_content(question.body)
+          expect(page).to_not have_content(answer.body)
         end
       end
 
@@ -62,11 +59,10 @@ feature 'User can search on site', %q{
           search(query: 'test', scope: 'User')
 
           expect(page).to have_content(user.email)
-          expect(page).to have_css(".result#user-#{user.id}")
 
-          expect(page).to_not have_css(".result#question-#{question.id}")
-          expect(page).to_not have_css(".result#answer-#{answer.id}")
-          expect(page).to_not have_css(".result#comment-#{comment.id}")
+          expect(page).to_not have_content(question.body)
+          expect(page).to_not have_content(answer.body)
+          expect(page).to_not have_content(comment.body)
         end
       end
 
@@ -78,10 +74,6 @@ feature 'User can search on site', %q{
           expect(page).to have_content(answer.body)
           expect(page).to have_content(comment.body)
           expect(page).to have_content(user.email)
-          expect(page).to have_css(".result#question-#{question.id}")
-          expect(page).to have_css(".result#answer-#{answer.id}")
-          expect(page).to have_css(".result#comment-#{comment.id}")
-          expect(page).to have_css(".result#user-#{user.id}")
         end
       end
     end
@@ -95,10 +87,6 @@ feature 'User can search on site', %q{
         expect(page).to have_content(answer.body)
         expect(page).to have_content(comment.body)
         expect(page).to have_content(user.email)
-        expect(page).to have_css(".result#question-#{question.id}")
-        expect(page).to have_css(".result#answer-#{answer.id}")
-        expect(page).to have_css(".result#comment-#{comment.id}")
-        expect(page).to have_css(".result#user-#{user.id}")
       end
     end
 
@@ -111,10 +99,6 @@ feature 'User can search on site', %q{
         expect(page).to have_content(answer.body)
         expect(page).to have_content(comment.body)
         expect(page).to have_content(user.email)
-        expect(page).to have_css(".result#question-#{question.id}")
-        expect(page).to have_css(".result#answer-#{answer.id}")
-        expect(page).to have_css(".result#comment-#{comment.id}")
-        expect(page).to have_css(".result#user-#{user.id}")
       end
     end
   end

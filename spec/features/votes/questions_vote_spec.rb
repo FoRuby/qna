@@ -29,8 +29,11 @@ feature 'User can vote for a question', %q{
     scenario 'tries to vote up for question twice' do
       within "#question-#{question.id}" do
         find('.vote-up-icon').click
-        find('.vote-up-icon').click
+        within '.rating' do
+          expect(page).to have_content '1'
+        end
 
+        find('.vote-up-icon').click
         within '.rating' do
           expect(page).to have_content '1'
         end
@@ -40,8 +43,11 @@ feature 'User can vote for a question', %q{
     scenario 'cancels his vote' do
       within "#question-#{question.id}" do
         find('.vote-up-icon').click
-        find('.vote-cancel-icon').click
+        within '.rating' do
+          expect(page).to have_content '1'
+        end
 
+        find('.vote-cancel-icon').click
         within '.rating' do
           expect(page).to have_content '0'
         end
