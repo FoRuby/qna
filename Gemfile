@@ -24,11 +24,11 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
+gem 'doorkeeper', '5.1.0'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-yandex'
 gem 'omniauth-vkontakte'
-gem 'doorkeeper', '5.1.0'
+gem 'omniauth-yandex'
 
 gem 'active_model_serializers'
 gem 'oj'
@@ -49,15 +49,19 @@ gem 'bootstrap'
 gem 'jquery-rails'
 gem 'slim-rails'
 
-gem 'octokit'
 gem 'faraday'
+gem 'octokit'
 
+gem 'capybara-email'
+gem 'gon'
+gem 'mini_magick'
+gem 'rabl'
 gem 'skim'
 gem 'sprockets'
-gem 'gon'
-gem 'rabl'
-gem 'mini_magick'
-gem 'capybara-email'
+
+# Sphinx
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
