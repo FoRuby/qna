@@ -1,12 +1,10 @@
 class SearchService
-  SCOPES = %w[Question Answer Comment User All].freeze
+  SCOPES = %w[Question Answer Comment User].freeze
 
-  def self.call(search_string, search_scope)
-    return if search_string.empty? || SCOPES.exclude?(search_scope)
+  def self.call(params)
+    query = ThinkingSphinx::Query.escape(params[:query])
+    return ThinkingSphinx.search(query) if SCOPES.exclude?(params[:scope])
 
-    query = ThinkingSphinx::Query.escape(search_string)
-    return ThinkingSphinx.search(query) if search_scope == 'All'
-
-    ThinkingSphinx.search(query, classes: [search_scope.constantize])
+    ThinkingSphinx.search(query, classes: [params[:scope].constantize])
   end
 end

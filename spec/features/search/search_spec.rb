@@ -20,62 +20,101 @@ feature 'User can search on site', %q{
     describe 'in SCOPE' do
       scenario 'Question' do
         ThinkingSphinx::Test.run do
-          search(search_string: 'test', search_scope: 'Question')
+          search(query: 'test', scope: 'Question')
 
           expect(page).to have_content(question.body)
+          expect(page).to have_css(".result#question-#{question.id}")
+
+          expect(page).to_not have_css(".result#answer-#{answer.id}")
+          expect(page).to_not have_css(".result#comment-#{comment.id}")
+          expect(page).to_not have_css(".result#user-#{user.id}")
         end
       end
 
       scenario 'Answer' do
         ThinkingSphinx::Test.run do
-          search(search_string: 'test', search_scope: 'Answer')
+          search(query: 'test', scope: 'Answer')
 
           expect(page).to have_content(answer.body)
+          expect(page).to have_css(".result#answer-#{answer.id}")
+
+          expect(page).to_not have_css(".result#question-#{question.id}")
+          expect(page).to_not have_css(".result#comment-#{comment.id}")
+          expect(page).to_not have_css(".result#user-#{user.id}")
         end
       end
 
       scenario 'Comment' do
         ThinkingSphinx::Test.run do
-          search(search_string: 'test', search_scope: 'Comment')
+          search(query: 'test', scope: 'Comment')
 
           expect(page).to have_content(comment.body)
+          expect(page).to have_css(".result#comment-#{comment.id}")
+
+          expect(page).to_not have_css(".result#question-#{question.id}")
+          expect(page).to_not have_css(".result#answer-#{answer.id}")
+          expect(page).to_not have_css(".result#user-#{user.id}")
         end
       end
 
       scenario 'User' do
         ThinkingSphinx::Test.run do
-          search(search_string: 'test', search_scope: 'User')
+          search(query: 'test', scope: 'User')
 
           expect(page).to have_content(user.email)
+          expect(page).to have_css(".result#user-#{user.id}")
+
+          expect(page).to_not have_css(".result#question-#{question.id}")
+          expect(page).to_not have_css(".result#answer-#{answer.id}")
+          expect(page).to_not have_css(".result#comment-#{comment.id}")
         end
       end
 
       scenario 'All' do
         ThinkingSphinx::Test.run do
-          search(search_string: 'test', search_scope: 'All')
+          search(query: 'test', scope: 'All')
 
           expect(page).to have_content(question.body)
           expect(page).to have_content(answer.body)
           expect(page).to have_content(comment.body)
           expect(page).to have_content(user.email)
+          expect(page).to have_css(".result#question-#{question.id}")
+          expect(page).to have_css(".result#answer-#{answer.id}")
+          expect(page).to have_css(".result#comment-#{comment.id}")
+          expect(page).to have_css(".result#user-#{user.id}")
         end
       end
     end
 
-    scenario 'in all with empty search result' do
+    scenario 'with empty search scope' do
       ThinkingSphinx::Test.run do
-        search(search_string: 'foobar', search_scope: 'All')
+        fill_in 'search_query', with: 'test'
+        click_on 'Search'
 
-        expect(page).to have_content('Nothing was found.')
+        expect(page).to have_content(question.body)
+        expect(page).to have_content(answer.body)
+        expect(page).to have_content(comment.body)
+        expect(page).to have_content(user.email)
+        expect(page).to have_css(".result#question-#{question.id}")
+        expect(page).to have_css(".result#answer-#{answer.id}")
+        expect(page).to have_css(".result#comment-#{comment.id}")
+        expect(page).to have_css(".result#user-#{user.id}")
       end
     end
 
-    scenario 'in all with empty search query' do
+    scenario 'with empty search query' do
       ThinkingSphinx::Test.run do
-        search(search_string: '', search_scope: 'All')
+        fill_in 'search_query', with: ''
+        click_on 'Search'
 
-        expect(page).to have_content('Invalid query')
-        expect(page).to have_current_path(questions_path)
+        expect(page).to have_content(question.body)
+        expect(page).to have_content(answer.body)
+        expect(page).to have_content(comment.body)
+        expect(page).to have_content(user.email)
+        expect(page).to have_css(".result#question-#{question.id}")
+        expect(page).to have_css(".result#answer-#{answer.id}")
+        expect(page).to have_css(".result#comment-#{comment.id}")
+        expect(page).to have_css(".result#user-#{user.id}")
       end
     end
   end

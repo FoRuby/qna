@@ -19,10 +19,8 @@ module FeatureHelpers
   end
 
   def search(params = {})
-    visit questions_path
-
-    fill_in 'search_string', with: params[:search_string]
-    select params[:search_scope], from: 'search_scope'
+    fill_in 'search_query', with: params[:query]
+    select params[:scope], from: 'search_scope'
     click_on 'Search'
   end
 end

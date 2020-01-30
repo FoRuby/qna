@@ -7,5 +7,6 @@
 
   - @search_results.each do |result|
     hr
-    =render partial: "search/#{result.class.name.downcase}", locals: { result: result }
+    .result id="#{result.class.name.downcase}-#{result.id}"
+      =render partial: "search/#{result.class.name.downcase}", locals: { result: result }
   hr
