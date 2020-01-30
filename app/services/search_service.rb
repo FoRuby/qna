@@ -1,17 +1,12 @@
 class SearchService
-  SCOPES = %w[Question Answer Comment User].freeze
+  SCOPES = %w[Question Answer Comment User All].freeze
 
   def self.call(search_string, search_scope)
-    # TODO: мб вместо пустого массива возвращать nil,
-    #   типа если nil, то некоректный запрос,
-    #   в контроллере бахнкть флеш и не рендерить search.slim
-
-    return [] if search_string.empty?
+    return if search_string.empty? || SCOPES.exclude?(search_scope)
 
     query = ThinkingSphinx::Query.escape(search_string)
-    return ThinkingSphinx.search(query) if search_scope.empty?
-    return [] if SCOPES.exclude? search_scope
+    return ThinkingSphinx.search(query) if search_scope == 'All'
 
-    ThinkingSphinx.search(query, classes: [search_scope.classify.constantize])
+    ThinkingSphinx.search(query, classes: [search_scope.constantize])
   end
 end

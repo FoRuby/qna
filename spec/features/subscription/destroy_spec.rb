@@ -29,9 +29,11 @@ feature 'User can unsubscribe from question', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries to unsubscribe from question' do
-    visit question_path(question)
+  describe 'Unauthenticated' do
+    scenario 'user tries to unsubscribe from question' do
+      visit question_path(question)
 
-    expect(page).to_not have_link 'Unsubscribe'
+      expect(page).to_not have_link 'Unsubscribe'
+    end
   end
 end
