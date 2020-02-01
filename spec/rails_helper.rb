@@ -38,11 +38,14 @@ RSpec.configure do |config|
   config.include ApiHelpers, type: :request
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  Capybara.javascript_driver = :selenium_chrome_headless
+
+  Capybara.javascript_driver = :selenium_headless
+  # Capybara.javascript_driver = :selenium_chrome_headless
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.infer_spec_type_from_file_location!
 

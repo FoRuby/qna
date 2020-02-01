@@ -6,7 +6,9 @@ default: &default
 development:
   <<: *default
   database: qna_development
+  password: 'foobar'
 
 test:
   <<: *default
   database: qna_test
+  password: 'foobar'

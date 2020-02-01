@@ -14,8 +14,8 @@
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
 /config/database.yml
+/config/master.key
 
 /public/packs
 /public/packs-test
@@ -23,5 +23,7 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-.env
 
+# Sphinx
+/db/sphinx
+/config/*.sphinx.conf

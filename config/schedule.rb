@@ -20,5 +20,9 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day do
-  runner "DailyDigestService.send_digest"
+  runner 'DailyDigestService.send_digest'
+end
+
+every 60.minutes do
+  rake 'ts:index'
 end

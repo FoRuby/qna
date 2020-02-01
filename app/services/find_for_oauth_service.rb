@@ -7,8 +7,8 @@ class FindForOauthService
   end
 
   def call
-    authorization = Authorization.find_by(provider: auth.provider,
-                                          uid: auth.uid.to_s)
+    authorization =
+      Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
     user = User.find_or_create!(email)

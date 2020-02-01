@@ -8,11 +8,9 @@ class GistService
   end
 
   def call
-    begin
-      gist_content
-    rescue Octokit::NotFound
-      nil
-    end
+    gist_content
+  rescue Octokit::NotFound
+    nil
   end
 
   private

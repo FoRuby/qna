@@ -17,4 +17,10 @@ module FeatureHelpers
       click_on 'Sign up'
     end
   end
+
+  def search(params = {})
+    fill_in 'search_query', with: params[:query]
+    select params[:scope], from: 'search_scope'
+    click_on 'Search'
+  end
 end

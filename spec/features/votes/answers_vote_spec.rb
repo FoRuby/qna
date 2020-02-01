@@ -30,8 +30,11 @@ feature 'User can vote for a answer', %q{
     scenario 'tries to vote up for answer twice' do
       within "#answer-#{answer.id}" do
         find('.vote-up-icon').click
+        within '.rating' do
+          expect(page).to have_content '1'
+        end
+        
         find('.vote-up-icon').click
-
         within '.rating' do
           expect(page).to have_content '1'
         end
@@ -41,8 +44,11 @@ feature 'User can vote for a answer', %q{
     scenario 'cancels his vote' do
       within "#answer-#{answer.id}" do
         find('.vote-up-icon').click
+        within '.rating' do
+          expect(page).to have_content '1'
+        end
+        
         find('.vote-cancel-icon').click
-
         within '.rating' do
           expect(page).to have_content '0'
         end
@@ -62,8 +68,11 @@ feature 'User can vote for a answer', %q{
     scenario 'tries to vote down for answer twice' do
       within "#answer-#{answer.id}" do
         find('.vote-down-icon').click
-        find('.vote-down-icon').click
+        within '.rating' do
+          expect(page).to have_content '-1'
+        end
 
+        find('.vote-down-icon').click
         within '.rating' do
           expect(page).to have_content '-1'
         end
@@ -73,9 +82,11 @@ feature 'User can vote for a answer', %q{
     scenario 'tries to re-vote' do
       within "#answer-#{answer.id}" do
         find('.vote-up-icon').click
-        find('.vote-cancel-icon').click
-        find('.vote-down-icon').click
+        within '.rating' do
+          expect(page).to have_content '1'
+        end
 
+        find('.vote-down-icon').click
         within '.rating' do
           expect(page).to have_content '-1'
         end

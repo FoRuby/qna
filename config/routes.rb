@@ -1,5 +1,4 @@
 require 'sidekiq/web'
-
 Rails.application.routes.draw do
   authenticate :user, lambda { |user| user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
@@ -15,8 +14,8 @@ Rails.application.routes.draw do
       end
 
       resources :questions, except: %i[new edit] do
-         resources :answers, except: %i[new edit], shallow: true
-       end
+        resources :answers, except: %i[new edit], shallow: true
+      end
     end
   end
 
@@ -26,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   get 'user/rewards', to: 'user_rewards#index'
+  get 'search', to: 'search#search'
 
   concern :voted do
     patch :vote, on: :member
