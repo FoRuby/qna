@@ -1,0 +1,10 @@
+- if resource.links.any?
+  .col.links
+    p Links:
+    - resource.links.each do |link|
+      .row.link id="link-#{link.id}"
+        .col
+          - if link.gist?
+              p = link.gist_body
+          - else
+            =link_to link.name, link.url, target: '_blank'

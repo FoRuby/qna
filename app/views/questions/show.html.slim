@@ -1,0 +1,9 @@
+= render 'questions/show_question', resource: @question
+
+.answers
+  = render @question.answers
+
+hr
+- if can?(:create, Answer)
+  .new-answer
+    = render 'answers/new'

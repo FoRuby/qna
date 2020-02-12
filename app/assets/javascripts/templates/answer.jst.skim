@@ -1,0 +1,109 @@
+div id="answer-#{@answer.id}"
+  hr
+  .answer-content
+    .row
+      .col-1.text-center
+        .vote
+          .row
+            .col
+              a[href="/answers/#{@answer.id}/vote?value=1"
+                class = 'vote-up-icon'
+                data-method='patch'
+                data-type='json'
+                data-remote='true']
+                i.material-icons.md-48 arrow_drop_up
+
+          .row
+            .col.rating
+              = @rating
+
+          .row
+            .col
+              a[href="/answers/#{@answer.id}/vote?value=-1"
+                class='vote-down-icon'
+                data-method='patch'
+                data-type='json'
+                data-remote='true']
+                i.material-icons.md-48 arrow_drop_down
+
+          .row
+            .col
+              a[href="/answers/#{@answer.id}/vote?value=0"
+                class='vote-cancel-icon'
+                data-method='patch'
+                data-type='json'
+                data-remote='true']
+                i.material-icons.md-36 cancel
+
+        .row
+          .col
+            a[href="/answers/#{@answer.id}/mark_best"
+              class='edit-best-answer-icon hidden'
+              id="edit-best-answer-icon-#{@answer.id}"
+              data-method='patch'
+              data-type='json'
+              data-remote='true']
+              i.material-icons.md-36 done
+
+      .col
+        .row
+          .col.answer-body
+            p = @answer.body
+
+        .row
+          - if @links.length > 0
+            .col.links
+              p Links:
+              - for link in @links
+                .row.link id="link-#{link.id}"
+                  .col
+                    a href=link.url target='_blank' = link.name
+
+          - if @attachments.length > 0
+            .col.attachments
+              p Attachments:
+              - for file in @attachments
+                .row.attachment id="attachment-#{file.id}"
+                  .col.attachment-body
+                    a href=file.url target='_blank' = file.name
+
+          / add-new-comment-link block
+          - if @current_user_id
+            a[href='#'
+              class='add-comment-link'
+              name='Add comment'
+              data-commentable-type='answer'
+              data-commentable-id="#{@answer.id}"] = 'Add comment'
+
+        / new-comment block
+        .row
+          .col.new-comment
+            .new-comment-errors
+
+            .new-comment-form.hidden
+              .row
+                .col
+                  h2 New Comment:
+
+                  form[class="new-comment"
+                       action="/answers/#{@answer.id}/comments"
+                       accept-charset="UTF-8"
+                       data-remote="true"
+                       method="post"]
+                    input name="utf8" type="hidden" value="✓"
+                    .row
+                      .col.form-group
+                        textarea[rows="6"
+                                 class="form-control"
+                                 name="comment[body]"
+                                 id="comment_body"]
+
+                    input[type="submit"
+                          name="commit"
+                          value="Create comment"
+                          class="btn btn-primary"
+                          data-disable-with="Create comment"]
+
+        / comments block
+        .row
+          .col.comments

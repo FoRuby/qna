@@ -1,0 +1,20 @@
+.hidden {
+  display: none;
+}
+
+.delete-icon {
+  color: gray;
+  :hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.result-link {
+  :hover { color: blue; }
+  a { color: black; }
+}
+
+p {
+  word-wrap: break-word;
+}

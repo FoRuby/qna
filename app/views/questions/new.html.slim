@@ -1,0 +1,32 @@
+.new-question-errors
+  = render 'shared/errors', resource: @question
+
+.new-question-form
+  .row
+    .col
+      h2 New Question:
+
+  = form_with model: @question do |f|
+
+    .row
+      .col-3.form-group
+        = f.label :title
+        = f.text_field :title, size: 30, class: 'form-control'
+
+    .row
+      .col-6.form-group
+        = f.label :body
+        = f.text_area :body, rows: 6, class: 'form-control'
+
+      .col-6
+        = render 'attachments/new', form: f
+
+        = render 'links/new', form: f
+
+    .row
+      .col-6
+        = render 'user_rewards/new', form: f
+
+    = f.submit 'Ask', class: 'btn btn-primary'
+
+

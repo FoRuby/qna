@@ -1,0 +1,31 @@
+- if can?(:vote, resource)
+  .vote
+    .row
+      .col
+        = link_to material_icon.arrow_drop_up.md_48,
+                  polymorphic_path(resource, action: :vote, value: 1),
+                  class: 'vote-up-icon',
+                  method: :patch,
+                  data: { type: :json },
+                  remote: true
+
+    .row
+      .col.rating
+          = resource.rating
+
+    .row
+      .col
+        = link_to material_icon.arrow_drop_down.md_48,
+                  polymorphic_path(resource, action: :vote, value: -1),
+                  class: 'vote-down-icon',
+                  method: :patch,
+                  data: { type: :json },
+                  remote: true
+    .row
+     .col
+        = link_to material_icon.cancel.md_36,
+                  polymorphic_path(resource, action: :vote, value: 0),
+                  class: 'vote-cancel-icon',
+                  method: :patch,
+                  data: { type: :json },
+                  remote: true

@@ -1,0 +1,3 @@
+<% if @attachment.destroyed? %>
+  $('.flash-messages').html('<%= j render 'shared/messages' %>');
+<% end %>

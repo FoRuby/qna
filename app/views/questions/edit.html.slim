@@ -1,0 +1,37 @@
+.row
+  .col
+    .edit-question-errors
+
+.row
+  .col
+    .edit-question-form = form_with model: @question,
+                                    class: 'hidden',
+                                    id: "edit-question-#{@question.id}" do |f|
+      .row
+        .col
+          h2 Edit your Question:
+
+      .row
+        .col-3.form-group
+          = f.label :title
+          = f.text_field :title, size: 30, class: 'form-control'
+
+      .row
+        .col-6.form-group
+          = f.label :body
+          = f.text_area :body, rows: 6, class: 'form-control'
+
+        .col-6
+          = render 'attachments/new', form: f
+
+          = render 'links/new', form: f
+
+      br
+
+      .row
+        = render 'links/delete', resource: @question
+
+        = render 'attachments/delete', resource: @question
+
+      = f.submit 'Save', class: 'btn btn-primary'
+

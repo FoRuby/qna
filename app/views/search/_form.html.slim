@@ -1,0 +1,5 @@
+.search_form
+  = form_with(url: search_path, method: :get, scope: :search, local: true) do |f|
+    = f.text_field :query, placeholder: 'Enter search term...'
+    = f.select :scope, options_for_select(SearchService::SCOPES), include_blank: 'All'
+    = f.submit 'Search'
