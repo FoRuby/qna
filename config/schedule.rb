@@ -23,6 +23,6 @@ every 1.day do
   runner 'DailyDigestService.send_digest'
 end
 
-every 60.minutes do
+every 30.minutes do
   rake 'ts:index'
 end
