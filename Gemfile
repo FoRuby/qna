@@ -26,42 +26,41 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'omniauth-yandex'
-
+# AWS
+gem 'aws-sdk-s3'
+# Serializer
 gem 'active_model_serializers'
 gem 'oj'
-
+gem 'rabl'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 # Authorization
 gem 'cancancan'
-
 # Google icons
 gem 'material_icons'
+gem 'mini_magick'
 # Nested forms
 gem 'cocoon'
 # Bootstrap
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'skim'
+# Sphinx
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 gem 'faraday'
 gem 'octokit'
 
 gem 'capybara-email'
 gem 'gon'
-gem 'mini_magick'
-gem 'rabl'
-gem 'skim'
 gem 'sprockets'
-
-# Sphinx
-gem 'mysql2'
-gem 'thinking-sphinx'
+gem 'mini_racer'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'mini_racer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
