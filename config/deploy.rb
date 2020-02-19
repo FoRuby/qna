@@ -8,9 +8,6 @@ set :repo_url, 'git@github.com:FoRuby/qna.git'
 set :deploy_to, '/home/deploy/qna'
 set :deploy_user, 'deploy'
 
-set :init_system, :systemd
-set :service_unit_name, 'sidekiq.service'
-
 # Default value for :linked_files is []
 append :linked_files, 'config/database.yml', 'config/master.key'
 

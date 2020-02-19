@@ -32,7 +32,7 @@ gem 'aws-sdk-s3'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'rabl'
-gem 'sidekiq'
+gem 'sidekiq', '< 6'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 # Authorization

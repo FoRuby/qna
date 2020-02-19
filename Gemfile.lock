@@ -249,7 +249,7 @@ GEM
     puma (3.12.2)
     rabl (0.14.2)
       activesupport (>= 2.3.14)
-    rack (2.2.2)
+    rack (2.0.9)
     rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
@@ -336,11 +336,11 @@ GEM
       activesupport (>= 3)
     shoulda-matchers (4.2.0)
       activesupport (>= 4.2.0)
-    sidekiq (6.0.5)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      rack-protection (>= 2.0.0)
-      redis (>= 4.1.0)
+    sidekiq (5.2.8)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (< 2.1.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -468,7 +468,7 @@ DEPENDENCIES
   sass-rails
   shoulda-callback-matchers
   shoulda-matchers
-  sidekiq
+  sidekiq (< 6)
   sinatra
   skim
   slim-rails
