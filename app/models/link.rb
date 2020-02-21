@@ -4,7 +4,7 @@ class Link < ApplicationRecord
   URL_REGEXP = %r{https?:\/\/[\S]+}.freeze
   GIST_URL_REGEXP = %r{https?:\/\/gist.github.com\/[\S]+}.freeze
 
-  belongs_to :linkable, polymorphic: true
+  belongs_to :linkable, polymorphic: true, touch: true
 
   validates :name, :url, presence: true
   validates :url, format: {
