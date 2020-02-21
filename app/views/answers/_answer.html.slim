@@ -2,48 +2,49 @@ div id="answer-#{answer.id}"
   hr
   = render 'answers/edit', answer: answer
 
-  .answer-content
-    .row
-      .col-1.text-center
-        = render 'votes/vote', resource: answer
+  - cache [answer, current_user]
+    .answer-content
+      .row
+        .col-1.text-center
+          = render 'votes/vote', resource: answer
 
-        - if answer.best?
-          = content_tag :div,
-                        material_icon.grade.md_36,
-                        class: 'best-answer-icon',
-                        id: "best-answer-icon-#{answer.id}",
-                        data: { answer_id: answer.id }
+          - if answer.best?
+            = content_tag :div,
+                          material_icon.grade.md_36,
+                          class: 'best-answer-icon',
+                          id: "best-answer-icon-#{answer.id}",
+                          data: { answer_id: answer.id }
 
-        = link_to material_icon.done.md_36,
-                  mark_best_answer_path(answer),
-                  class: 'edit-best-answer-icon hidden',
-                  id: "edit-best-answer-icon-#{answer.id}",
-                  method: :patch,
-                  remote: true
+          = link_to material_icon.done.md_36,
+                    mark_best_answer_path(answer),
+                    class: 'edit-best-answer-icon hidden',
+                    id: "edit-best-answer-icon-#{answer.id}",
+                    method: :patch,
+                    remote: true
 
-      .col-11
-        .row
-          .col.answer-body
-            p = answer.body
+        .col-11
+          .row
+            .col.answer-body
+              p = answer.body
 
-        .row
-          = render 'links/link', resource: answer
+          .row
+            = render 'links/link', resource: answer
 
-          = render 'attachments/attachment', resource: answer
+            = render 'attachments/attachment', resource: answer
 
-        - if can?(:create, Comment)
-          = link_to 'Add comment',
-                    '#',
-                    class: 'add-comment-link',
-                    data: { commentable_type: answer.class.to_s.downcase,
-                            commentable_id: answer.id }
-        .row
-          .col.new-comment
-            = render 'comments/new', commentable: answer
+          - if can?(:create, Comment)
+            = link_to 'Add comment',
+                      '#',
+                      class: 'add-comment-link',
+                      data: { commentable_type: answer.class.to_s.downcase,
+                              commentable_id: answer.id }
+          .row
+            .col.new-comment
+              = render 'comments/new', commentable: answer
 
-        .row
-          .col.comments
-            = render answer.comments
+          .row
+            .col.comments
+              = render answer.comments
 
   - if current_user&.author_of?(answer)
     = render 'answers/form_control', answer: answer
