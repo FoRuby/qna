@@ -1,6 +1,7 @@
 hr
 div id="comment-#{comment.id}"
   .comment-content
-    .row
-      .col
-        p = comment.body
+    - cache comment do
+      .row
+        .col
+          p = comment.body
