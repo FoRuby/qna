@@ -10,7 +10,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use redis as cache storage
 gem 'redis-rails'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
