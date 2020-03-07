@@ -476,7 +476,7 @@ DEPENDENCIES
   omniauth-vkontakte
   omniauth-yandex
   pg (>= 0.18, < 2.0)
-  puma (~> 3.11)
+  puma
   rabl
   rails (~> 5.2.3)
   rails-controller-testing
