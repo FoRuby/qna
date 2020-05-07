@@ -23,7 +23,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Authentication
 gem 'devise'
-gem 'doorkeeper', '5.1.0'
+gem 'doorkeeper', '5.1.1'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
